@@ -8,7 +8,7 @@
 import { addDays, eachDay, rangesOverlap, resolveClock, timeToMin, tripPhase, type TripPhase } from '../lib/dates';
 import { distanceMeters, offsetMeters, type LatLng } from '../lib/geo';
 import { buildTripAccess, type TripAccess } from '../lib/permissions';
-import { firstName } from '../lib/format';
+import { firstName, splitEvenly } from '../lib/format';
 import type {
   Account,
   AppState,
@@ -300,10 +300,14 @@ export function visibleReimbursements(s: AppState, tripId: string): Reimbursemen
   return s.reimbursements.filter((r) => r.tripId === tripId && (!r.expenseId || visible.has(r.expenseId)));
 }
 
-/** A person's share of an expense (even split). */
+/**
+ * A person's share of an expense (even split, to the cent). Uses the same
+ * splitting as the "owes" rows so a person's share and what they owe always match.
+ */
 export function shareOf(expense: Expense, personId: string): number {
-  if (!expense.splitWithIds.includes(personId)) return 0;
-  return expense.amount / expense.splitWithIds.length;
+  const index = expense.splitWithIds.indexOf(personId);
+  if (index === -1) return 0;
+  return splitEvenly(expense.amount, expense.splitWithIds.length)[index];
 }
 
 /* ------------------------------------------------------------ suggestions */

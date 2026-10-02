@@ -86,6 +86,10 @@
   border-radius: 0 0 var(--r-lg) var(--r-lg);
 }
 
+.sheet-panel:focus {
+  outline: none;
+}
+
 /* Phones: bottom sheet */
 @media (max-width: 767px) {
   .sheet-root,

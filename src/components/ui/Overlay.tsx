@@ -53,8 +53,10 @@ export function Sheet({ open, onClose, title, description, children, footer, siz
     // Focus the first field (or the panel) once it's rendered.
     const t = window.setTimeout(() => {
       const panel = panelRef.current;
-      const first = panel?.querySelector<HTMLElement>('[data-autofocus]') ?? panel?.querySelector<HTMLElement>(FOCUSABLE);
-      (first ?? panel)?.focus();
+      // Focus a field the page marked with data-autofocus; otherwise the dialog itself,
+      // so screen readers announce its title and Tab moves into it.
+      const preferred = panel?.querySelector<HTMLElement>('[data-autofocus]');
+      (preferred ?? panel)?.focus();
     }, 30);
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && dismissibleRef.current) {

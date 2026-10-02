@@ -298,6 +298,13 @@
   padding: 0 var(--s-3);
 }
 
+@media (max-width: 767px) {
+  .segmented button,
+  .segmented-sm button {
+    min-height: 44px;
+  }
+}
+
 /* Toggle chips */
 .chip-toggle {
   display: inline-flex;
