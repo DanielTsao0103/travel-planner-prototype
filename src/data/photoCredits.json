@@ -1,0 +1,442 @@
+{
+  "kyoto": {
+    "subject": "Fushimi Inari-taisha",
+    "file": "Torii_path_with_lantern_at_Fushimi_Inari_Taisha_Shrine,_Kyoto,_Japan.jpg",
+    "author": "Basile Morin",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Torii_path_with_lantern_at_Fushimi_Inari_Taisha_Shrine,_Kyoto,_Japan.jpg"
+  },
+  "mexico-city": {
+    "subject": "Palacio de Bellas Artes",
+    "file": "Bellas_Artes_01.jpg",
+    "author": "Xavier Quetzalcoatl Contreras Castillo",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Bellas_Artes_01.jpg"
+  },
+  "iceland": {
+    "subject": "Skógafoss",
+    "file": "2008-05-24_35_Skógafoss.jpg",
+    "author": "Hansueli Krapf",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2008-05-24_35_Sk%C3%B3gafoss.jpg"
+  },
+  "lisbon": {
+    "subject": "Praça do Comércio",
+    "file": "Empty_Praça_do_Comércio_during_the_COVID-19_lockdown,_Lisbon,_Portugal_julesvernex2.jpg",
+    "author": "Jules Verne Times Two",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Empty_Pra%C3%A7a_do_Com%C3%A9rcio_during_the_COVID-19_lockdown,_Lisbon,_Portugal_julesvernex2.jpg"
+  },
+  "porto": {
+    "subject": "Dom Luís I Bridge",
+    "file": "Dom_Luís_I_Bridge_(36961760686).jpg",
+    "author": "Deensel",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Dom_Lu%C3%ADs_I_Bridge_(36961760686).jpg"
+  },
+  "kauai": {
+    "subject": "",
+    "file": "Haw-kauai-nordküste.jpg",
+    "author": "Bgabel",
+    "license": "Public domain",
+    "licenseUrl": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Haw-kauai-nordk%C3%BCste.jpg"
+  },
+  "banff": {
+    "subject": "Moraine Lake",
+    "file": "Moraine_Lake_17092005.jpg",
+    "author": "Gorgo",
+    "license": "Public domain",
+    "licenseUrl": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Moraine_Lake_17092005.jpg"
+  },
+  "jeronimos": {
+    "subject": "Jerónimos Monastery",
+    "file": "Jerónimos_April_2009-4.jpg",
+    "author": "Alvesgaspar",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Jer%C3%B3nimos_April_2009-4.jpg"
+  },
+  "pasteis-belem": {
+    "subject": "Pastel de nata",
+    "file": "Pasteis_de_Belem.jpg",
+    "author": "Mon Œil",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Pasteis_de_Belem.jpg"
+  },
+  "time-out-market": {
+    "subject": "Mercado da Ribeira",
+    "file": "Mercado da Ribeira, Time Out Market, Lisbon - 49677105008.jpg",
+    "author": "Sonse",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Mercado_da_Ribeira,_Time_Out_Market,_Lisbon_-_49677105008.jpg"
+  },
+  "lx-factory": {
+    "subject": "LX Factory",
+    "file": "LX Factory Lisbon (44543156954).jpg",
+    "author": "TJ DeGroat from San Francisco, CA, Los estados unidos",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:LX_Factory_Lisbon_(44543156954).jpg"
+  },
+  "castelo": {
+    "subject": "São Jorge Castle",
+    "file": "LisbonCastle.jpg",
+    "author": "fulviusbsas",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:LisbonCastle.jpg"
+  },
+  "santa-luzia": {
+    "subject": "Miradouro de Santa Luzia",
+    "file": "View from Miradouro de Santa Luzia, Lisbon, 20250603 2016 9045.jpg",
+    "author": "Jakub Hałun",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:View_from_Miradouro_de_Santa_Luzia,_Lisbon,_20250603_2016_9045.jpg"
+  },
+  "pena": {
+    "subject": "Pena Palace",
+    "file": "Sintra_Portugal_Palácio_da_Pena-01.jpg",
+    "author": "CEphoto, Uwe Aranas",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Sintra_Portugal_Pal%C3%A1cio_da_Pena-01.jpg"
+  },
+  "regaleira": {
+    "subject": "Quinta da Regaleira",
+    "file": "Quinta_da_Regaleira,_Sintra,_Portugal,_2019-05-25,_DD_56.jpg",
+    "author": "Diego Delso",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Quinta_da_Regaleira,_Sintra,_Portugal,_2019-05-25,_DD_56.jpg"
+  },
+  "rossio-station": {
+    "subject": "Rossio railway station",
+    "file": "Estación_de_Rossio,_Lisboa,_Portugal,_2022-07-24,_DD_02.jpg",
+    "author": "Diego Delso",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Estaci%C3%B3n_de_Rossio,_Lisboa,_Portugal,_2022-07-24,_DD_02.jpg"
+  },
+  "tram-28": {
+    "subject": "Trams in Lisbon",
+    "file": "Lisbon-Day3-1_(34184431096).jpg",
+    "author": "Ajay Suresh from New York, NY, USA",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Lisbon-Day3-1_(34184431096).jpg"
+  },
+  "maat": {
+    "subject": "",
+    "file": "MAAT Museum of Art Architecture and Technology Lisbon, detail.jpg",
+    "author": "SIryn",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:MAAT_Museum_of_Art_Architecture_and_Technology_Lisbon,_detail.jpg"
+  },
+  "belem-tower": {
+    "subject": "Belém Tower",
+    "file": "Torre_Belém_April_2009-4a.jpg",
+    "author": "Alvesgaspar",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Torre_Bel%C3%A9m_April_2009-4a.jpg"
+  },
+  "alfama": {
+    "subject": "Alfama",
+    "file": "Lisbon_alfalma.jpg",
+    "author": "Arne Müseler",
+    "license": "CC BY-SA 3.0 de",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Lisbon_alfalma.jpg"
+  },
+  "fado": {
+    "subject": "",
+    "file": "Fábia Rebordão - Fados - 160421-7551-jikatu (26507013141).jpg",
+    "author": "Jimmy Baikovicius from Montevideo, Uruguay",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:F%C3%A1bia_Rebord%C3%A3o_-_Fados_-_160421-7551-jikatu_(26507013141).jpg"
+  },
+  "santa-justa": {
+    "subject": "Santa Justa Lift",
+    "file": "Elevador_de_Santa_Justa_from_Rua_de_Santa_Justa.jpg",
+    "author": "Dicklyon",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Elevador_de_Santa_Justa_from_Rua_de_Santa_Justa.jpg"
+  },
+  "lello": {
+    "subject": "Livraria Lello",
+    "file": "Lello_Bookshop_9_April_2026.jpg",
+    "author": "Guinness323",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Lello_Bookshop_9_April_2026.jpg"
+  },
+  "ribeira-porto": {
+    "subject": "Ribeira (Porto)",
+    "file": "Cais da Ribeira in Porto (5).jpg",
+    "author": "Krzysztof Golik",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Cais_da_Ribeira_in_Porto_(5).jpg"
+  },
+  "sao-bento": {
+    "subject": "São Bento railway station",
+    "file": "Estação_Ferroviária_de_Porto_-_São_Bento.JPG",
+    "author": "HombreDHojalata",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Esta%C3%A7%C3%A3o_Ferrovi%C3%A1ria_de_Porto_-_S%C3%A3o_Bento.JPG"
+  },
+  "santa-apolonia": {
+    "subject": "Santa Apolónia railway station",
+    "file": "Exterior_of_Santa_Apolónia_train_station_(cropped).jpg",
+    "author": "Yair Haklai",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Exterior_of_Santa_Apol%C3%B3nia_train_station_(cropped).jpg"
+  },
+  "port-cellar": {
+    "subject": "Port wine",
+    "file": "Port_wine.jpg",
+    "author": "Jon Sullivan",
+    "license": "Public domain",
+    "licenseUrl": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Port_wine.jpg"
+  },
+  "francesinha": {
+    "subject": "Francesinha",
+    "file": "Francesinha_Sandwich_(cropped).jpg",
+    "author": "TheRealDapperDan",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Francesinha_Sandwich_(cropped).jpg"
+  },
+  "serralves": {
+    "subject": "",
+    "file": "Casa de Serralves 02.jpg",
+    "author": "Julian Frost from London",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Casa_de_Serralves_02.jpg"
+  },
+  "monserrate": {
+    "subject": "Monserrate Palace",
+    "file": "Palácio_Monserrate_(1).jpg",
+    "author": "Jorge Lobo",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Pal%C3%A1cio_Monserrate_(1).jpg"
+  },
+  "sao-pedro-alcantara": {
+    "subject": "Miradouro de São Pedro de Alcântara",
+    "file": "Lissabon - Sao Pedro de Alcantara.jpg",
+    "author": "Ingo Mehling",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Lissabon_-_Sao_Pedro_de_Alcantara.jpg"
+  },
+  "rabelo": {
+    "subject": "Rabelo boat",
+    "file": "Rabelos_en_el_río_Duero,_Vila_Nova_de_Gaia,_Portugal,_2012-05-09,_DD_10.JPG",
+    "author": "Diego Delso",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Rabelos_en_el_r%C3%ADo_Duero,_Vila_Nova_de_Gaia,_Portugal,_2012-05-09,_DD_10.JPG"
+  },
+  "azulejo-museum": {
+    "subject": "Museu Nacional do Azulejo",
+    "file": "Convento_da_Madre_de_Deus_-_Lisboa_-_Portugal_(46913633574).jpg",
+    "author": "Vitor Oliveira from Torres Vedras, PORTUGAL",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Convento_da_Madre_de_Deus_-_Lisboa_-_Portugal_(46913633574).jpg"
+  },
+  "seafood": {
+    "subject": "",
+    "file": "On your plate (32094836324).jpg",
+    "author": "Bosc d'Anjou from Portugal",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:On_your_plate_(32094836324).jpg"
+  },
+  "veg-dish": {
+    "subject": "Peixinhos da horta",
+    "file": "Peixinhos_da_Horta,_Adega_Ribatejana,_Golegã_02.jpg",
+    "author": "GualdimG",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Peixinhos_da_Horta,_Adega_Ribatejana,_Goleg%C3%A3_02.jpg"
+  },
+  "bakery": {
+    "subject": "Bakery",
+    "file": "Belgium_2013_(11620905224).jpg",
+    "author": "Bryan Ledgard",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Belgium_2013_(11620905224).jpg"
+  },
+  "restaurant": {
+    "subject": "Restaurant",
+    "file": "Barbieri_-_ViaSophia25668.jpg",
+    "author": "Mcg2132",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Barbieri_-_ViaSophia25668.jpg"
+  },
+  "wine-bar": {
+    "subject": "Wine bar",
+    "file": "HK_SOHO_60310_18.jpg",
+    "author": "No machine-readable author provided. CITYHK310~commonswiki assumed (based on copyright claims).",
+    "license": "CC BY-SA 2.5",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+    "source": "https://commons.wikimedia.org/wiki/File:HK_SOHO_60310_18.jpg"
+  },
+  "sourdough": {
+    "subject": "Sourdough",
+    "file": "Home_made_sour_dough_bread.jpg",
+    "author": "Tomascastelazo",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Home_made_sour_dough_bread.jpg"
+  },
+  "caldo-verde": {
+    "subject": "Caldo verde",
+    "file": "Caldo_verde.jpg",
+    "author": "Mateus Hidalgo",
+    "license": "CC BY-SA 2.5 br",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5/br/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Caldo_verde.jpg"
+  },
+  "waimea": {
+    "subject": "Waimea Canyon State Park",
+    "file": "Waimea_Canyon_mar_2010.jpg",
+    "author": "Aaronbernstein",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Waimea_Canyon_mar_2010.jpg"
+  },
+  "hanalei": {
+    "subject": "Hanalei Bay",
+    "file": "Hanalei_Pier,_Hanalei_Bay,_Kauai,_Hawaii.jpg",
+    "author": "Jawed Karim",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Hanalei_Pier,_Hanalei_Bay,_Kauai,_Hawaii.jpg"
+  },
+  "luau": {
+    "subject": "",
+    "file": "Luau Dancer - Maui, Hawaii.jpg",
+    "author": "Matt",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Luau_Dancer_-_Maui,_Hawaii.jpg"
+  },
+  "central-park": {
+    "subject": "Central Park",
+    "file": "Global_Citizen_Festival_Central_Park_New_York_City_from_NYonAir_(15351915006).jpg",
+    "author": "Anthony Quintano from Hillsborough, NJ, United States",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Global_Citizen_Festival_Central_Park_New_York_City_from_NYonAir_(15351915006).jpg"
+  },
+  "the-met": {
+    "subject": "Metropolitan Museum of Art",
+    "file": "Metropolitan_Museum_of_Art_(The_Met)_-_Central_Park,_NYC.jpg",
+    "author": "Hugo Schneider",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Metropolitan_Museum_of_Art_(The_Met)_-_Central_Park,_NYC.jpg"
+  },
+  "broadway": {
+    "subject": "Broadway theatre",
+    "file": "Various_Pictures_from_New_York_City_-_September,_2025.jpg",
+    "author": "Corey Seeman",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Various_Pictures_from_New_York_City_-_September,_2025.jpg"
+  },
+  "lake-louise": {
+    "subject": "Lake Louise (Alberta)",
+    "file": "1_lake_louise_pano_2019.jpg",
+    "author": "Chensiyuan",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:1_lake_louise_pano_2019.jpg"
+  },
+  "banff-gondola": {
+    "subject": "Banff Gondola",
+    "file": "Banff Sulphur Mountain Gondola IMG 4259.JPG",
+    "author": "Deror_avi",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Banff_Sulphur_Mountain_Gondola_IMG_4259.JPG"
+  },
+  "johnston-canyon": {
+    "subject": "Johnston Canyon",
+    "file": "Bridge over Johnston Creek, Johnston Canyon, Banff National Park, Alberta, 2025-07-12 01.jpg",
+    "author": "Chris Woodrich",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Bridge_over_Johnston_Creek,_Johnston_Canyon,_Banff_National_Park,_Alberta,_2025-07-12_01.jpg"
+  },
+  "frida": {
+    "subject": "Frida Kahlo Museum",
+    "file": "Museo_Frida_Kahlo.JPG",
+    "author": "No machine-readable author provided. Nachtwächter assumed (based on copyright claims).",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Museo_Frida_Kahlo.JPG"
+  },
+  "teotihuacan": {
+    "subject": "Teotihuacan",
+    "file": "ZA77_Teotihuacán_edo_de_mex_Herberto_de_la_rosa.jpg",
+    "author": "Hdlrosa",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:ZA77_Teotihuac%C3%A1n_edo_de_mex_Herberto_de_la_rosa.jpg"
+  },
+  "coyoacan": {
+    "subject": "Coyoacán",
+    "file": "Puerta_a_Coyoacán.JPG",
+    "author": "DavidGomezChiu",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Puerta_a_Coyoac%C3%A1n.JPG"
+  },
+  "tacos": {
+    "subject": "Taco",
+    "file": "001_Tacos_de_carnitas,_carne_asada_y_al_pastor.jpg",
+    "author": "Larry Miller",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:001_Tacos_de_carnitas,_carne_asada_y_al_pastor.jpg"
+  },
+  "palacio-cristal": {
+    "subject": "Jardins do Palácio de Cristal",
+    "file": "Gardens of the Palácio de Cristal (Porto) 13.jpg",
+    "author": "John Samuel",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Gardens_of_the_Pal%C3%A1cio_de_Cristal_(Porto)_13.jpg"
+  },
+  "zion": {
+    "subject": "Zion National Park",
+    "file": "Zion_angels_landing_view.jpg",
+    "author": "Diliff",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Zion_angels_landing_view.jpg"
+  }
+}

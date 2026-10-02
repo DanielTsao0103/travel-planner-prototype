@@ -1,0 +1,250 @@
+/*
+ * Design tokens — "Open Air"
+ * Layout concept: a daylight UI that steps back so travel photos carry the color;
+ * cool off-white ground, ink text, harbor-teal actions, marigold for "today / live".
+ *
+ * Every color is a token. Light values live on :root; dark values are redefined
+ * for (a) OS dark mode when no explicit theme is set and (b) data-theme="dark".
+ * Components must only use var(--token) — never literal colors.
+ */
+
+:root {
+  /* Ground + surfaces */
+  --bg: #f3f5f4;
+  --surface: #ffffff;
+  --surface-2: #edf1f0;
+  --surface-3: #e3e9e7;
+  --scrim: rgba(12, 20, 26, 0.48);
+
+  /* Text */
+  --ink: #14202b;
+  --ink-2: #3a4753;
+  --muted: #5c6873;
+  --faint: #8a959d;
+
+  /* Lines */
+  --line: #dbe2e0;
+  --line-strong: #c3ccca;
+
+  /* Brand */
+  --primary: #0d6670;
+  --primary-hover: #0a545c;
+  --primary-soft: #dcefee;
+  --primary-ink: #0a4f57;
+  --on-primary: #ffffff;
+  --accent: #f0a92e;
+  --accent-soft: #fdf1da;
+  --accent-ink: #7a4d00;
+  --on-accent: #14202b;
+
+  /* Semantic */
+  --success: #1e7a4c;
+  --success-soft: #def2e6;
+  --warning: #9a5b00;
+  --warning-soft: #fcecd2;
+  --danger: #b8372a;
+  --danger-soft: #f9e2de;
+  --info: #2b5ca6;
+  --info-soft: #e1eaf7;
+
+  /* Roles */
+  --role-owner: #14202b;
+  --role-owner-soft: #e3e7ea;
+  --role-editor: #0d6670;
+  --role-editor-soft: #dcefee;
+  --role-day: #8a5600;
+  --role-day-soft: #fdf1da;
+  --role-viewer: #56616b;
+  --role-viewer-soft: #eceff1;
+
+  /* Budget categories (distinct in hue AND lightness) */
+  --cat-lodging: #0d6670;
+  --cat-food: #e0782c;
+  --cat-activities: #5b57d1;
+  --cat-transport: #2f9cc3;
+  --cat-shopping: #c4458a;
+  --cat-other: #8a949c;
+  --cat-remaining: #e3e9e7;
+
+  /* Map */
+  --route: #1a73e8;
+  --you: #1a73e8;
+  --you-halo: rgba(26, 115, 232, 0.18);
+
+  /* Elevation */
+  --shadow-1: 0 1px 2px rgba(20, 32, 43, 0.06), 0 1px 1px rgba(20, 32, 43, 0.04);
+  --shadow-2: 0 6px 20px rgba(20, 32, 43, 0.09), 0 2px 6px rgba(20, 32, 43, 0.05);
+  --shadow-3: 0 24px 60px rgba(20, 32, 43, 0.2), 0 6px 18px rgba(20, 32, 43, 0.08);
+
+  /* Type */
+  --font-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-ui: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --text-xs: 0.75rem;   /* 12 */
+  --text-sm: 0.8125rem; /* 13 */
+  --text-md: 0.9375rem; /* 15 */
+  --text-base: 1rem;    /* 16 */
+  --text-lg: 1.125rem;  /* 18 */
+  --text-xl: 1.375rem;  /* 22 */
+  --text-2xl: 1.75rem;  /* 28 */
+  --text-3xl: 2.25rem;  /* 36 */
+  --text-4xl: 3rem;     /* 48 */
+
+  /* Space (4px base) */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-7: 32px;
+  --s-8: 40px;
+  --s-9: 56px;
+  --s-10: 72px;
+
+  /* Radius — photos/sheets are round, rows/tables stay flat */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-pill: 999px;
+
+  /* Layout */
+  --container: 1200px;
+  --header-h: 64px;
+  --tabbar-h: 64px;
+  --gutter: 16px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur: 180ms;
+
+  color-scheme: light;
+}
+
+@media (min-width: 768px) {
+  :root { --gutter: 24px; }
+}
+@media (min-width: 1100px) {
+  :root { --gutter: 32px; }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1418;
+    --surface: #161f25;
+    --surface-2: #1d2830;
+    --surface-3: #25323b;
+    --scrim: rgba(0, 0, 0, 0.6);
+    --ink: #e7edef;
+    --ink-2: #c0cbd1;
+    --muted: #96a4ac;
+    --faint: #6f7d86;
+    --line: #29353d;
+    --line-strong: #3a4851;
+    --primary: #4fb3bc;
+    --primary-hover: #6cc4cc;
+    --primary-soft: #143a3f;
+    --primary-ink: #8ad3d9;
+    --on-primary: #04262a;
+    --accent: #f2b544;
+    --accent-soft: #3a2c10;
+    --accent-ink: #f6c76a;
+    --on-accent: #1a1204;
+    --success: #4cc38a;
+    --success-soft: #12301f;
+    --warning: #f0a84b;
+    --warning-soft: #33250d;
+    --danger: #f07a6a;
+    --danger-soft: #3a1915;
+    --info: #7fa9ea;
+    --info-soft: #172840;
+    --role-owner: #e7edef;
+    --role-owner-soft: #25323b;
+    --role-editor: #6cc4cc;
+    --role-editor-soft: #143a3f;
+    --role-day: #f6c76a;
+    --role-day-soft: #3a2c10;
+    --role-viewer: #a9b5bc;
+    --role-viewer-soft: #25323b;
+    --cat-lodging: #4fb3bc;
+    --cat-food: #f0954f;
+    --cat-activities: #8f8bf0;
+    --cat-transport: #5cc0e3;
+    --cat-shopping: #e47db4;
+    --cat-other: #8d989f;
+    --cat-remaining: #25323b;
+    --route: #6ea8ff;
+    --you: #6ea8ff;
+    --you-halo: rgba(110, 168, 255, 0.22);
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-2: 0 8px 24px rgba(0, 0, 0, 0.45);
+    --shadow-3: 0 24px 60px rgba(0, 0, 0, 0.6);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0e1418;
+  --surface: #161f25;
+  --surface-2: #1d2830;
+  --surface-3: #25323b;
+  --scrim: rgba(0, 0, 0, 0.6);
+  --ink: #e7edef;
+  --ink-2: #c0cbd1;
+  --muted: #96a4ac;
+  --faint: #6f7d86;
+  --line: #29353d;
+  --line-strong: #3a4851;
+  --primary: #4fb3bc;
+  --primary-hover: #6cc4cc;
+  --primary-soft: #143a3f;
+  --primary-ink: #8ad3d9;
+  --on-primary: #04262a;
+  --accent: #f2b544;
+  --accent-soft: #3a2c10;
+  --accent-ink: #f6c76a;
+  --on-accent: #1a1204;
+  --success: #4cc38a;
+  --success-soft: #12301f;
+  --warning: #f0a84b;
+  --warning-soft: #33250d;
+  --danger: #f07a6a;
+  --danger-soft: #3a1915;
+  --info: #7fa9ea;
+  --info-soft: #172840;
+  --role-owner: #e7edef;
+  --role-owner-soft: #25323b;
+  --role-editor: #6cc4cc;
+  --role-editor-soft: #143a3f;
+  --role-day: #f6c76a;
+  --role-day-soft: #3a2c10;
+  --role-viewer: #a9b5bc;
+  --role-viewer-soft: #25323b;
+  --cat-lodging: #4fb3bc;
+  --cat-food: #f0954f;
+  --cat-activities: #8f8bf0;
+  --cat-transport: #5cc0e3;
+  --cat-shopping: #e47db4;
+  --cat-other: #8d989f;
+  --cat-remaining: #25323b;
+  --route: #6ea8ff;
+  --you: #6ea8ff;
+  --you-halo: rgba(110, 168, 255, 0.22);
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-3: 0 24px 60px rgba(0, 0, 0, 0.6);
+  color-scheme: dark;
+}
+
+/* Avatar fills: mid-tone colors that keep white initials readable in both themes. */
+:root {
+  --av-1: #0d6670;
+  --av-2: #6a48b8;
+  --av-3: #b0472b;
+  --av-4: #2c66ad;
+  --av-5: #7d5a00;
+  --av-6: #2b7a4b;
+  --av-7: #a33a6c;
+  --av-8: #4a5662;
+  --on-avatar: #ffffff;
+}

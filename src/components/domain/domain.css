@@ -1,0 +1,305 @@
+/* ------------------------------------------------------------ PlacePhoto */
+.place-photo {
+  display: block;
+  object-fit: cover;
+  background: var(--surface-2);
+  flex: none;
+}
+
+.place-photo.is-rounded {
+  border-radius: var(--r-sm);
+}
+
+.place-photo-fallback {
+  display: grid;
+  place-items: center;
+  color: var(--primary-ink);
+  background:
+    radial-gradient(circle at 30% 25%, color-mix(in srgb, var(--surface) 55%, transparent) 0 18%, transparent 19%),
+    linear-gradient(140deg, var(--primary-soft), var(--surface-3));
+}
+
+.place-photo-fallback svg {
+  width: 40%;
+  height: 40%;
+  max-width: 34px;
+  max-height: 34px;
+  min-width: 18px;
+  min-height: 18px;
+}
+
+.place-photo-fallback.cat-restaurant,
+.place-photo-fallback.cat-cafe,
+.place-photo-fallback.cat-bar,
+.place-photo-fallback.cat-market {
+  color: var(--accent-ink);
+  background: linear-gradient(140deg, var(--accent-soft), var(--surface-3));
+}
+
+/* ------------------------------------------------------------- EventItem */
+.event-item {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-3);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+  min-width: 0;
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+a.event-item:hover {
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow-1);
+}
+
+.event-item.is-highlight {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+  animation: highlight-pulse 1.4s var(--ease) 2;
+}
+
+.event-photo {
+  width: 64px;
+  height: 64px;
+}
+
+.event-item.is-compact {
+  padding: var(--s-2);
+}
+
+.event-item.is-compact .event-photo {
+  width: 48px;
+  height: 48px;
+}
+
+.event-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.event-name {
+  font-weight: 700;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.event-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.event-ticket {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--accent-ink);
+  font-weight: 650;
+}
+
+.event-ticket svg {
+  width: 14px;
+  height: 14px;
+}
+
+.event-time {
+  flex: none;
+  font-weight: 700;
+  color: var(--ink);
+  font-size: var(--text-md);
+  white-space: nowrap;
+}
+
+.event-chevron {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: var(--faint);
+}
+
+/* -------------------------------------------------------------- TripCard */
+.trip-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  min-width: 0;
+  transition: box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.trip-card:hover {
+  box-shadow: var(--shadow-2);
+  border-color: var(--line-strong);
+}
+
+.trip-card.is-highlight {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.trip-card-link {
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+  flex: 1 1 auto;
+}
+
+.trip-card-media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  max-width: 100%;
+}
+
+.trip-card-photo {
+  width: 100%;
+  height: 100%;
+}
+
+.trip-card.is-past .trip-card-photo {
+  filter: saturate(0.55);
+}
+
+.trip-card-badges {
+  position: absolute;
+  left: var(--s-3);
+  top: var(--s-3);
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.trip-card-badges .badge {
+  box-shadow: var(--shadow-1);
+}
+
+.trip-card-badges .badge-neutral {
+  background: var(--surface);
+}
+
+.trip-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--s-4);
+}
+
+.trip-card-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.trip-card-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  min-width: 0;
+}
+
+.trip-card-line svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+
+.trip-card-foot {
+  margin-top: var(--s-2);
+}
+
+.trip-card-actions {
+  display: flex;
+  gap: var(--s-2);
+  padding: 0 var(--s-4) var(--s-4);
+  flex-wrap: wrap;
+}
+
+.trip-card-actions > * {
+  flex: 1 1 0;
+}
+
+/* ------------------------------------------------------------ PageHeader */
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  margin-bottom: var(--s-6);
+}
+
+.page-header-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-4);
+  flex-wrap: wrap;
+}
+
+.page-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.page-header-sub {
+  color: var(--muted);
+  font-size: var(--text-md);
+}
+
+.page-header-actions {
+  display: flex;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-start;
+  min-height: 36px;
+  color: var(--ink-2);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  text-decoration: none;
+  margin-left: -4px;
+  padding-right: 8px;
+  border-radius: var(--r-xs);
+}
+
+.back-link:hover {
+  color: var(--ink);
+}
+
+.back-link svg {
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 767px) {
+  .page-header {
+    margin-bottom: var(--s-4);
+  }
+  .page-header-actions {
+    width: 100%;
+  }
+}

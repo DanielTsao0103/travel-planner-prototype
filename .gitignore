@@ -1,0 +1,8 @@
+node_modules/
+dist/
+qa/screens/
+qa/*.log
+qa/report/
+.DS_Store
+public/img/_*.raw
+*.local

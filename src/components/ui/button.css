@@ -1,0 +1,197 @@
+.btn {
+  --btn-h: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-height: var(--btn-h);
+  padding: 0 var(--s-5);
+  border-radius: var(--r-sm);
+  border: 1px solid transparent;
+  font-weight: 650;
+  font-size: var(--text-md);
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:active:not(:disabled):not(.is-locked) {
+  transform: translateY(1px);
+}
+
+.btn-sm {
+  --btn-h: 36px;
+  padding: 0 var(--s-3);
+  font-size: var(--text-sm);
+  gap: 6px;
+}
+
+.btn-lg {
+  --btn-h: 54px;
+  padding: 0 var(--s-6);
+  font-size: var(--text-base);
+  border-radius: var(--r-md);
+}
+
+.btn-block {
+  display: flex;
+  width: 100%;
+}
+
+.btn-icon {
+  display: inline-flex;
+  flex: none;
+}
+
+.btn-icon svg,
+svg.btn-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-sm .btn-icon svg,
+.btn-sm svg.btn-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.btn-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+.btn-primary:hover:not(:disabled):not(.is-locked) {
+  background: var(--primary-hover);
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.btn-accent:hover:not(:disabled):not(.is-locked) {
+  filter: brightness(0.96);
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--line-strong);
+}
+.btn-secondary:hover:not(:disabled):not(.is-locked) {
+  border-color: var(--ink-2);
+  background: var(--surface-2);
+}
+
+.btn-subtle {
+  background: var(--primary-soft);
+  color: var(--primary-ink);
+}
+.btn-subtle:hover:not(:disabled):not(.is-locked) {
+  filter: brightness(0.97);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+}
+.btn-ghost:hover:not(:disabled):not(.is-locked) {
+  background: var(--surface-2);
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+}
+.btn-danger:hover:not(:disabled):not(.is-locked) {
+  filter: brightness(0.94);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn.is-locked {
+  background: var(--surface-2);
+  color: var(--muted);
+  border-color: var(--line);
+  cursor: not-allowed;
+}
+
+.spin {
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Icon-only buttons: 44px touch target by default. */
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  flex: none;
+  text-decoration: none;
+  transition: background-color var(--dur) var(--ease);
+}
+.icon-btn svg {
+  width: 20px;
+  height: 20px;
+}
+.icon-btn-sm {
+  width: 36px;
+  height: 36px;
+}
+.icon-btn-sm svg {
+  width: 18px;
+  height: 18px;
+}
+.icon-btn-lg {
+  width: 52px;
+  height: 52px;
+}
+.icon-btn-ghost:hover {
+  background: var(--surface-2);
+}
+.icon-btn-secondary {
+  background: var(--surface);
+  border-color: var(--line-strong);
+}
+.icon-btn-secondary:hover {
+  background: var(--surface-2);
+}
+.icon-btn-primary {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+.icon-btn-overlay {
+  background: var(--surface);
+  box-shadow: var(--shadow-2);
+  border-radius: var(--r-pill);
+}
+.icon-btn.is-locked {
+  color: var(--faint);
+  cursor: not-allowed;
+}
