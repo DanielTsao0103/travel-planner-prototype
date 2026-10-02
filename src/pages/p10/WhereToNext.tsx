@@ -290,7 +290,7 @@ function NextStopInfo({
 function StopRow({ event, kicker, number, icon }: { event: TripEvent; kicker: string; number?: number; icon?: ReactNode }) {
   return (
     <div className="p10-stop">
-      <PlacePhoto photo={event.place.photo} alt={event.place.name} category={event.place.category} className="p10-stop-photo" />
+      <PlacePhoto photo={event.place.photo} place={event.place} alt={event.place.name} category={event.place.category} className="p10-stop-photo" />
       <div className="p10-stop-text">
         <span className="p10-stop-kicker num">
           {number !== undefined && <span className="p10-num-dot is-next">{number}</span>}

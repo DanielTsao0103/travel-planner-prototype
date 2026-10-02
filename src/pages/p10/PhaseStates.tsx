@@ -42,7 +42,7 @@ function GateLayout({ trip, photoBadge, photoCaption, past, children }: { trip: 
   return (
     <div className="p10-gate">
       <figure className={`p10-gate-photo ${past ? 'is-past' : ''}`}>
-        <PlacePhoto photo={trip.coverPhoto} alt="" category="landmark" size="full" rounded={false} className="p10-gate-img" />
+        <PlacePhoto photo={trip.coverPhoto} destination={trip.destinations[0]} alt="" category="landmark" size="full" rounded={false} className="p10-gate-img" />
         <div className="p10-gate-overlay">
           {photoBadge}
           {photoCaption && <figcaption className="p10-gate-caption">{photoCaption}</figcaption>}

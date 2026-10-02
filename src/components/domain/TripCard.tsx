@@ -38,7 +38,7 @@ export function TripCard({
     <article className={`trip-card ${highlight ? 'is-highlight' : ''} ${phase === 'past' ? 'is-past' : ''}`}>
       <Link to={to} className="trip-card-link" aria-label={`Open ${trip.title}`}>
         <div className="trip-card-media">
-          <PlacePhoto photo={trip.coverPhoto} alt="" category="landmark" size="full" rounded={false} className="trip-card-photo" />
+          <PlacePhoto photo={trip.coverPhoto} destination={trip.destinations[0]} alt="" category="landmark" size="full" rounded={false} className="trip-card-photo" />
           <div className="trip-card-badges">
             <PhaseBadge phase={phase} startDate={trip.startDate} today={today} />
             {trip.isSample && <Badge tone="neutral">Sample</Badge>}

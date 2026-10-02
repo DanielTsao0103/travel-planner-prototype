@@ -133,7 +133,7 @@ export function EventView({ ctx, event, back }: { ctx: TripContext; event: TripE
       />
       <div className={`p07-view-layout ${isWide ? 'is-wide' : ''}`}>
         <div className="p07-view-main">
-          <PlacePhoto photo={event.place.photo} alt={event.place.name} category={event.place.category} size="full" className="p07-hero" />
+          <PlacePhoto photo={event.place.photo} place={event.place} alt={event.place.name} category={event.place.category} size="full" className="p07-hero" />
           {!isWide && lock}
           {facts}
           {!isWide && crowd}

@@ -112,6 +112,16 @@ export interface Place {
   /** True for invented businesses (restaurants etc.) so we never misattribute claims. */
   fictional?: boolean;
   source: 'bundled' | 'osm' | 'custom';
+  /** Links OpenStreetMap has for this place (used to find a real photo). */
+  refs?: PlaceRefs;
+}
+
+/** Wikimedia links from OpenStreetMap tags: wikidata=Q…, wikipedia=en:Title, wikimedia_commons=File:…, image=URL. */
+export interface PlaceRefs {
+  wikidata?: string;
+  wikipedia?: string;
+  commons?: string;
+  image?: string;
 }
 
 /* -------------------------------------------------------------------- trips */

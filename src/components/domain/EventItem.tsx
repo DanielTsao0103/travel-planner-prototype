@@ -37,7 +37,7 @@ export function EventItem({
   const name = eventLabel(event);
   const body = (
     <>
-      <PlacePhoto photo={event.place.photo} alt={event.place.name} category={event.place.category} className="event-photo" />
+      <PlacePhoto photo={event.place.photo} place={event.place} alt={event.place.name} category={event.place.category} className="event-photo" />
       <span className="event-main">
         <span className="event-name">{name}</span>
         <span className="event-meta">

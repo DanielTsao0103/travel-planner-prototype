@@ -563,7 +563,7 @@ function TripMap({ ctx, query, tripRoute }: { ctx: TripContext; query: URLSearch
       <div className="p17-peek-route">
         <div className="p17-peek-place">
           <span aria-hidden="true">
-            <PlacePhoto photo={target.place.photo} alt="" category={target.place.category} className="p17-peek-photo" />
+            <PlacePhoto photo={target.place.photo} place={target.place} alt="" category={target.place.category} className="p17-peek-photo" />
           </span>
           <div className="p17-peek-text">
             <span className="p17-peek-eyebrow">{eyebrow}</span>

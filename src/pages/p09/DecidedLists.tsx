@@ -38,7 +38,7 @@ function Disclosure({ id, label, count, open, onToggle, children }: { id?: strin
 function Row({ s, meta, action }: { s: Suggestion; meta: string; action: ReactNode }) {
   return (
     <li className="p09-decided-row">
-      <PlacePhoto photo={s.place.photo} alt="" category={s.place.category} className="p09-decided-thumb" />
+      <PlacePhoto photo={s.place.photo} place={s.place} alt="" category={s.place.category} className="p09-decided-thumb" />
       <div className="p09-decided-text">
         <p className="p09-decided-name">{s.place.name}</p>
         <p className="p09-decided-meta num">{meta}</p>

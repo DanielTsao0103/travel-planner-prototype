@@ -22,7 +22,7 @@ import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { addDays, dayHeading, dayNumber, formatShortDate, formatTime, timeToMin } from '../../lib/dates';
 import { plural } from '../../lib/format';
 import { simulateLatency } from '../../services/http';
-import { findPhoto } from '../../services/photos';
+import { findPickedPlaceImage } from '../../services/placeImages';
 import { addEvent, deleteEvent, restoreEvent, updateEvent } from '../../store/actions';
 import { acceptedMemberIds, conflictsFor, eventsOn, getPerson, myTrips, personName, sortEvents, today, tripAccess } from '../../store/selectors';
 import { getState, update } from '../../store/store';
@@ -294,7 +294,7 @@ export function EventEditor({ ctx, event, query, back }: { ctx: TripContext; eve
     // itinerary still shows a picture for this event.
     const place = input.place;
     if (place.source === 'osm' && !place.photo) {
-      void findPhoto(place.name, place.city).then((url) => {
+      void findPickedPlaceImage(place).then((url) => {
         if (!url) return;
         // Escape hatch: only the photo changes. (updateEvent would also re-trigger
         // the itinerary's "just added" highlight.)

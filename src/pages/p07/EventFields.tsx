@@ -14,7 +14,7 @@ import type { AppState, Place, Time, Trip, TripEvent } from '../../data/types';
 import type { TripAccess } from '../../lib/permissions';
 import { dayNumber, formatDuration } from '../../lib/dates';
 import { firstName, listJoin, money, plural } from '../../lib/format';
-import { findPhoto } from '../../services/photos';
+import { findPickedPlaceImage } from '../../services/placeImages';
 import { acceptedMemberIds, getPerson } from '../../store/selectors';
 import { eventLabel } from '../../components/domain/EventItem';
 import { PlacePhoto } from '../../components/domain/PlacePhoto';
@@ -129,7 +129,7 @@ function placeFacts(place: Place): Array<{ icon: ReactNode; label: string; tone:
 export function SelectedPlace({ place, onChange }: { place: Place; onChange?: () => void }) {
   return (
     <div className="p07-place">
-      <PlacePhoto photo={place.photo} alt={place.name} category={place.category} className="p07-place-photo" />
+      <PlacePhoto photo={place.photo} place={place} alt={place.name} category={place.category} className="p07-place-photo" />
       <div className="p07-place-main">
         <p className="p07-place-name">{place.name}</p>
         {placeAreaLine(place) && <p className="p07-place-area">{placeAreaLine(place)}</p>}
@@ -256,7 +256,7 @@ export function EventFields({ state, trip, access, draft, onChange, errors, sour
     const place = draft.place;
     if (!place || place.source !== 'osm' || place.photo) return;
     let alive = true;
-    void findPhoto(place.name, place.city).then((url) => {
+    void findPickedPlaceImage(place).then((url) => {
       // Only if they haven't picked a different place in the meantime.
       if (alive && url && currentPlace.current?.id === place.id) onChange({ place: { ...place, photo: url } });
     });

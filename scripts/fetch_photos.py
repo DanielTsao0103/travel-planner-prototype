@@ -100,6 +100,30 @@ PHOTOS: dict[str, tuple[str, str]] = {
     "teotihuacan": ("Teotihuacan", "Teotihuacan Pyramid of the Sun"),
     "coyoacan": ("Coyoacán", "Coyoacan Mexico City plaza"),
     "tacos": ("Taco", "tacos al pastor"),
+    # Category photos: shown when a place has no photo of its own (live search results,
+    # places a tester adds). Generic on purpose; labeled "Representative photo".
+    "cat-restaurant-2": ("", "restaurant table plates food dinner"),
+    "cat-restaurant-3": ("", "FILE:Restaurant table at Amantaka luxury Resort & Hotel in Luang Prabang Laos.jpg"),
+    "cat-restaurant-4": ("", "FILE:Waiter serves a dish to a diner at a restaurant during evening hours with people seated at tables nearby.jpg"),
+    "cat-cafe-3": ("", "FILE:Boathouse Ōhori Park The Window bar seating Ōhorikōen Chūō-ku Fukuoka 20260609 173401.jpg"),
+    "cat-cafe-4": ("", "FILE:Enjoying a croissant and coffee while sitting at a table in a cafe.jpg"),
+    "cat-cafe-1": ("", "barista coffee shop counter"),
+    "cat-cafe-2": ("", "cappuccino cup cafe table"),
+    "cat-bar-2": ("", "cocktail bar counter bottles"),
+    "cat-bar-3": ("", "wine glasses on bar counter"),
+    "cat-market": ("", "food market stalls vegetables"),
+    "cat-museum-1": ("", "museum gallery interior paintings visitors"),
+    "cat-museum-2": ("", "FILE:HKU 香港大學美術博物館 Art Gallery T T Tsui exhibition hall interior April 2018 LGM visitor.jpg"),
+    "cat-landmark-1": ("", "cobblestone street old town houses"),
+    "cat-landmark-2": ("", "stone archway courtyard old building"),
+    "cat-viewpoint": ("", "FILE:Calm lakeside sunset (Unsplash).jpg"),
+    "cat-nature-1": ("", "city park path trees autumn"),
+    "cat-nature-2": ("", "botanical garden flowers path"),
+    "cat-lodging": ("", "FILE:Hotel bed with lit lamp at Hotel Esplanade in October 2023.jpg"),
+    "cat-transit": ("", "railway station platform train"),
+    "cat-shopping": ("", "shopping street pedestrian shops"),
+    "cat-tour": ("", "tour guide with group of tourists"),
+    "cat-travel": ("", "FILE:Boats (227522211).jpeg"),
 }
 
 FREE_LICENSE = re.compile(r"(cc[ -]?by|cc0|public domain|pd|attribution|gfdl)", re.I)
@@ -172,7 +196,7 @@ def usable(info: dict[str, Any] | None) -> bool:
     """A photo is usable if it's a free-licensed JPEG/PNG at least 800px wide."""
     return bool(
         info
-        and info["mime"] in ("image/jpeg", "image/png")
+        and info["mime"] in ("image/jpeg", "image/png", "image/jpg")
         and info["width"] >= 800
         and FREE_LICENSE.search(info["license"] or "")
     )
@@ -212,10 +236,14 @@ def main() -> None:
             continue
         try:
             info = None
+            if query.startswith("FILE:"):
+                # An exact Commons file picked by hand from a contact sheet.
+                info = commons_info(query.removeprefix("FILE:"))
+                query = ""
             name = lead_image_name(article) if article else None
             if name:
                 info = commons_info(name)
-            if not usable(info):
+            if not usable(info) and query:
                 for candidate in search_commons(query):
                     info = commons_info(candidate)
                     if usable(info):

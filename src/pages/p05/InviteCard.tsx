@@ -50,7 +50,7 @@ export function InviteCard({ trip, inviter, people, role, today, onAccept, onDec
   return (
     <article className="p05-invite" aria-labelledby={titleId}>
       <div className="p05-invite-media">
-        <PlacePhoto photo={trip.coverPhoto} alt="" category="landmark" size="full" rounded={false} className="p05-invite-photo" />
+        <PlacePhoto photo={trip.coverPhoto} destination={trip.destinations[0]} alt="" category="landmark" size="full" rounded={false} className="p05-invite-photo" />
         <Badge tone="info" className="p05-invite-flag">
           Invitation
         </Badge>

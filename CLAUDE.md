@@ -31,6 +31,7 @@ Clickable, high-fidelity prototype of a collaborative travel-planning app. Requi
 ## QA commands
 - `python3 qa/sweep.py` — every Screen Index state at 390 + 1440 (console errors, overflow, screenshots, `qa/report/index.html`)
 - `python3 qa/contact.py` — tile sweep screenshots into contact sheets for visual review
+- `python3 qa/image_audit_tester.py` — creates a Kyoto trip and checks every image slot has a photo (no icons, broken, or stuck loaders)
 - `python3 qa/flows.py` — end-to-end journeys (signup, login, trip, nearby, consistent, roles, budget, survey, invite)
 - Page-specific e2e: `qa/p06-e2e.py`, `qa/p06-edit-e2e.py`, `qa/p07-e2e.py`, `qa/p15-survey-e2e.py`
 
@@ -42,3 +43,6 @@ Clickable, high-fidelity prototype of a collaborative travel-planning app. Requi
 - routing.openstreetmap.de (OSRM) can be down for long stretches; Valhalla (valhalla1.openstreetmap.de) is tried first, and the sample trip's key walks are bundled in `src/data/bundledRoutes.ts`.
 - Overpass rejects requests that send an Origin header without a Referer (406) and rate-limits to ~2 concurrent queries per IP; browsers send both headers, so pages just need good error states.
 - Python 3.9's TLS can't reach valhalla1.openstreetmap.de; fetch with curl when generating data.
+- Every photo slot goes through `PlacePhoto` (pass `place` or `destination`): own photo → `src/services/placeImages.ts` lookup (OSM Wikimedia links → geotagged Wikipedia article → nearby Commons photo for sights) → representative category photo (`src/data/categoryPhotos.ts`, tagged on big slots). Never an icon tile.
+- Overpass is often down (504); `nearbyPlaces` merges Wikipedia nearby articles (sights with photos) and falls back to Photon for food. Filter Wikipedia *event* articles (battles, sieges) out of ideas.
+- Generic photos must not be recognizable landmarks (no Prague square / Tower Bridge); pick them by hand with a contact sheet (`FILE:` entries in `scripts/fetch_photos.py`).

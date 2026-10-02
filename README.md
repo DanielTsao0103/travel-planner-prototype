@@ -15,7 +15,8 @@ A clickable, high-fidelity prototype of a group travel-planning app, with separa
 Everything external is simulated or uses free open data:
 - Sign-in, Google/Apple, and social/Gmail connections are fake (no real accounts are touched)
 - Receipt/screenshot reading, Gmail matching, bank alerts, and notifications are demo data
-- Your location is simulated; maps and places come from OpenStreetMap
+- Your location is simulated; maps and places come from OpenStreetMap and Wikipedia
+- Photos: real photos from Wikimedia for sample places, ideas, and places you add when one exists; otherwise a generic photo tagged "Representative photo"
 - No invitations or messages are sent and no money moves
 
 ## Production notes

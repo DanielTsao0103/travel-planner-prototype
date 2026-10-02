@@ -72,7 +72,7 @@ function PlaceRow({ item, props, nextId }: { item: MapItem; props: PlaceListProp
     <li>
       <button type="button" className={`p17-row ${selected ? 'is-selected' : ''} ${status?.tone === 'done' ? 'is-done' : ''}`} onClick={() => onSelect(item.id)} aria-current={selected ? 'true' : undefined}>
         <span className="p17-row-media" aria-hidden="true">
-          <PlacePhoto photo={item.place.photo} alt="" category={item.place.category} className="p17-row-photo" />
+          <PlacePhoto photo={item.place.photo} place={item.place} alt="" category={item.place.category} className="p17-row-photo" />
           <span className={`p17-mark p17-mark-${item.kind} ${mark ? '' : 'is-dot'}`}>{mark}</span>
         </span>
         <span className="p17-row-main">

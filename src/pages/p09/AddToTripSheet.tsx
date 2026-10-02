@@ -138,7 +138,7 @@ export function AddToTripSheet({ suggestion: s, state, trip, access, todayIso, n
     <Sheet open onClose={onClose} title={`Add ${s.place.name} to your trip`} description="Pick a day and time. Everyone on the trip will see it on the itinerary." variant="side" size="md" footer={footer} className="p09-sheet">
       <div className="p09-sheet-body">
         <div className="p09-sheet-summary">
-          <PlacePhoto photo={s.place.photo} alt="" category={s.place.category} className="p09-sheet-thumb" />
+          <PlacePhoto photo={s.place.photo} place={s.place} alt="" category={s.place.category} className="p09-sheet-thumb" />
           <div className="stack-xs grow">
             <p className="p09-sheet-name">{s.place.name}</p>
             <p className="p09-sheet-cat">{categoryLine(s)}</p>

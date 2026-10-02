@@ -93,7 +93,7 @@ export function SuggestionCard({ suggestion: s, trip, fits, slot, isToday, passe
     <article className={`p09-card is-${layout} ${added ? 'is-added' : ''}`} aria-labelledby={titleId}>
       {layout === 'photo' && (
         <div className="p09-card-media">
-          <PlacePhoto photo={s.place.photo} alt={s.place.name} category={s.place.category} size="full" rounded={false} className="p09-card-photo" />
+          <PlacePhoto photo={s.place.photo} place={s.place} alt={s.place.name} category={s.place.category} size="full" rounded={false} className="p09-card-photo" />
           <div className="p09-card-overlay">
             <span className="p09-slot-badge">{slotLine}</span>
             {passedBadge}
@@ -102,7 +102,7 @@ export function SuggestionCard({ suggestion: s, trip, fits, slot, isToday, passe
       )}
       <div className="p09-card-body">
         <div className="p09-card-top">
-          {layout === 'compact' && <PlacePhoto photo={s.place.photo} alt={s.place.name} category={s.place.category} className="p09-card-thumb" />}
+          {layout === 'compact' && <PlacePhoto photo={s.place.photo} place={s.place} alt={s.place.name} category={s.place.category} className="p09-card-thumb" />}
           <div className="p09-card-heading">
             <h3 className="p09-card-name" id={titleId}>
               {s.place.name}

@@ -72,7 +72,7 @@ export const LayerPanel = forwardRef<HTMLElement, LayerPanelProps>(function Laye
           </li>
         ))}
       </ul>
-      <p className="xsmall muted">Your location is simulated for this prototype. Map data and places come from OpenStreetMap.</p>
+      <p className="xsmall muted">Your location is simulated for this prototype. Map data and places come from OpenStreetMap and Wikipedia.</p>
     </section>
   );
 });

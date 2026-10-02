@@ -259,7 +259,7 @@ function Ideas({ ctx, query }: { ctx: TripContext; query: URLSearchParams }) {
     results = (
       <EmptyState
         icon={<CloudOff />}
-        title="Couldn’t load ideas from OpenStreetMap right now."
+        title="Couldn’t load ideas right now."
         actions={
           <>
             <Button icon={<RefreshCw />} onClick={live.run}>
@@ -344,7 +344,7 @@ function Ideas({ ctx, query }: { ctx: TripContext; query: URLSearchParams }) {
     results = (
       <div className="p09-groups">
         {isLive && live.status === 'error' && (
-          <Banner tone="warning" title="Couldn’t refresh ideas from OpenStreetMap." action={<Button size="sm" variant="secondary" onClick={live.run}>Retry</Button>}>
+          <Banner tone="warning" title="Couldn’t refresh ideas." action={<Button size="sm" variant="secondary" onClick={live.run}>Retry</Button>}>
             These are the ideas we found last time.
           </Banner>
         )}
@@ -393,7 +393,7 @@ function Ideas({ ctx, query }: { ctx: TripContext; query: URLSearchParams }) {
         {openCount ? `${plural(openCount, 'idea')} to review` : 'Nothing left to review'}
         {selectedDate ? ` for Day ${dayNumber(trip, selectedDate)}` : ''}
       </p>
-      {isLive && <span className="p09-source">Places from OpenStreetMap</span>}
+      {isLive && <span className="p09-source">Places from OpenStreetMap and Wikipedia</span>}
     </div>
   );
 

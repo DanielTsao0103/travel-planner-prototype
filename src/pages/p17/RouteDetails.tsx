@@ -190,7 +190,7 @@ export function RouteCard(props: RouteViewProps & { eyebrow: string; asPlace?: b
         <IconButton label="Clear route" icon={<X />} size="sm" onClick={onClear} />
       </div>
       <div className="p17-route-place">
-        <PlacePhoto photo={item.place.photo} alt={item.place.name} category={item.place.category} className="p17-route-photo" />
+        <PlacePhoto photo={item.place.photo} place={item.place} alt={item.place.name} category={item.place.category} className="p17-route-photo" />
         <div className="stack-xs grow">
           <h2 id="p17-route-title" className="p17-route-name">
             {item.title}

@@ -183,7 +183,7 @@ function EventBlock({
   return (
     <li id={`p11-ev-${e.id}`} className="p11-tl-item" style={style}>
       <Link to={href} className={classes} aria-current={focused ? 'true' : undefined}>
-        <PlacePhoto photo={e.place.photo} alt="" category={e.place.category} className="p11-ev-photo" />
+        <PlacePhoto photo={e.place.photo} place={e.place} alt="" category={e.place.category} className="p11-ev-photo" />
         <span className="p11-ev-body">
           <span className="p11-ev-top">
             <span className="p11-ev-num">

@@ -22,7 +22,7 @@ import { useTrip, type TripContext } from '../../hooks/useTrip';
 import { addDays, dayNumber, daysBetween, formatDateRange, formatShortDate } from '../../lib/dates';
 import { plural } from '../../lib/format';
 import { simulateLatency } from '../../services/http';
-import { findPhoto } from '../../services/photos';
+import { findCityImage } from '../../services/placeImages';
 import { createTrip, shiftTripEvents, updateTrip } from '../../store/actions';
 import { currentPerson, getPerson, today, tripEvents, tripPeople } from '../../store/selectors';
 import { update, useAppState } from '../../store/store';
@@ -286,7 +286,7 @@ function TripForm({ mode, ctx, query }: { mode: Mode; ctx?: TripContext; query?:
       const id = createTrip({ title, destinations: draft.destinations, startDate, endDate, invitees, coverPhoto: coverToSave(cover) });
       // The photo search is still running: attach the photo to the new trip when it arrives.
       if (cover.status === 'loading' && first) {
-        void findPhoto(first.name, first.country ?? '').then((url) => url && updateTrip(id, { coverPhoto: url }));
+        void findCityImage(first).then((url) => url && updateTrip(id, { coverPhoto: url }));
       }
       toast({
         title: 'Trip created',
@@ -304,7 +304,7 @@ function TripForm({ mode, ctx, query }: { mode: Mode; ctx?: TripContext; query?:
     if (willShift) shiftTripEvents(t.id, delta);
     updateTrip(t.id, { title, destinations: draft.destinations, startDate, endDate, coverPhoto: coverToSave(cover) ?? (sameFirst ? t.coverPhoto : undefined) });
     if (cover.status === 'loading' && first && !sameFirst) {
-      void findPhoto(first.name, first.country ?? '').then((url) => url && updateTrip(t.id, { coverPhoto: url }));
+      void findCityImage(first).then((url) => url && updateTrip(t.id, { coverPhoto: url }));
     }
     toast({ title: 'Trip updated', body: willShift ? `Moved ${plural(events.length, 'event')} to the new dates.` : `${title} is up to date.` });
     navigate(paths.itinerary(t.id));
@@ -641,7 +641,7 @@ function TripLocked({ ctx }: { ctx: TripContext }) {
 
           <article className="p06-summary-card">
             <div className="p06-summary-media">
-              <PlacePhoto photo={trip.coverPhoto} alt="" category="landmark" size="full" rounded={false} className="p06-summary-photo" />
+              <PlacePhoto photo={trip.coverPhoto} destination={trip.destinations[0]} alt="" category="landmark" size="full" rounded={false} className="p06-summary-photo" />
             </div>
             <dl className="p06-facts">
               <div>

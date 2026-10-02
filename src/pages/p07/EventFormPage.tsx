@@ -114,7 +114,7 @@ function AddLocked({ ctx, back }: { ctx: TripContext; back: BackLink }) {
               {others.map((t) => (
                 <li key={t.id}>
                   <Link to={paths.newEvent(t.id)} className="p07-other">
-                    <PlacePhoto photo={t.coverPhoto} alt="" category="landmark" className="p07-other-photo" />
+                    <PlacePhoto photo={t.coverPhoto} destination={t.destinations[0]} alt="" category="landmark" className="p07-other-photo" />
                     <span className="p07-other-text">
                       <strong>{t.title}</strong>
                       <span className="num">{formatDateRange(t.startDate, t.endDate)}</span>

@@ -173,7 +173,7 @@ export function PlaceSearch({ near, cityLabel, control, onPick, initialQuery = '
               >
                 {opt.kind === 'place' ? (
                   <>
-                    <PlacePhoto photo={opt.place.photo} alt="" category={opt.place.category} className="p07-combo-thumb" />
+                    <PlacePhoto photo={opt.place.photo} place={opt.place} alt="" category={opt.place.category} className="p07-combo-thumb" />
                     <span className="p07-combo-text">
                       <span className="p07-combo-name">{opt.place.name}</span>
                       <span className="p07-combo-sub">{placeAreaLine(opt.place) || 'Nearby'}</span>

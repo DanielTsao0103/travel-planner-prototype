@@ -20,7 +20,7 @@ export async function findPhoto(name: string, context = ''): Promise<string | nu
   try {
     const url =
       'https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*' +
-      `&generator=search&gsrsearch=${encodeURIComponent(query)}&gsrlimit=3` +
+      `&generator=search&gsrsearch=${encodeURIComponent(query)}&gsrlimit=5` +
       '&prop=pageimages&piprop=thumbnail&pithumbsize=800&pilicense=free';
     const data = await getJson<WikiSearchResponse>(url, { timeoutMs: 6000 });
     const pages = Object.values(data.query?.pages ?? {}).sort((a, b) => (a.index ?? 9) - (b.index ?? 9));
@@ -36,7 +36,9 @@ export async function findPhoto(name: string, context = ''): Promise<string | nu
       const hits = words.filter((w) => t.includes(w)).length;
       return words.length > 0 && hits / words.length >= 0.75;
     };
-    const good = pages.find((p) => p.thumbnail && p.thumbnail.width >= 300 && matches(p.title));
+    // Skip maps, flags, seals, logos, and diagrams (common lead images for towns).
+    const notPhoto = /(map|locator|location|flag|seal|coat_of_arms|emblem|logo|diagram|\.svg)/i;
+    const good = pages.find((p) => p.thumbnail && p.thumbnail.width >= 300 && matches(p.title) && !notPhoto.test(decodeURIComponent(p.thumbnail.source)));
     return good?.thumbnail?.source ?? null;
   } catch {
     return null;

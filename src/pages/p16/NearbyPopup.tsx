@@ -155,7 +155,7 @@ function NearbyCard({ match }: { match: NearbyMatch }) {
       </div>
 
       <div className="p16-place">
-        <PlacePhoto photo={place.photo} alt={place.name} category={place.category} size="full" className="p16-photo" />
+        <PlacePhoto photo={place.photo} place={place} alt={place.name} category={place.category} size="full" className="p16-photo" />
         <div className="p16-info">
           <h2 id={titleId} className="p16-name">
             {place.name}

@@ -45,7 +45,7 @@ export const CATEGORY_LABEL: Record<PlaceCategory, string> = {
   cafe: 'Café',
   market: 'Market',
   bar: 'Bar',
-  nature: 'Park',
+  nature: 'Nature',
   lodging: 'Stay',
   transit: 'Station',
   shopping: 'Shop',

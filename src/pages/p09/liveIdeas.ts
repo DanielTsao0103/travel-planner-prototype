@@ -87,7 +87,7 @@ const KIND_WORD: Record<PlaceCategory, string> = {
   cafe: 'café',
   market: 'market',
   bar: 'bar',
-  nature: 'park',
+  nature: 'nature spot',
   lodging: 'place to stay',
   transit: 'station',
   shopping: 'shop',
@@ -96,6 +96,19 @@ const KIND_WORD: Record<PlaceCategory, string> = {
 };
 
 const KINDS: PoiKind[] = ['sights', 'food', 'nature'];
+
+/** Words that stay capitalized mid-sentence ("Zen Buddhist temple", not "zen Buddhist temple"). */
+const PROPER_START = /^(Zen|Shinto|Buddhist|Hindu|Catholic|Christian|Islamic|Roman|Gothic|Baroque|Japanese|Chinese|American|British|English|French|Spanish|Italian|Portuguese|Mexican|Canadian|German|Greek|Moorish|Victorian|Art|United|National|UNESCO)\b/;
+
+/** "Museum in Kyoto, Japan" → "museum in Kyoto, Japan"; proper words keep their capital. */
+function sentenceCase(text: string): string {
+  return PROPER_START.test(text) ? text : text.charAt(0).toLowerCase() + text.slice(1);
+}
+
+/** "a" or "an" before a word ("an onsen", "a temple"). */
+function article(word: string): string {
+  return /^[aeiou]/i.test(word) ? 'an' : 'a';
+}
 
 /** Names in Latin script (our testers read English); other scripts are a fallback. */
 const LATIN = /^[\p{Script=Latin}\p{N}\p{P}\p{Zs}'’&-]+$/u;
@@ -357,6 +370,12 @@ export async function buildLiveSuggestions(tripId: string): Promise<Suggestion[]
     picked.push(c);
     if (picked.length >= MAX_IDEAS) break;
   }
+  // Sparse areas (a small town by a national park): top up past the caps so
+  // there are still enough ideas to choose from.
+  for (const c of candidates) {
+    if (picked.length >= Math.min(6, MAX_IDEAS)) break;
+    if (!picked.includes(c)) picked.push(c);
+  }
 
   // 4. Day + time slot for each idea, spreading them across the area's days.
   const clock = now(state);
@@ -392,13 +411,23 @@ export async function buildLiveSuggestions(tripId: string): Promise<Suggestion[]
     const far = walk > 25;
     const kind = KIND_WORD[c.place.category];
     const cost = estimateCost(c.place);
+    // For Wikipedia places, add its own one-line description as a second sentence
+    // ("It's a Zen Buddhist temple in Kyoto, Japan.") instead of a generic kind.
+    const described = c.place.id.startsWith('wiki-') && c.place.blurb ? c.place.blurb.replace(/\.$/, '') : '';
+    const when = (away: string, car: string) => (far ? `${estimateTaxiMinutes(meters)} min ${car}` : `${walk} min ${away}`);
     let reason: string;
-    if (anchor.event && anchor.fromYou) {
-      reason = `Since you planned ${anchor.label}, you might also like ${c.place.name}, a ${kind} ${far ? `${estimateTaxiMinutes(meters)} min by car` : `${walk} min`} from where you are now.`;
+    if (described) {
+      const lead = anchor.event
+        ? `Since you planned ${anchor.label}, you might also like ${c.place.name}, ${when(anchor.fromYou ? 'from where you are now' : 'away', anchor.fromYou ? 'by car from where you are now' : 'away by car')}.`
+        : `Since you’re visiting ${anchor.label}, you might like ${c.place.name}, ${when('from the center', 'by car from the center')}.`;
+      const desc = sentenceCase(described);
+      reason = `${lead} It’s ${article(desc)} ${desc}.`;
+    } else if (anchor.event && anchor.fromYou) {
+      reason = `Since you planned ${anchor.label}, you might also like ${c.place.name}, ${article(kind)} ${kind} ${when('from where you are now', 'by car from where you are now')}.`;
     } else if (anchor.event) {
-      reason = `Since you planned ${anchor.label}, you might also like ${c.place.name}, a ${kind} ${far ? `${estimateTaxiMinutes(meters)} min away by car` : `${walk} min away`}.`;
+      reason = `Since you planned ${anchor.label}, you might also like ${c.place.name}, ${article(kind)} ${kind} ${when('away', 'away by car')}.`;
     } else {
-      reason = `Since you’re visiting ${anchor.label}, you might like ${c.place.name}, a ${kind} ${far ? `${estimateTaxiMinutes(meters)} min by car` : `${walk} min`} from the center.`;
+      reason = `Since you’re visiting ${anchor.label}, you might like ${c.place.name}, ${article(kind)} ${kind} ${when('from the center', 'by car from the center')}.`;
     }
     const fit = c.reasons.slice(0, 3);
     if (anchor.event && !anchor.fromYou && walk <= 20) fit.push(`${walk} min walk from ${anchor.label}`);

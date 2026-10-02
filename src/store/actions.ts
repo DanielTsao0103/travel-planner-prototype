@@ -385,6 +385,32 @@ export function clearHighlights(which: 'event' | 'trip' | 'all' = 'all'): void {
   });
 }
 
+/* ================================================================= photos */
+
+/**
+ * Save a photo found online for a place onto every event and idea that uses it,
+ * so it stays put after a reload. Does nothing if they already have one.
+ */
+export function rememberPlacePhoto(placeId: string, url: string): void {
+  const s = getState();
+  const needs =
+    s.events.some((e) => e.place.id === placeId && !e.place.photo) || s.suggestions.some((x) => x.place.id === placeId && !x.place.photo);
+  if (!needs) return;
+  update((d) => {
+    for (const e of d.events) if (e.place.id === placeId && !e.place.photo) e.place.photo = url;
+    for (const x of d.suggestions) if (x.place.id === placeId && !x.place.photo) x.place.photo = url;
+  });
+}
+
+/** Save a destination photo as the cover of trips that start there and have none. */
+export function rememberTripCover(destinationId: string, url: string): void {
+  const s = getState();
+  if (!s.trips.some((t) => t.destinations[0]?.id === destinationId && !t.coverPhoto)) return;
+  update((d) => {
+    for (const t of d.trips) if (t.destinations[0]?.id === destinationId && !t.coverPhoto) t.coverPhoto = url;
+  });
+}
+
 /* ============================================================ suggestions */
 
 /** Store live (OpenStreetMap) suggestions for a trip, replacing older live ones. */

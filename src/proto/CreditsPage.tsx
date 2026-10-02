@@ -24,7 +24,8 @@ export function CreditsPage() {
         <h2 className="h3">Data and services</h2>
         <ul className="proto-credits-list">
           <li>Map tiles and place data © OpenStreetMap contributors (ODbL), via tile.openstreetmap.org, Photon (komoot), Overpass API, and the FOSSGIS OSRM routing server.</li>
-          <li>Live photos for places you add come from Wikipedia/Wikimedia Commons (free licenses only).</li>
+          <li>Live photos for places you add come from Wikipedia, Wikidata, and Wikimedia Commons (free licenses only), including geotagged photos taken near the place.</li>
+          <li>When no photo of a place exists, a generic photo of that kind of place is shown with a “Representative photo” tag (the cat-* photos below). It doesn’t show the actual place.</li>
           <li>Map library: Leaflet (BSD-2). Icons: Lucide (ISC). Fonts: Bricolage Grotesque and Figtree (SIL Open Font License) via Google Fonts.</li>
           <li>All people, emails, restaurants, rentals, receipts, bank alerts, and booking confirmations are fictional.</li>
         </ul>

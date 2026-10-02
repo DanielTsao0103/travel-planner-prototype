@@ -262,7 +262,7 @@ function EmptyDay({ state, trip, access, date, addPath }: { state: AppState; tri
             {ideas.slice(0, 3).map((s) => (
               <li key={s.id}>
                 <Link to={ideasPath} className="p11-idea">
-                  <PlacePhoto photo={s.place.photo} alt="" category={s.place.category} className="p11-idea-photo" />
+                  <PlacePhoto photo={s.place.photo} place={s.place} alt="" category={s.place.category} className="p11-idea-photo" />
                   <span className="p11-idea-body">
                     <span className="p11-idea-name">{s.place.name}</span>
                     <span className="p11-idea-time num">

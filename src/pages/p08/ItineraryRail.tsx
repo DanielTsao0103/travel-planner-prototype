@@ -177,7 +177,7 @@ function IdeasCard({ trip, ideas, liveIdeas }: ItineraryRailProps) {
         <>
           <div className="p08-ideas-photos" aria-hidden>
             {shown.map((s) => (
-              <PlacePhoto key={s.id} photo={s.place.photo} alt="" category={s.place.category} className="p08-ideas-photo" />
+              <PlacePhoto key={s.id} photo={s.place.photo} place={s.place} alt="" category={s.place.category} className="p08-ideas-photo" />
             ))}
             {extra > 0 && <span className="p08-ideas-more num">+{extra}</span>}
           </div>

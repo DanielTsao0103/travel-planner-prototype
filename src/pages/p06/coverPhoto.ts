@@ -2,13 +2,14 @@
  * The trip's cover photo comes from its first destination (Page 6).
  *
  *  1. A bundled photo when we ship one for that place (instant, works offline).
- *  2. Otherwise a free Wikipedia photo via `findPhoto()`.
- *  3. Otherwise nothing: the preview shows the illustrated fallback tile.
+ *  2. Otherwise a free photo of the city via `findCityImage()` (Wikipedia, never a
+ *     map or flag; else a geotagged Commons photo near the city center).
+ *  3. Otherwise none saved: the preview shows a representative travel photo.
  */
 
 import { useEffect, useState } from 'react';
 import type { Destination } from '../../data/types';
-import { findPhoto } from '../../services/photos';
+import { findCityImage } from '../../services/placeImages';
 
 /** Destination names (lowercase) → bundled photo ids in public/img. */
 const BUNDLED_COVERS: Record<string, string> = {
@@ -72,7 +73,7 @@ export function useCoverPhoto(first: Destination | undefined, keep?: { key: stri
     // Live lookup. `alive` ignores a slow answer for a destination that has since changed.
     let alive = true;
     setCover({ status: 'loading' });
-    void findPhoto(first.name, first.country ?? '').then((url) => {
+    void findCityImage(first).then((url) => {
       if (alive) setCover(url ? { status: 'ready', photo: url } : { status: 'none' });
     });
     return () => {
@@ -85,7 +86,7 @@ export function useCoverPhoto(first: Destination | undefined, keep?: { key: stri
   return cover;
 }
 
-/** The photo to save with the trip (undefined → illustrated fallback tile). */
+/** The photo to save with the trip (undefined → a representative photo is shown). */
 export function coverToSave(cover: CoverState): string | undefined {
   return cover.status === 'ready' ? cover.photo : undefined;
 }
