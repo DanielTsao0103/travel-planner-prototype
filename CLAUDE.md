@@ -28,6 +28,17 @@ Clickable, high-fidelity prototype of a collaborative travel-planning app. Requi
 ## QA
 - `python3 qa/sweep.py` — Playwright sweep of every screen at 390×844 and 1440×900 (console errors, horizontal overflow, screenshots to `qa/screens/`).
 
+## QA commands
+- `python3 qa/sweep.py` — every Screen Index state at 390 + 1440 (console errors, overflow, screenshots, `qa/report/index.html`)
+- `python3 qa/contact.py` — tile sweep screenshots into contact sheets for visual review
+- `python3 qa/flows.py` — end-to-end journeys (signup, login, trip, nearby, consistent, roles, budget, survey, invite)
+- Page-specific e2e: `qa/p06-e2e.py`, `qa/p06-edit-e2e.py`, `qa/p07-e2e.py`, `qa/p15-survey-e2e.py`
+
 ## Corrections & Lessons Learned
 - `sips -s formatOptions <n>` doesn't reliably apply JPEG quality; use Pillow (`scripts/compress_photos.py`).
 - Wikipedia lead images for some subjects (e.g. Brooklyn Bridge, Bolhão) are panoramas or B&W — check the contact sheet and swap queries.
+- Port 5173 is used by another local project; this one runs on 5188.
+- The demo clock URL param is `clock=` (not `date=`): pages use `date=` for their own prefill (e.g. Add event links).
+- routing.openstreetmap.de (OSRM) can be down for long stretches; Valhalla (valhalla1.openstreetmap.de) is tried first, and the sample trip's key walks are bundled in `src/data/bundledRoutes.ts`.
+- Overpass rejects requests that send an Origin header without a Referer (406) and rate-limits to ~2 concurrent queries per IP; browsers send both headers, so pages just need good error states.
+- Python 3.9's TLS can't reach valhalla1.openstreetmap.de; fetch with curl when generating data.

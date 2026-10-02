@@ -155,6 +155,42 @@ async function osrmRoute(from: LatLng, to: LatLng): Promise<WalkingRoute | null>
   };
 }
 
+/* ------------------------------------------------- politeness controls */
+
+/**
+ * Free routing services rate-limit bursts (a page asking for 6 routes at once gets
+ * blocked). So network requests run one at a time with a short gap, and a service
+ * that just failed is skipped for a minute instead of being hit again.
+ */
+let active = 0;
+const waiting: Array<() => void> = [];
+
+async function oneAtATime<T>(task: () => Promise<T>): Promise<T> {
+  if (active >= 1) await new Promise<void>((resolve) => waiting.push(resolve));
+  active++;
+  try {
+    return await task();
+  } finally {
+    active--;
+    const next = waiting.shift();
+    if (next) window.setTimeout(next, 250);
+  }
+}
+
+const downUntil: Record<string, number> = {};
+
+async function tryService(name: string, attempt: () => Promise<WalkingRoute | null>): Promise<WalkingRoute | null> {
+  if ((downUntil[name] ?? 0) > Date.now()) return null;
+  try {
+    const route = await attempt();
+    if (route) return route;
+  } catch {
+    // Timeout, rate limit, or outage: give this service a minute's rest.
+    downUntil[name] = Date.now() + 60_000;
+  }
+  return null;
+}
+
 /* ------------------------------------------------------------- public */
 
 /** Walking route between two points. Never throws: falls back to an estimate. */
@@ -176,13 +212,8 @@ export async function walkingRoute(from: LatLng, to: LatLng): Promise<WalkingRou
   // Very long hops aren't walks; don't hammer the routers for them.
   if (straight > 15_000) return estimate;
 
-  for (const attempt of [valhallaRoute, osrmRoute]) {
-    try {
-      const route = await attempt(from, to);
-      if (route) return route;
-    } catch {
-      // Try the next service.
-    }
-  }
-  return estimate;
+  const routed = await oneAtATime(async () => {
+    return (await tryService('valhalla', () => valhallaRoute(from, to))) ?? (await tryService('osrm', () => osrmRoute(from, to)));
+  });
+  return routed ?? estimate;
 }
