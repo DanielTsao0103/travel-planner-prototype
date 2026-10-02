@@ -300,7 +300,8 @@
 
 @media (max-width: 767px) {
   .segmented button,
-  .segmented-sm button {
+  .segmented-sm button,
+  .chip-toggle {
     min-height: 44px;
   }
 }

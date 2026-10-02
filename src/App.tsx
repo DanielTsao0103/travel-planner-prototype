@@ -166,7 +166,7 @@ export function App() {
   }, [route.name, route.params.tripId, live?.id]);
 
   // Resolver routes from the menu (Budget, Calendar, Collaborators) → current trip.
-  const resolverTarget = signedIn ? resolveCurrent(route) : null;
+  const resolverTarget = signedIn ? resolveCurrent(route, location.query) : null;
   useEffect(() => {
     if (resolverTarget) navigate(resolverTarget, { replace: true });
   }, [resolverTarget]);
@@ -194,17 +194,25 @@ export function App() {
   );
 }
 
-/** For /calendar, /budget, /people: send to the current trip (or show the no-trip state). */
-function resolveCurrent(route: MatchedRoute): string | null {
+/**
+ * For /calendar, /budget, /people: send to the current trip (or show the
+ * no-trip state). Page params like ?section= or ?tab= are carried over.
+ */
+function resolveCurrent(route: MatchedRoute, query: URLSearchParams): string | null {
   if (!['calendar', 'budget-current', 'people-current'].includes(route.name)) return null;
+  if (GLOBAL_KEYS.some((k) => query.has(k))) return null; // wait until prototype params are applied
   const s = getState();
   const trip = currentTrip(s);
   if (!trip) return null;
-  if (route.name === 'budget-current') return paths.budget(trip.id);
-  if (route.name === 'people-current') return paths.people(trip.id);
+  const keep = (path: string) => {
+    const qs = query.toString();
+    return qs ? `${path}${path.includes('?') ? '&' : '?'}${qs}` : path;
+  };
+  if (route.name === 'budget-current') return keep(paths.budget(trip.id));
+  if (route.name === 'people-current') return keep(paths.people(trip.id));
   const d = today(s);
   const day = d >= trip.startDate && d <= trip.endDate ? d : trip.startDate;
-  return withQuery(paths.day(trip.id, day), { from: 'calendar' });
+  return keep(withQuery(paths.day(trip.id, day), { from: 'calendar' }));
 }
 
 function renderPage(route: MatchedRoute, query: URLSearchParams) {
