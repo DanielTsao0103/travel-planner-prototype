@@ -1,0 +1,581 @@
+/*
+ * Page 1 — Log in / Create account.
+ * Phones: short photo band, then the form on a rounded sheet that overlaps it.
+ * Tablet/desktop: split screen with a sticky full-height photo on the left.
+ */
+
+.p01 {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  background: var(--bg);
+}
+
+/* ------------------------------------------------------------------ photo */
+
+.p01-photo {
+  position: relative;
+  height: 196px;
+  overflow: hidden;
+  isolation: isolate;
+  /* Shown while the photo loads; a constant dark token so white text stays readable. */
+  background: var(--av-8);
+  color: var(--on-avatar);
+}
+
+.p01-photo-img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 62%;
+}
+
+/* Legibility scrim (functional, not decoration): darker behind the wordmark and the product line. */
+.p01-photo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(to bottom, var(--scrim) 0%, transparent 42%),
+    linear-gradient(to top, var(--scrim) 0%, transparent 72%),
+    linear-gradient(to top, var(--scrim) 0%, transparent 40%);
+}
+
+.p01-photo-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--s-4);
+  /* Extra bottom room because the form sheet overlaps the band by 20px. */
+  padding: var(--s-3) var(--gutter) calc(var(--s-4) + 20px);
+}
+
+.wordmark.p01-wordmark-light {
+  color: var(--on-avatar);
+}
+
+.p01-pitch {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 32ch;
+  text-shadow: 0 1px 14px var(--scrim);
+}
+
+.p01-pitch-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.p01-pitch-sub {
+  font-size: var(--text-md);
+  font-weight: 550;
+  opacity: 0.94;
+}
+
+.p01-credit {
+  display: none;
+}
+
+/* --------------------------------------------------------------- form side */
+
+.p01-main {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  margin-top: -20px;
+  padding: var(--s-6) var(--gutter) var(--s-8);
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  background: var(--bg);
+}
+
+/* The Prototype pill only shows on tablet/desktop (phones have no room for it here). */
+.p01-proto {
+  display: none;
+}
+
+.p01-form-col {
+  width: 100%;
+  max-width: 420px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+}
+
+.p01-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.p01-sub {
+  color: var(--muted);
+  font-size: var(--text-md);
+}
+
+.p01-providers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.btn.p01-provider,
+.btn.p01-submit,
+.btn.p01-switch-btn {
+  --btn-h: 48px;
+}
+
+/* Neutral "G" monogram (intentionally not Google's logo). */
+.p01-glyph {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* "—— or ——" divider */
+.p01-or {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.p01-or::before,
+.p01-or::after {
+  content: '';
+  flex: 1 1 0;
+  height: 1px;
+  background: var(--line);
+}
+
+.p01-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.p01-field-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Follow-up action under an error ("Create an account with this email"). */
+.p01-inline-action {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  margin-left: 22px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--primary);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.p01-inline-action svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+.p01-forgot {
+  min-height: 44px;
+  margin-block: -12px;
+  padding: 0 2px;
+  border: 0;
+  background: none;
+  color: var(--primary);
+  font-size: var(--text-sm);
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.p01-forgot:hover,
+.p01-inline-action:hover {
+  color: var(--primary-hover);
+}
+
+/* Password input with a show/hide button inside it */
+.p01-pw {
+  position: relative;
+}
+
+.input.p01-pw-input {
+  padding-right: 52px;
+}
+
+.p01-pw-toggle {
+  position: absolute;
+  top: 50%;
+  right: 1px;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.p01-pw-toggle:hover {
+  color: var(--ink);
+}
+
+.p01-pw-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.p01-pw-toggle:focus-visible {
+  outline-offset: -4px;
+}
+
+/* Live password checklist (sign-up) */
+.p01-rules {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+.p01-rule {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+}
+
+.p01-rule svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+
+.p01-rule.is-met {
+  color: var(--success);
+  font-weight: 650;
+}
+
+.p01-rule.is-met svg {
+  stroke-width: 3;
+}
+
+.btn.p01-submit {
+  margin-top: var(--s-1);
+  font-size: var(--text-base);
+}
+
+/* "New here? Create an Account" */
+.p01-switch {
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--line);
+}
+
+.p01-switch-q {
+  font-weight: 500;
+}
+
+/* Demo credentials card */
+.p01-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-4) var(--s-4);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r-md);
+}
+
+.p01-demo-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+.p01-demo-main {
+  font-size: var(--text-sm);
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+
+.p01-demo-main strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.p01-demo-note {
+  font-size: var(--text-xs);
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+/* ------------------------------------------------- simulated account chooser */
+
+.p01-sim {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r-sm);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.p01-acct-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.p01-acct-list > li + li {
+  border-top: 1px solid var(--line);
+}
+
+.p01-acct {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  width: 100%;
+  min-height: 64px;
+  padding: var(--s-3) var(--s-4);
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--dur) var(--ease);
+}
+
+.p01-acct:hover:not(:disabled) {
+  background: var(--surface-2);
+}
+
+.p01-acct:focus-visible {
+  outline-offset: -3px;
+}
+
+.p01-acct:disabled {
+  cursor: default;
+}
+
+.p01-acct:disabled:not([aria-busy]) {
+  opacity: 0.55;
+}
+
+.p01-acct-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.p01-acct-name {
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.p01-acct-email {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.p01-acct-end {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: var(--faint);
+}
+
+.p01-acct-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--ink-2);
+}
+
+.p01-acct-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.p01-other {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: 0 var(--s-4) var(--s-4);
+}
+
+.p01-shared {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-2);
+  font-size: var(--text-sm);
+  color: var(--ink-2);
+}
+
+.p01-shared svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  color: var(--success);
+}
+
+.p01-chooser-hint {
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+/* Result step (no account / create / already have one) */
+.p01-acct-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+}
+
+/* Stacked, full-width actions (primary on top) so long labels never wrap awkwardly. */
+.p01-result-sheet .sheet-foot {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.p01-result-sheet .sheet-foot > .btn {
+  flex: none;
+  width: 100%;
+}
+
+.p01-result-text {
+  color: var(--ink-2);
+}
+
+.p01-break {
+  overflow-wrap: anywhere;
+}
+
+/* ------------------------------------------------------- tablet & desktop */
+
+@media (min-width: 768px) {
+  .p01 {
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr);
+    grid-template-rows: none;
+  }
+
+  .p01-photo {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .p01-photo-inner {
+    padding: var(--s-6) var(--s-7) var(--s-7);
+  }
+
+  .p01-pitch {
+    gap: var(--s-2);
+  }
+
+  .p01-pitch-title {
+    font-size: 2.25rem;
+  }
+
+  .p01-pitch-sub {
+    font-size: var(--text-lg);
+  }
+
+  .p01-credit {
+    display: block;
+    margin-top: var(--s-5);
+    font-size: var(--text-xs);
+    opacity: 0.8;
+  }
+
+  .p01-main {
+    display: flex;
+    margin-top: 0;
+    padding: 64px var(--s-8) var(--s-7);
+    border-radius: 0;
+  }
+
+  /* margin:auto centers the form vertically when it fits, and scrolls normally when it doesn't. */
+  .p01-form-col {
+    margin: auto;
+  }
+
+  .p01-proto {
+    display: inline-flex;
+    position: absolute;
+    top: var(--s-5);
+    right: var(--s-6);
+  }
+
+  .p01-inline-action,
+  .p01-forgot {
+    min-height: 36px;
+  }
+
+  .p01-forgot {
+    margin-block: -8px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .p01 {
+    grid-template-columns: minmax(0, 1.05fr) minmax(560px, 1fr);
+  }
+
+  .p01-photo-inner {
+    padding: var(--s-7) var(--s-9) var(--s-8);
+  }
+
+  .p01-pitch-title {
+    font-size: 3rem;
+    letter-spacing: -0.03em;
+  }
+}

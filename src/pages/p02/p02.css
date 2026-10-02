@@ -1,0 +1,808 @@
+/*
+ * Page 2 — Connect your accounts.
+ * Desktop: checklist (left) + "What you get" panel (right).
+ * Phones: one column of stacked rows and a sticky action bar.
+ */
+
+.p02 {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+/* ---------------------------------------------------------------- top bar */
+
+.p02-top {
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.p02-top-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  width: 100%;
+  max-width: calc(var(--container) + var(--gutter) * 2);
+  height: var(--header-h);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+
+.p02-who {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.p02-step-pill {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ----------------------------------------------------------------- layout */
+
+.p02-main {
+  flex: 1 1 auto;
+  outline: none;
+}
+
+.p02-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-7);
+  width: 100%;
+  max-width: calc(720px + var(--gutter) * 2);
+  margin: 0 auto;
+  padding: var(--s-5) var(--gutter) var(--s-7);
+}
+
+.p02-primary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  min-width: 0;
+}
+
+/* ---------------------------------------------------------------- heading */
+
+.p02-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.p02-eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-4);
+  font-size: var(--text-sm);
+  font-weight: 650;
+  color: var(--muted);
+}
+
+.p02-created {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--success);
+}
+
+.p02-created svg {
+  width: 16px;
+  height: 16px;
+}
+
+.p02-step {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.p02-step-bars {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.p02-step-bars span {
+  width: 18px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--primary);
+}
+
+.p02-lede {
+  max-width: 56ch;
+  color: var(--ink-2);
+}
+
+/* -------------------------------------------------------------- checklist */
+
+.p02-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.p02-list-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2) var(--s-3);
+}
+
+.p02-list-title {
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.p02-count {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.p02-meter {
+  display: inline-flex;
+  gap: 3px;
+  margin-left: 2px;
+}
+
+.p02-meter span {
+  width: 16px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--surface-3);
+}
+
+.p02-meter span.is-on {
+  background: var(--success);
+}
+
+.p02-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+
+.p02-row + .p02-row {
+  border-top: 1px solid var(--line);
+}
+
+/* Keeps a row's highlight inside the list's rounded corners. */
+.p02-list {
+  overflow: hidden;
+}
+
+/* A row that just changed on Page 3 flashes once (marigold = highlight). */
+.p02-row.is-just {
+  animation: p02-flash 2.2s var(--ease) 0.15s both;
+}
+
+@keyframes p02-flash {
+  0%,
+  35% {
+    background-color: var(--accent-soft);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+/* Service tile (monogram) */
+.p02-tile {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  color: var(--on-avatar);
+  font-family: var(--font-display);
+  font-weight: 750;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  user-select: none;
+}
+
+/* Checklist mark */
+.p02-check {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--line-strong);
+  color: var(--surface);
+  transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.p02-check svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 3.2;
+}
+
+.p02-check.is-connected {
+  background: var(--success);
+  border-color: var(--success);
+}
+
+.p02-check.is-needs-permission {
+  background: var(--warning-soft);
+  border-color: var(--warning);
+  color: var(--warning);
+}
+
+.p02-check.is-failed {
+  background: var(--danger-soft);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* Row text */
+.p02-row-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  min-width: 0;
+}
+
+.p02-name {
+  font-size: var(--text-lg);
+  line-height: 1.25;
+}
+
+.p02-row-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  min-width: 0;
+}
+
+.p02-tagline {
+  color: var(--ink-2);
+  font-size: var(--text-md);
+}
+
+.p02-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  background: var(--info-soft);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  line-height: 1.45;
+}
+
+.p02-note svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  color: var(--info);
+}
+
+.p02-failed-note {
+  font-size: var(--text-sm);
+  color: var(--danger);
+  font-weight: 550;
+}
+
+.btn.p02-disconnect {
+  color: var(--ink-2);
+}
+
+/* "Permissions" disclosure */
+.p02-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  min-height: 36px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.p02-more:hover {
+  color: var(--ink);
+}
+
+.p02-more-meta {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.p02-more-chev {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  transition: transform var(--dur) var(--ease);
+}
+
+.p02-more[aria-expanded='true'] .p02-more-chev {
+  transform: rotate(180deg);
+}
+
+/* Permission list (inside the disclosure) */
+.p02-details[hidden] {
+  display: none;
+}
+
+.p02-perms {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.p02-perm {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  gap: 4px var(--s-3);
+  padding: var(--s-3) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.p02-perm:last-child {
+  border-bottom: 0;
+}
+
+.p02-perm-icon {
+  padding-top: 2px;
+  color: var(--faint);
+}
+
+.p02-perm-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.p02-perm.is-granted .p02-perm-icon {
+  color: var(--success);
+}
+
+.p02-perm.is-granted .p02-perm-icon svg {
+  stroke-width: 3;
+}
+
+.p02-perm-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.p02-perm-label {
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.35;
+}
+
+.p02-perm-unlocks {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.p02-perm-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.p02-perm-state {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.p02-perm.is-granted .p02-perm-state {
+  color: var(--success);
+}
+
+.p02-perm-req {
+  padding: 1px 8px;
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-size: var(--text-xs);
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.p02-details-foot {
+  padding-top: var(--s-1);
+}
+
+/* Wide rows (tablet/desktop): check · tile · text · action */
+.p02-row.is-wide {
+  display: grid;
+  grid-template-columns: 24px 40px minmax(0, 1fr) auto;
+  align-items: start;
+  column-gap: var(--s-4);
+  padding: var(--s-5);
+}
+
+.p02-row.is-wide > .p02-check {
+  margin-top: 8px;
+}
+
+.p02-row-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  min-width: 0;
+  padding-top: 2px;
+}
+
+.p02-row.is-wide .p02-more {
+  margin-top: -2px;
+}
+
+/* The permission list uses the full row width (under the action button too). */
+.p02-row.is-wide > .p02-details {
+  grid-column: 3 / -1;
+  margin-top: var(--s-2);
+}
+
+.p02-details-foot .btn-ghost {
+  margin-left: calc(var(--s-3) * -1);
+}
+
+/* Compact rows (phones): stacked */
+.p02-row.is-compact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-4);
+}
+
+.p02-row-top {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.p02-row-foot {
+  display: flex;
+  gap: var(--s-2);
+}
+
+.p02-row-foot > .btn {
+  flex: 1 1 auto;
+}
+
+.p02-row-foot.is-reversed {
+  flex-direction: row-reverse;
+}
+
+.p02-row-foot.is-reversed > .btn {
+  flex: none;
+}
+
+.p02-row-foot.is-reversed > .p02-more {
+  flex: 1 1 auto;
+  justify-content: space-between;
+}
+
+.is-compact .p02-more {
+  flex: none;
+  min-height: 44px;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+}
+
+.is-compact .p02-perm {
+  grid-template-columns: 20px minmax(0, 1fr);
+}
+
+.is-compact .p02-perm-meta {
+  grid-column: 2;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+/* ------------------------------------------------------------ privacy line */
+
+.p02-privacy {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-2);
+  font-size: var(--text-sm);
+  color: var(--ink-2);
+}
+
+.p02-privacy svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  color: var(--success);
+}
+
+/* --------------------------------------------------------- desktop actions */
+
+.p02-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.p02-actions-hint {
+  flex-basis: 100%;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+/* Desktop: stacked full-width buttons inside the "What you get" card. */
+.p02-actions.is-stacked {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--s-2);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+}
+
+.p02-actions.is-stacked .p02-actions-hint {
+  flex-basis: auto;
+  text-align: center;
+}
+
+.p02-note-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+}
+
+/* ------------------------------------------------------------ what you get */
+
+.p02-get {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  padding: var(--s-6);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+}
+
+.p02-get-title {
+  font-size: var(--text-xl);
+}
+
+.p02-get-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.p02-get-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.p02-get-name {
+  flex: 1 1 auto;
+  font-weight: 700;
+}
+
+.p02-get-state {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.p02-get-state.is-on {
+  color: var(--success);
+}
+
+.p02-get-features {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0 0 0 34px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.p02-get-features li {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.p02-get-features li.is-on {
+  color: var(--ink);
+}
+
+.p02-get-dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line-strong);
+  transform: translateY(-1px);
+}
+
+.is-on > .p02-get-dot {
+  background: var(--success);
+  border-color: var(--success);
+}
+
+.p02-get > .p02-privacy {
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+}
+
+.p02-get > .p02-actions + .p02-privacy {
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* --------------------------------------------------------- mobile action bar */
+
+.p02-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--gutter) calc(var(--s-3) + env(safe-area-inset-bottom, 0px));
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+}
+
+.p02-bar-inner {
+  display: flex;
+  gap: var(--s-2);
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.p02-bar .btn {
+  --btn-h: 48px;
+}
+
+.btn.p02-bar-main {
+  flex: 1 1 auto;
+}
+
+/* The shared toaster assumes a 64px tab bar on phones and none on tablets;
+   lift it above this page's action bar while the bar is on screen. */
+body:has(.p02-bar) .toaster {
+  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 768px) {
+  .p02-bar-inner {
+    justify-content: flex-end;
+  }
+
+  .btn.p02-bar-main {
+    flex: 0 0 auto;
+    min-width: 240px;
+  }
+}
+
+/* ------------------------------------------------------------ skip warning */
+
+.p02-miss {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.p02-miss-svc + .p02-miss-svc {
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+}
+
+.p02-miss-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: var(--s-2);
+}
+
+.p02-miss-name {
+  font-size: var(--text-md);
+}
+
+.p02-miss-features {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 38px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.p02-miss-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-2);
+  font-size: var(--text-md);
+  color: var(--ink-2);
+}
+
+.p02-miss-features svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  color: var(--warning);
+}
+
+/* --------------------------------------------------------- tablet/desktop */
+
+@media (min-width: 768px) {
+  .p02-layout {
+    padding-top: var(--s-7);
+    padding-bottom: var(--s-9);
+  }
+
+  .p02-primary {
+    gap: var(--s-6);
+  }
+}
+
+@media (min-width: 1100px) {
+  .p02-layout {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: var(--s-9);
+    max-width: calc(1080px + var(--gutter) * 2);
+    padding-top: var(--s-8);
+  }
+
+  .p02-aside {
+    position: sticky;
+    top: var(--s-6);
+    align-self: start;
+  }
+
+  .p02-lede {
+    font-size: var(--text-lg);
+  }
+}

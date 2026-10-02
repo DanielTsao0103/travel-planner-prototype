@@ -42,6 +42,8 @@ export function Sheet({ open, onClose, title, description, children, footer, siz
   // steal focus) every time the parent re-renders with a new arrow function.
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
+  const dismissibleRef = useRef(dismissible);
+  dismissibleRef.current = dismissible;
 
   useEffect(() => {
     if (!open) return;
@@ -55,7 +57,7 @@ export function Sheet({ open, onClose, title, description, children, footer, siz
       (first ?? panel)?.focus();
     }, 30);
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && dismissible) {
+      if (e.key === 'Escape' && dismissibleRef.current) {
         e.stopPropagation();
         onCloseRef.current();
       }
@@ -81,7 +83,7 @@ export function Sheet({ open, onClose, title, description, children, footer, siz
       document.removeEventListener('keydown', onKey);
       lastFocused.current?.focus?.();
     };
-  }, [open, dismissible]);
+  }, [open]);
 
   if (!open) return null;
   return createPortal(

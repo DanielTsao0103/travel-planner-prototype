@@ -164,6 +164,8 @@ export function setConnectionResult(service: ServiceId, result: 'success' | 'can
       conn.permissions = getService(service).permissions.map((p) => ({ ...p, granted: grantedKeys.includes(p.key) }));
     } else if (result === 'failed') {
       conn.status = conn.status === 'connected' ? 'connected' : 'failed';
+    } else if (result === 'canceled' && conn.status === 'failed') {
+      conn.status = 'not-connected';
     }
     if (result === 'failed') d.demo.failNextConnect = false;
   });

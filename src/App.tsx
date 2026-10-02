@@ -3,7 +3,7 @@
  * URL parameters, and auto-opens the trip dashboard during a trip (Page 10).
  */
 
-import { lazy, Suspense, useEffect, type ComponentType } from 'react';
+import { lazy, Suspense, useEffect, useRef, type ComponentType } from 'react';
 import { APP_NAME } from './config';
 import { AppShell } from './components/layout/AppShell';
 import { NoTripPage } from './components/layout/NoTripPage';
@@ -124,11 +124,16 @@ export function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.full]);
 
-  // Scroll to top and update the tab title on page change.
+  // Scroll to top and update the tab title on page change. Opening/closing the
+  // Page 3 overlay (/connect ⇄ /connect/:service) keeps the checklist where it was.
+  const prevRouteName = useRef(route.name);
   useEffect(() => {
-    window.scrollTo(0, 0);
-    document.title = `${PAGE_TITLES[route.page] ?? 'Prototype'} · ${APP_NAME}`;
-  }, [location.path, route.page]);
+    const overlayHop = ['connect', 'connect-service'].includes(route.name) && ['connect', 'connect-service'].includes(prevRouteName.current);
+    prevRouteName.current = route.name;
+    if (!overlayHop) window.scrollTo(0, 0);
+    const title = route.name === 'signup' ? 'Create account' : (PAGE_TITLES[route.page] ?? 'Prototype');
+    document.title = `${title} · ${APP_NAME}`;
+  }, [location.path, route.page, route.name]);
 
   // Sign-in guard: the app opens on Page 1.
   const needsAuth = !PUBLIC_ROUTES.includes(route.name);

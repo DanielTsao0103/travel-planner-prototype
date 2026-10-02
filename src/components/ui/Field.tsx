@@ -8,7 +8,7 @@
  *  </Field>
  */
 
-import { useId, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react';
+import { forwardRef, useId, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react';
 import { AlertCircle, Check } from 'lucide-react';
 import './forms.css';
 
@@ -48,9 +48,9 @@ export function Field({ label, hint, error, required, hideLabel, aside, classNam
       </div>
       {children({ id, 'aria-invalid': error ? true : undefined, 'aria-describedby': describedBy, required })}
       {hint && !error && (
-        <p id={hintId} className="field-hint">
+        <div id={hintId} className="field-hint">
           {hint}
-        </p>
+        </div>
       )}
       {error && (
         <p id={errorId} className="field-error" role="alert">
@@ -62,14 +62,14 @@ export function Field({ label, hint, error, required, hideLabel, aside, classNam
   );
 }
 
-/** Styled text input (use inside <Field>). */
-export function TextInput(props: InputHTMLAttributes<HTMLInputElement>) {
-  return <input {...props} className={`input ${props.className ?? ''}`} />;
-}
+/** Styled text input (use inside <Field>). Accepts a ref so forms can focus it. */
+export const TextInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(function TextInput(props, ref) {
+  return <input ref={ref} {...props} className={`input ${props.className ?? ''}`} />;
+});
 
-export function TextArea(props: TextareaHTMLAttributes<HTMLTextAreaElement>) {
-  return <textarea {...props} className={`input textarea ${props.className ?? ''}`} />;
-}
+export const TextArea = forwardRef<HTMLTextAreaElement, TextareaHTMLAttributes<HTMLTextAreaElement>>(function TextArea(props, ref) {
+  return <textarea ref={ref} {...props} className={`input textarea ${props.className ?? ''}`} />;
+});
 
 export function Select({ children, ...props }: SelectHTMLAttributes<HTMLSelectElement>) {
   return (
