@@ -2,7 +2,7 @@
 Screenshot one app route at phone and desktop widths and report problems.
 
 Usage:
-  python3 qa/shot.py "/trip/trip-sample-p-maya?auth=maya&date=during" --name p08-itinerary
+  python3 qa/shot.py "/trip/trip-sample-p-maya?auth=maya&clock=during" --name p08-itinerary
   python3 qa/shot.py "/login" --widths 390 --full
 
 Each run uses a fresh browser profile, so the app starts from its seed data
