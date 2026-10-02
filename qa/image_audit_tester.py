@@ -24,12 +24,14 @@ AUDIT_JS = """async () => {
   }
   await new Promise(r => setTimeout(r, 4000));
   const slots = [...document.querySelectorAll('.place-photo')];
-  const imgs = slots.filter(e => e.tagName === 'IMG');
+  // A slot's picture: the <img> itself, or the <img> inside a tagged representative frame.
+  const pic = (e) => e.tagName === 'IMG' ? e : e.querySelector('img');
+  const imgs = slots.map(pic).filter(Boolean);
   return {
     slots: slots.length,
-    real: imgs.filter(i => !i.classList.contains('is-representative') && i.naturalWidth > 0).length,
-    representative: imgs.filter(i => i.classList.contains('is-representative') && i.naturalWidth > 0).map(i => i.title),
-    pending: slots.filter(e => e.tagName !== 'IMG').map(e => e.getAttribute('aria-label')),
+    real: slots.filter(e => !e.classList.contains('is-representative') && pic(e) && pic(e).naturalWidth > 0).length,
+    representative: slots.filter(e => e.classList.contains('is-representative') && pic(e) && pic(e).naturalWidth > 0).map(e => e.title),
+    pending: slots.filter(e => !pic(e)).map(e => e.getAttribute('aria-label')),
     broken: imgs.filter(i => i.complete && i.naturalWidth === 0).map(i => i.alt + ' <' + (i.currentSrc || i.src).slice(0, 90) + '>'),
     icons: document.querySelectorAll('.place-photo-fallback').length,
   };
