@@ -104,6 +104,12 @@ export function MapView({
     return () => {
       window.clearTimeout(t);
       ro.disconnect();
+      // Leaving the page mid-zoom used to throw (Leaflet's zoom-end timer outlives
+      // remove()). Stopping pan/fly animations and clearing the zoom flag makes that
+      // pending timer a no-op.
+      map.stop();
+      (map as unknown as { _animatingZoom: boolean })._animatingZoom = false;
+      map.off();
       map.remove();
       mapRef.current = null;
     };
@@ -154,14 +160,15 @@ export function MapView({
       bounds.push([you.lat, you.lng]);
     }
 
+    // Re-fit without animation: data changes shouldn't make the map fly around.
     if (fit === 'route' && route && route.length > 1) {
-      map.fitBounds(L.latLngBounds(route), { padding: [40, 40], maxZoom: 17 });
+      map.fitBounds(L.latLngBounds(route), { padding: [40, 40], maxZoom: 17, animate: false });
     } else if (fit !== 'none' && bounds.length > 1) {
-      map.fitBounds(L.latLngBounds(bounds), { padding: [40, 40], maxZoom: 16 });
+      map.fitBounds(L.latLngBounds(bounds), { padding: [40, 40], maxZoom: 16, animate: false });
     } else if (fit !== 'none' && bounds.length === 1) {
-      map.setView(bounds[0], Math.max(zoom, 15));
-    } else if (center) {
-      map.setView([center.lat, center.lng], zoom);
+      map.setView(bounds[0], Math.max(zoom, 15), { animate: false });
+    } else if (center && fit !== 'none') {
+      map.setView([center.lat, center.lng], zoom, { animate: false });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [markerKey, routeKey, youKey, fit, routeEstimated]);

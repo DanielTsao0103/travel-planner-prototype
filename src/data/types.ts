@@ -361,6 +361,8 @@ export interface SuggestionDecision {
   suggestionId: string;
   status: 'declined' | 'added';
   at: string;
+  /** For 'added': the event that was created. */
+  eventId?: string;
 }
 
 /* ------------------------------------------------------------ demo controls */

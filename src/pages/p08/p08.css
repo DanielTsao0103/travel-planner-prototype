@@ -1,0 +1,848 @@
+/*
+ * Page 8 — Itinerary.
+ * Desktop: list column + right rail. Phones: sticky day chips + floating add button.
+ * Colors come from tokens only (the app has a dark theme).
+ */
+
+.p08-page {
+  /* Where sticky things pin: below the app header (phones), plus the trip tabs (≥768px). */
+  --p08-pin: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+}
+
+@media (min-width: 768px) {
+  .p08-page {
+    --p08-pin: calc(var(--header-h) + env(safe-area-inset-top, 0px) + 49px);
+  }
+}
+
+/* Keyboard focus never lands under the sticky header and day chips (only while this page is open). */
+html:has(.p08-page) {
+  scroll-padding-top: calc(var(--header-h) + 88px);
+}
+
+@media (min-width: 768px) {
+  html:has(.p08-page) {
+    scroll-padding-top: calc(var(--header-h) + 49px + 88px);
+  }
+}
+
+/* ----------------------------------------------------------------- header */
+
+.p08-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  margin-bottom: var(--s-5);
+}
+
+.p08-head-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.p08-title {
+  overflow-wrap: anywhere;
+}
+
+.p08-meta {
+  color: var(--muted);
+  font-size: var(--text-md);
+}
+
+.p08-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: 4px;
+}
+
+.p08-people-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  padding: 0 var(--s-3) 0 6px;
+  border-radius: var(--r-pill);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.p08-people-link:hover {
+  background: var(--surface-2);
+  color: var(--ink);
+}
+
+.p08-head-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+@media (min-width: 768px) {
+  .p08-head {
+    margin-bottom: var(--s-6);
+  }
+}
+
+/* Desktop: title block left, actions right. (Tablets keep the actions under the title.) */
+@media (min-width: 1100px) {
+  .p08-head {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--s-6);
+  }
+  .p08-head-actions {
+    flex: none;
+    justify-content: flex-end;
+    padding-bottom: 6px;
+  }
+}
+
+/* --------------------------------------------------------- desktop layout */
+
+.p08-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  column-gap: var(--s-9);
+}
+
+.p08-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  min-width: 0;
+  max-width: 780px;
+}
+
+/* Phones/tablets: banners sit in the page flow, so they need their own spacing. */
+.p08-page:not(.is-desktop) .banner {
+  margin-bottom: var(--s-3);
+}
+
+/* ------------------------------------------------------------------- days */
+
+.p08-days {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
+}
+
+.p08-day {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--line);
+  min-width: 0;
+}
+
+.p08-day:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* Grid so phones can drop the subtitle under the title while actions stay right. */
+.p08-day-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'title actions'
+    'sub actions';
+  align-items: center;
+  column-gap: var(--s-3);
+  row-gap: 2px;
+}
+
+.p08-day-title {
+  grid-area: title;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  border-radius: var(--r-xs);
+}
+
+.p08-day-title:focus {
+  outline: none;
+}
+
+.p08-day-title:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+}
+
+.p08-day-sub {
+  grid-area: sub;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px var(--s-2);
+  min-width: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.p08-day-actions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--s-1);
+}
+
+.p08-view-only {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 var(--s-2);
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.p08-view-only svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Phones: the heading is the link to the day. */
+.p08-day-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 44px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.p08-day-link svg {
+  width: 20px;
+  height: 20px;
+  color: var(--muted);
+  flex: none;
+}
+
+.p08-day-link:hover svg {
+  color: var(--ink);
+}
+
+@media (min-width: 1100px) {
+  .p08-day-title {
+    font-size: var(--text-2xl);
+  }
+}
+
+/* ----------------------------------------------------------------- events */
+
+.p08-events {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.p08-event {
+  min-width: 0;
+}
+
+/* "Now · 2:20 PM" divider on today's list. */
+.p08-now {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 2px 0;
+}
+
+.p08-now::after {
+  content: '';
+  flex: 1 1 auto;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.p08-now-dot {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  margin-left: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.p08-now-label {
+  flex: none;
+  color: var(--accent-ink);
+  font-size: var(--text-xs);
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* -------------------------------------------------------------- empty day */
+
+.p08-empty-day {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r-md);
+}
+
+.p08-empty-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--muted);
+}
+
+.p08-empty-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.p08-empty-copy {
+  flex: 1 1 180px;
+  min-width: 0;
+}
+
+.p08-empty-title {
+  font-weight: 700;
+}
+
+.p08-empty-hint {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+.p08-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+/* --------------------------------------------- start panel (new, empty trip) */
+
+.p08-start {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--s-3) var(--s-4);
+  padding: var(--s-6);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+}
+
+.p08-start-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary-ink);
+}
+
+.p08-start-icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.p08-start-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.p08-start-title {
+  font-size: var(--text-xl);
+}
+
+.p08-start-text {
+  color: var(--ink-2);
+  max-width: 60ch;
+}
+
+.p08-start-actions {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: var(--s-1);
+}
+
+/* ------------------------------------------------- phone/tablet day chips */
+
+.p08-chips {
+  position: sticky;
+  top: var(--p08-pin);
+  z-index: 600;
+  margin: 0 calc(var(--gutter) * -1) var(--s-4);
+  padding: var(--s-2) 0;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.p08-chips-track {
+  position: relative;
+  display: flex;
+  gap: var(--s-2);
+  overflow-x: auto;
+  padding: 2px var(--gutter);
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.p08-chips-track::-webkit-scrollbar {
+  display: none;
+}
+
+.p08-chip {
+  position: relative;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 66px;
+  min-height: 48px;
+  padding: 4px var(--s-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--ink);
+  line-height: 1.2;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.p08-chip-day {
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.p08-chip-date {
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.p08-chip.is-empty {
+  border-style: dashed;
+}
+
+.p08-chip.is-active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.p08-chip.is-active .p08-chip-date {
+  color: var(--on-primary);
+}
+
+.p08-chip-today {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 2px var(--surface);
+}
+
+.p08-chip.is-active .p08-chip-today {
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+.p08-skel-chip {
+  flex: none;
+}
+
+/* ------------------------------------------------- floating add (phones) */
+
+.p08-fab-wrap {
+  position: fixed;
+  right: var(--gutter);
+  bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px) + var(--s-4));
+  z-index: 700;
+}
+
+.p08-fab.btn {
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-2);
+  transition:
+    padding var(--dur) var(--ease),
+    gap var(--dur) var(--ease),
+    background-color var(--dur) var(--ease);
+}
+
+.p08-fab .btn-label {
+  max-width: 120px;
+  transition: max-width var(--dur) var(--ease), opacity var(--dur) var(--ease);
+}
+
+/* After scrolling: a round 54px "+" (the label stays as the accessible name). */
+.p08-fab.is-collapsed.btn {
+  width: var(--btn-h);
+  padding: 0;
+  gap: 0;
+}
+
+.p08-fab.is-collapsed .btn-label {
+  max-width: 0;
+  opacity: 0;
+}
+
+/* ------------------------------------------------------------ desktop rail */
+
+.p08-rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  min-width: 0;
+}
+
+.p08-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  min-width: 0;
+}
+
+.p08-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-2);
+}
+
+.p08-card-title {
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  font-weight: 750;
+  letter-spacing: 0;
+}
+
+.p08-card-aside {
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.p08-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  align-self: flex-start;
+  min-height: 32px;
+  color: var(--primary);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.p08-card-link svg {
+  width: 16px;
+  height: 16px;
+}
+
+.p08-card-link:hover {
+  text-decoration: underline;
+}
+
+/*
+ * Jump to day stays pinned; the cards below slide underneath it. The shadow
+ * says "this floats", and ::before paints over the gap above it so a card
+ * passing under never peeks out between the trip tabs and this card.
+ */
+.p08-jump {
+  position: sticky;
+  top: calc(var(--p08-pin) + var(--s-4));
+  z-index: 2;
+  box-shadow: var(--shadow-1);
+}
+
+.p08-jump::before {
+  content: '';
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  bottom: calc(100% + 1px);
+  height: calc(var(--s-4) + 2px);
+  background: var(--bg);
+}
+
+.p08-jump-list {
+  list-style: none;
+  margin: 0 calc(var(--s-2) * -1);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.p08-jump-item {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  width: 100%;
+  min-height: 40px;
+  padding: 0 var(--s-2);
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.p08-jump-item:hover {
+  background: var(--surface-2);
+}
+
+.p08-jump-item.is-active {
+  background: var(--primary-soft);
+  color: var(--primary-ink);
+}
+
+.p08-jump-day {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.p08-jump-count {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.p08-jump-count.is-empty {
+  font-style: italic;
+}
+
+.p08-jump-item.is-active .p08-jump-count {
+  color: var(--primary-ink);
+}
+
+/* People */
+.p08-people {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.p08-person {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 32px;
+  min-width: 0;
+}
+
+.p08-person-name {
+  flex: 1 1 auto;
+  font-size: var(--text-sm);
+  font-weight: 650;
+}
+
+/* Budget */
+.p08-budget-figure {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px var(--s-2);
+}
+
+.p08-budget-figure > .num:first-child {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.p08-budget-of {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-weight: 650;
+}
+
+.p08-meter {
+  height: 8px;
+  overflow: hidden;
+  border-radius: var(--r-pill);
+  background: var(--surface-3);
+}
+
+.p08-meter > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--primary);
+}
+
+.p08-meter.is-over > span {
+  background: var(--danger);
+}
+
+.p08-budget-note {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+.p08-budget-note.is-over {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.p08-budget-note.is-settled {
+  color: var(--success);
+  font-weight: 700;
+}
+
+/* Ideas */
+.p08-ideas-photos {
+  display: flex;
+  gap: 6px;
+}
+
+.p08-ideas-photo {
+  width: 64px;
+  height: 48px;
+}
+
+.p08-ideas-more {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.p08-ideas-text {
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+}
+
+/* Skeleton rows */
+.p08-skel-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+}
+
+/* ------------------------------------------------------------------ phones */
+
+@media (max-width: 767px) {
+  .p08-page.has-fab {
+    padding-bottom: calc(var(--tabbar-h) + 120px);
+  }
+
+  .p08-head {
+    gap: var(--s-3);
+    margin-bottom: var(--s-4);
+  }
+
+  /* 44px touch targets for the small buttons. */
+  .p08-head-actions .btn,
+  .p08-day-actions .btn,
+  .p08-empty-actions .btn {
+    --btn-h: 44px;
+  }
+
+  .p08-day-head {
+    grid-template-areas:
+      'title actions'
+      'sub sub';
+  }
+
+  .p08-day-title {
+    font-size: var(--text-xl);
+  }
+
+  .p08-days {
+    gap: var(--s-5);
+  }
+
+  .p08-day {
+    padding-top: var(--s-4);
+  }
+
+  .p08-empty-actions {
+    flex-basis: 100%;
+  }
+
+  /* Slightly smaller "@ time" so place names get more of the row. */
+  .p08-event .event-time {
+    font-size: var(--text-sm);
+  }
+
+  .p08-empty-actions .btn {
+    flex: 1 1 auto;
+  }
+
+  .p08-start {
+    grid-template-columns: minmax(0, 1fr);
+    padding: var(--s-5);
+    margin-bottom: var(--s-4);
+  }
+
+  .p08-start-actions {
+    grid-column: 1;
+    flex-direction: column;
+  }
+
+  .p08-start-actions .btn {
+    width: 100%;
+  }
+}
+
+/* Tablets reuse the phone structure with roomier spacing. */
+@media (min-width: 768px) and (max-width: 1099px) {
+  .p08-start {
+    margin-bottom: var(--s-5);
+  }
+  .p08-days {
+    max-width: 780px;
+  }
+}

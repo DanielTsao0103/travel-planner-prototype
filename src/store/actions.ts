@@ -410,7 +410,7 @@ export function addSuggestionToTrip(suggestion: Suggestion, date: ISODate, start
   });
   update((d) => {
     d.decisions = d.decisions.filter((x) => !(x.tripId === suggestion.tripId && x.suggestionId === suggestion.id));
-    d.decisions.push({ tripId: suggestion.tripId, suggestionId: suggestion.id, status: 'added', at: stamp() });
+    d.decisions.push({ tripId: suggestion.tripId, suggestionId: suggestion.id, status: 'added', at: stamp(), eventId });
   });
   return eventId;
 }

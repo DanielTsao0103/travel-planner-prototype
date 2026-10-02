@@ -15,10 +15,9 @@
 
 import { getPlace } from '../data/places';
 import type { AppState, NearbyMatch, Place, SurveyResponse, Trip } from '../data/types';
-import { distanceMeters, NEARBY_MAX_WALK_MIN, NEARBY_RADIUS_M } from '../lib/geo';
+import { distanceMeters, estimateWalkMinutes, NEARBY_MAX_WALK_MIN, NEARBY_RADIUS_M } from '../lib/geo';
 import { firstName } from '../lib/format';
 import { nearbyPlaces } from '../services/overpass';
-import { walkingRoute } from '../services/routing';
 import { showNearby } from '../store/actions';
 import { acceptedMemberIds, simulatedLocation } from '../store/selectors';
 import { getState } from '../store/store';
@@ -67,27 +66,27 @@ export async function triggerNearby(tripId: string, options: { force?: boolean }
   const surveys = groupSurveys(s, trip);
   const names = nameMap(s);
 
-  // Sample trip: bundled, always-works match.
-  if (trip.isSample) {
-    const place = getPlace('padaria-celeste');
-    const distanceM = distanceMeters(here, place);
-    // If the clock puts the traveler elsewhere in Lisbon, place them by the market for the demo.
-    const from = distanceM <= NEARBY_RADIUS_M * 1.2 ? here : { lat: 38.7071, lng: -9.1455, label: 'Near Time Out Market' };
-    const route = await walkingRoute(from, place);
-    const match: NearbyMatch = {
+  // Sample trip, near Time Out Market: a bundled, always-works match (the demo
+  // clock's "during" preset puts the traveler there). Anywhere else (Sintra,
+  // Porto, other parts of Lisbon) uses the live OpenStreetMap search below.
+  const bakery = getPlace('padaria-celeste');
+  if (trip.isSample && distanceMeters(here, bakery) <= NEARBY_RADIUS_M * 1.5) {
+    if (!options.force && getState().ui.nearbySeen.includes(bakery.id)) return 'none';
+    // The pop-up shows right away with a bundled walking time (the streets around the
+    // market wind, so ~450 ft straight-line is about a 4-minute walk). The map page
+    // fetches the real route when the traveler taps Go.
+    showNearby({
       tripId,
-      place,
-      distanceM: Math.round(distanceMeters(from, place)),
-      walkMin: Math.min(route.minutes, NEARBY_MAX_WALK_MIN),
-      reasons: matchReasons(place, surveys, names),
-      from: { lat: from.lat, lng: from.lng, label: from.label },
-    };
-    if (!options.force && getState().ui.nearbySeen.includes(place.id)) return 'none';
-    showNearby(match);
+      place: bakery,
+      distanceM: Math.round(distanceMeters(here, bakery)),
+      walkMin: 4,
+      reasons: matchReasons(bakery, surveys, names),
+      from: { lat: here.lat, lng: here.lng, label: here.label },
+    });
     return 'shown';
   }
 
-  // Tester-created trips: ask OpenStreetMap for named places within ~500 ft.
+  // Everywhere else: ask OpenStreetMap for named places within ~500 ft.
   try {
     const candidates = await nearbyPlaces(here, NEARBY_RADIUS_M, ['food', 'sights'], trip.destinations[0]?.name ?? '');
     const seen = getState().ui.nearbySeen;
@@ -97,13 +96,15 @@ export async function triggerNearby(tripId: string, options: { force?: boolean }
       .filter((x) => x.d <= NEARBY_RADIUS_M)
       .sort((a, b) => b.reasons.length - a.reasons.length || a.d - b.d);
     for (const cand of scored.slice(0, 3)) {
-      const route = await walkingRoute(here, cand.p);
-      if (route.minutes > NEARBY_MAX_WALK_MIN) continue;
+      // Estimate the walk from the straight-line distance (streets add ~30%) so the
+      // pop-up isn't held up by the routing service; Page 17 shows the real route.
+      const walkMin = estimateWalkMinutes(cand.d);
+      if (walkMin > NEARBY_MAX_WALK_MIN) continue;
       showNearby({
         tripId,
         place: cand.p,
         distanceM: Math.round(cand.d),
-        walkMin: route.minutes,
+        walkMin,
         reasons: cand.reasons.length ? cand.reasons : [`${cand.p.category === 'restaurant' || cand.p.category === 'cafe' ? 'Food' : 'Sight'} close to where you are`],
         from: { lat: here.lat, lng: here.lng, label: here.label },
       });

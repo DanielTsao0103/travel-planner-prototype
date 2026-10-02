@@ -296,6 +296,9 @@ a.event-item:hover {
 }
 
 @media (max-width: 767px) {
+  .back-link {
+    min-height: 44px;
+  }
   .page-header {
     margin-bottom: var(--s-4);
   }

@@ -30,7 +30,7 @@ export function EventItem({
   highlight?: boolean;
   /** Extra line under the name (area, cost, badges). */
   meta?: ReactNode;
-  /** Content on the right instead of the chevron. */
+  /** Content on the right instead of the chevron (pass null for nothing). */
   trailing?: ReactNode;
   compact?: boolean;
 }) {
@@ -54,7 +54,7 @@ export function EventItem({
         </span>
       </span>
       <span className="event-time num">@ {formatTime(event.start)}</span>
-      {trailing ?? (to ? <ChevronRight className="event-chevron" aria-hidden /> : null)}
+      {trailing !== undefined ? trailing : to ? <ChevronRight className="event-chevron" aria-hidden /> : null}
     </>
   );
   const classes = `event-item ${compact ? 'is-compact' : ''} ${highlight ? 'is-highlight' : ''}`;

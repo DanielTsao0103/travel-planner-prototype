@@ -255,6 +255,15 @@ export function simulatedLocation(s: AppState, trip: Trip): SimLocation | null {
   if (current) return { lat: current.place.lat, lng: current.place.lng, label: current.title ?? current.place.name, basis: 'at-event', eventId: current.id };
   const past = todays.filter((e) => timeToMin(e.end) <= nowMin);
   const last = past[past.length - 1];
+  if (last && last.place.category === 'transit') {
+    // A train/bus ride ends somewhere else: place the traveler near where they're
+    // headed next (or near today's last stop of that city), not at the departure station.
+    const next = todays.find((e) => timeToMin(e.start) > nowMin);
+    if (next) {
+      const p = offsetMeters(next.place, -260, -180);
+      return { ...p, label: `Arrived · on the way to ${next.title ?? next.place.name}`, basis: 'just-left', eventId: last.id };
+    }
+  }
   if (last) {
     const p = offsetMeters(last.place, 18, 14); // a few steps outside the door
     return { ...p, label: `Near ${last.title ?? last.place.name}`, basis: 'just-left', eventId: last.id };

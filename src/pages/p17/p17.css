@@ -1,0 +1,1209 @@
+/*
+ * Page 17 — Map.
+ * Desktop/tablet: side panel + full-height map. Phone: full-bleed map with a
+ * floating search pill, layer chips, a bottom sheet, and a recenter button.
+ * Colors come from tokens only (dark mode is automatic).
+ */
+
+/* ------------------------------------------------------------- page frame */
+
+/* The page fills the screen under the header (+ trip tabs / bottom tab bar), with no page scroll. */
+.p17 {
+  /* Header: --header-h + its 1px border + the notch. */
+  --p17-header: calc(var(--header-h) + 1px + env(safe-area-inset-top, 0px));
+  /* Trip tabs on desktop: 48px + 1px border. */
+  --p17-tabs: 49px;
+  position: relative;
+  height: calc(100vh - var(--p17-header) - var(--p17-tabs));
+  height: calc(100dvh - var(--p17-header) - var(--p17-tabs));
+  min-height: 420px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.p17.p17-no-tabs {
+  --p17-tabs: 0px;
+}
+
+@media (max-width: 767px) {
+  .p17 {
+    /* Phones: the fixed bottom tab bar instead of trip tabs. */
+    --p17-tabs: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px));
+    min-height: 460px;
+  }
+  .p17.p17-no-tabs {
+    --p17-tabs: 0px;
+  }
+}
+
+/* The shared MapView: fill our space edge to edge (it defaults to a rounded card). */
+.p17 .map-view.p17-mapview {
+  height: 100%;
+  min-height: 0;
+  border-radius: 0;
+}
+
+/* Food pins in the food color, so the layer reads at a glance (pin shape comes from map.css). */
+.p17 .pin-place {
+  background: var(--cat-food);
+}
+
+/* ---------------------------------------------------------------- desktop */
+
+.p17-d {
+  display: grid;
+  grid-template-columns: 380px minmax(0, 1fr);
+}
+
+@media (max-width: 1099px) {
+  .p17-d {
+    grid-template-columns: 340px minmax(0, 1fr);
+  }
+}
+
+.p17-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+
+.p17-panel-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-4) var(--s-4) var(--s-3);
+  border-bottom: 1px solid var(--line);
+}
+
+.p17-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+.p17-title-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+/* The Layers button keeps its size; the trip title truncates instead. */
+.p17-layers-btn {
+  flex: none;
+}
+
+.p17-h1 {
+  font-size: var(--text-xl);
+  letter-spacing: -0.015em;
+}
+
+.p17-panel-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--s-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+}
+
+.p17-credit {
+  margin-top: auto;
+  padding-top: var(--s-2);
+}
+
+.p17-mapwrap {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* "Recenter on me" on desktop: styled like the map's zoom buttons. */
+.p17-recenter {
+  position: absolute;
+  right: 10px;
+  bottom: 34px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--you);
+  box-shadow: var(--shadow-1);
+  cursor: pointer;
+}
+
+.p17-recenter:hover {
+  background: var(--surface-2);
+}
+
+.p17-recenter svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ----------------------------------------------------------------- search */
+
+.p17-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 46px;
+  padding: 0 4px 0 42px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.p17-search:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+.p17-search-icon {
+  position: absolute;
+  left: 15px;
+  width: 18px;
+  height: 18px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.p17-search-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--text-base); /* 16px: no iOS zoom on focus */
+  outline: none;
+}
+
+.p17-search-input::placeholder {
+  color: var(--faint);
+}
+
+/* We draw our own clear button. */
+.p17-search-input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.p17-search-clear {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.p17-search-clear:hover {
+  color: var(--ink);
+}
+
+.p17-search-clear svg {
+  width: 18px;
+  height: 18px;
+}
+
+.p17-search.is-pill {
+  min-height: 50px;
+  border-color: var(--line);
+  box-shadow: var(--shadow-2);
+}
+
+.p17-search.is-pill:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft), var(--shadow-2);
+}
+
+.p17-pill-layers {
+  border-radius: 50%;
+}
+
+/* ------------------------------------------------------------ layer chips */
+
+.p17-chips {
+  display: flex;
+  gap: var(--s-2);
+}
+
+.p17-chips-wrap {
+  flex-wrap: wrap;
+}
+
+.p17-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  min-height: 36px;
+  padding: 0 14px 0 8px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 650;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Taller invisible hit area (44px) without making the chip look chunky. */
+.p17-chip::before {
+  content: '';
+  position: absolute;
+  inset: -4px 0;
+}
+
+.p17-chip:hover {
+  border-color: var(--ink-2);
+}
+
+.p17-chip[aria-pressed='true'] {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+  color: var(--primary-ink);
+}
+
+/* Little pin-like swatches that match the pins on the map (legend). */
+.p17-swatch {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.p17-swatch.is-today {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.p17-swatch.is-trip {
+  background: var(--primary);
+}
+
+.p17-swatch.is-trip::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--surface);
+}
+
+.p17-swatch.is-ideas {
+  background: var(--surface);
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  font-size: 14px;
+}
+
+.p17-swatch.is-food {
+  background: var(--cat-food);
+}
+
+/* ------------------------------------------------------------ layer panel */
+
+.p17-layers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-4) var(--s-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  outline: none;
+}
+
+.p17-layers.is-emphasized {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+  animation: highlight-pulse 1.4s var(--ease) 2;
+}
+
+.p17-layers-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+}
+
+.p17-layers-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  font-weight: 750;
+}
+
+.p17-layers-title svg {
+  width: 18px;
+  height: 18px;
+  color: var(--ink-2);
+}
+
+.p17-layer-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.p17-layer-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  padding: var(--s-2) 0;
+}
+
+.p17-layer-item + .p17-layer-item {
+  border-top: 1px solid var(--line);
+}
+
+.p17-layer-item > .p17-swatch {
+  margin-top: 12px;
+}
+
+/* ------------------------------------------------------------ route card */
+
+.p17-route {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding-bottom: var(--s-5);
+  border-bottom: 1px solid var(--line);
+}
+
+.p17-route-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  margin-bottom: calc(-1 * var(--s-2));
+}
+
+.p17-route-place {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.p17-route-photo {
+  width: 72px;
+  height: 72px;
+}
+
+.p17-route-name {
+  font-size: var(--text-xl);
+  line-height: 1.2;
+}
+
+.p17-stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 16px;
+  color: var(--ink-2);
+}
+
+.p17-stats.is-loading {
+  align-items: center;
+}
+
+/* The provisional straight-line time while directions load. */
+.p17-stat-main.is-provisional {
+  color: var(--ink-2);
+}
+
+.p17-loading-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.p17-loading-note svg {
+  width: 14px;
+  height: 14px;
+}
+
+.p17-stat-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.p17-stat-main svg {
+  width: 22px;
+  height: 22px;
+  color: var(--route);
+}
+
+.p17-stat {
+  font-weight: 650;
+}
+
+.p17-stats.is-far {
+  display: block;
+  font-size: var(--text-md);
+}
+
+.p17-stats.is-compact {
+  gap: 2px 10px;
+  font-size: var(--text-sm);
+}
+
+.p17-stats.is-compact .p17-stat-main {
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  letter-spacing: 0;
+  gap: 4px;
+}
+
+.p17-stats.is-compact .p17-stat-main svg {
+  width: 16px;
+  height: 16px;
+}
+
+.p17-from {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.p17-from svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  color: var(--you);
+}
+
+.p17-estimate {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 6px 8px;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  background: var(--warning-soft);
+  color: var(--ink);
+  font-size: var(--text-sm);
+  line-height: 1.4;
+}
+
+.p17-estimate > svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  color: var(--warning);
+}
+
+.p17-estimate > span:first-of-type {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.p17-route-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.p17-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.p17-step {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--s-3);
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+  font-size: var(--text-md);
+}
+
+.p17-step-icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--ink-2);
+}
+
+.p17-step-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.p17-step-text {
+  padding-top: 3px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.p17-step-dist {
+  padding-top: 4px;
+  font-size: var(--text-sm);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------- nearby match block */
+
+.p17-nearby {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-3);
+  border-radius: var(--r-md);
+  background: var(--accent-soft);
+}
+
+.p17-nearby-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: var(--text-sm);
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+
+.p17-nearby-line svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  color: var(--accent-ink);
+}
+
+/* Desktop: a two-column "who it fits" grid (need on top, people below). */
+.p17-reasons {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.p17-reason {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 6px 8px;
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: var(--text-xs);
+  font-weight: 650;
+  min-width: 0;
+}
+
+.p17-reason svg {
+  flex: none;
+  width: 13px;
+  height: 13px;
+  margin-top: 2px;
+  color: var(--success);
+  stroke-width: 3;
+}
+
+.p17-reason-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+  min-width: 0;
+}
+
+.p17-reason-who {
+  color: var(--muted);
+  font-weight: 550;
+}
+
+.p17-nearby.is-compact {
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3) var(--s-3);
+}
+
+/* Phones: reasons scroll sideways on one line ("Nut-free kitchen · Sam") to keep the sheet short. */
+.p17-nearby.is-compact .p17-reasons {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin: 0 calc(-1 * var(--s-3));
+  padding: 0 var(--s-3);
+}
+
+.p17-nearby.is-compact .p17-reason {
+  flex: none;
+  align-items: center;
+  min-height: 28px;
+  padding: 2px 10px 2px 8px;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+
+.p17-nearby.is-compact .p17-reason svg {
+  margin-top: 0;
+}
+
+.p17-nearby.is-compact .p17-reason-text {
+  flex-direction: row;
+  gap: 4px;
+}
+
+.p17-nearby.is-compact .p17-reason-who::before {
+  content: '· ';
+}
+
+.p17-nearby.is-compact .p17-reasons::-webkit-scrollbar {
+  display: none;
+}
+
+.p17-added {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 6px 12px;
+  border-radius: var(--r-sm);
+  background: var(--success-soft);
+  color: var(--success);
+  font-size: var(--text-sm);
+  font-weight: 650;
+}
+
+.p17-added svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+}
+
+.p17-added-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.p17-add-hint {
+  text-align: center;
+}
+
+/* --------------------------------------------------------------- the list */
+
+.p17-list-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-2);
+  margin-bottom: var(--s-2);
+}
+
+.p17-list-title {
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  font-weight: 750;
+  letter-spacing: 0;
+}
+
+.p17-list-aside {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.p17-day-head {
+  margin: var(--s-3) 0 var(--s-1);
+  padding-left: 8px;
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.p17-rows {
+  list-style: none;
+  margin: 0 calc(-1 * var(--s-2));
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.p17-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  width: 100%;
+  min-height: 68px;
+  padding: 8px;
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.p17-row:hover {
+  background: var(--surface-2);
+}
+
+.p17-row.is-selected {
+  background: var(--primary-soft);
+  border-color: color-mix(in srgb, var(--primary) 35%, transparent);
+}
+
+.p17-row.is-done .p17-row-name,
+.p17-row.is-done .p17-row-photo {
+  opacity: 0.6;
+}
+
+.p17-row-media {
+  position: relative;
+  flex: none;
+  /* Room for the badge that overlaps the photo's corner. */
+  padding: 4px 0 0 4px;
+}
+
+.p17-row-photo {
+  width: 52px;
+  height: 52px;
+}
+
+/* Badge that mirrors the pin: number, "+", or a colored dot. */
+.p17-mark {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  display: grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  border-radius: var(--r-pill);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 0 0 2px var(--surface);
+}
+
+.p17-mark.is-dot {
+  top: 0;
+  left: 0;
+  min-width: 14px;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+}
+
+.p17-mark-event {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.p17-mark-suggestion {
+  background: var(--surface);
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  font-size: 14px;
+}
+
+.p17-mark-place {
+  background: var(--cat-food);
+}
+
+.p17-mark-nearby {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.p17-mark-destination {
+  background: var(--ink-2);
+}
+
+.p17-row-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.p17-row-name {
+  font-weight: 700;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.p17-row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 8px;
+  font-size: var(--text-sm);
+  color: var(--muted);
+  min-width: 0;
+}
+
+.p17-status {
+  padding: 1px 7px;
+  border-radius: var(--r-pill);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.02em;
+}
+
+.p17-status.is-now,
+.p17-status.is-next {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+}
+
+.p17-status.is-done {
+  background: var(--surface-2);
+  color: var(--muted);
+}
+
+.p17-row-reasons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-top: 3px;
+  min-width: 0;
+}
+
+.p17-mini-chip {
+  max-width: 100%;
+  padding: 1px 8px;
+  border-radius: var(--r-pill);
+  background: var(--success-soft);
+  color: var(--success);
+  font-size: 11px;
+  font-weight: 650;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.p17-mini-more {
+  font-size: 11px;
+  font-weight: 650;
+  color: var(--muted);
+}
+
+.p17-row-side {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  font-size: var(--text-sm);
+  font-weight: 650;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.p17-row-walk {
+  font-size: var(--text-xs);
+  font-weight: 550;
+  color: var(--muted);
+}
+
+.p17-note {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-2);
+  padding: var(--s-1) 0;
+}
+
+.p17-skel-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+/* ------------------------------------------------------------------ phone */
+
+.p17-m .map-view.p17-mapview {
+  position: absolute;
+  inset: 0;
+  height: auto;
+}
+
+/* Pinch to zoom on phones (like Google Maps); the +/− buttons would fight the search pill. */
+.p17-m .leaflet-control-zoom {
+  display: none;
+}
+
+/* Keep the OpenStreetMap credit visible above the bottom sheet. */
+.p17-m .leaflet-bottom {
+  bottom: var(--p17-sheet-h, 0px);
+  transition: bottom 200ms var(--ease);
+}
+
+/* Keep the "Simulated location" badge visible below the search pill and chips. */
+.p17-m .map-sim-badge {
+  top: calc(var(--p17-top-h, 108px) + 4px);
+  left: var(--s-3);
+}
+
+.p17-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-3) 0;
+  /* Let map drags pass through the gaps; the pill and chips catch their own taps. */
+  pointer-events: none;
+}
+
+.p17-top > * {
+  pointer-events: auto;
+}
+
+.p17-chips-scroll {
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin: 0 calc(-1 * var(--s-3));
+  padding: 4px var(--s-3) 8px;
+}
+
+.p17-chips-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.p17-chips-scroll .p17-chip {
+  min-height: 40px;
+  border-color: var(--line);
+  box-shadow: var(--shadow-1);
+}
+
+.p17-chips-scroll .p17-chip[aria-pressed='true'] {
+  border-color: var(--primary);
+}
+
+/* Floating "Recenter on me" button, riding just above the sheet. */
+.p17-fab {
+  position: absolute;
+  right: var(--s-3);
+  bottom: calc(var(--p17-sheet-h, 0px) + var(--s-3));
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--you);
+  box-shadow: var(--shadow-2);
+  cursor: pointer;
+  transition: bottom 200ms var(--ease);
+}
+
+.p17-fab svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Bottom sheet: a short "peek" with the summary; tap or swipe up for the list/steps. */
+.p17-sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  max-height: 74%;
+  background: var(--surface);
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  box-shadow: var(--shadow-3);
+  animation: sheet-up 240ms var(--ease);
+}
+
+.p17-sheet-handle {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 100%;
+  height: 40px;
+  margin-bottom: -6px; /* keep the peek snug under the grabber */
+  padding: 0;
+  border: 0;
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  background: transparent;
+  cursor: grab;
+  touch-action: none;
+}
+
+/* Reach 44px+ of grab area by extending a little above the sheet's edge. */
+.p17-sheet-handle::before {
+  content: '';
+  position: absolute;
+  inset: -6px 0 0;
+}
+
+.p17-grabber {
+  display: block;
+  width: 40px;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--line-strong);
+}
+
+.p17-peek {
+  flex: none;
+  padding: 0 var(--s-4) var(--s-3);
+}
+
+.p17-sheet-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  padding: var(--s-3) var(--s-4) var(--s-6);
+  border-top: 1px solid var(--line);
+}
+
+.p17-sheet-sep {
+  height: 1px;
+  background: var(--line);
+}
+
+.p17-peek-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.p17-peek-count {
+  font-size: var(--text-md);
+}
+
+.p17-peek-route {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.p17-peek-place {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.p17-peek-photo {
+  width: 56px;
+  height: 56px;
+}
+
+.p17-peek-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.p17-peek-eyebrow {
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.p17-peek-name {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 650;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.p17-peek-from {
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+.p17-peek-actions {
+  display: flex;
+  gap: var(--s-2);
+}
+
+.p17-peek-actions > .btn {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.p17-m .p17-estimate {
+  font-size: var(--text-xs);
+}
+
+.p17-m .p17-rows {
+  margin: 0 calc(-1 * var(--s-2));
+}
