@@ -6,7 +6,8 @@
  *   auth=maya    sign in as the returning demo user (Maya Chen)
  *   auth=new     create a fresh demo account (Alex Rivera) and sign in
  *   as=owner|editor|day|viewer   "View as" role
- *   date=before|during|after|YYYY-MM-DD (+ time=HH:MM)   demo clock
+ *   clock=before|during|after|real|YYYY-MM-DD (+ time=HH:MM)   demo clock
+ *   (date=before|during|after|real also works; a real date in `date=` is for the page)
  *   nearby=1     trigger the Page 16 pop-up
  *   s=<key>      page-specific forced state (documented per page)
  */

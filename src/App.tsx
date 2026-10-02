@@ -60,14 +60,25 @@ const PAGE_TITLES: Record<number, string> = {
   17: 'Map',
 };
 
-/** Global prototype URL params: ?auth=maya|new &as=viewer &date=during|before|after|YYYY-MM-DD &time=HH:MM &nearby=1 */
-const GLOBAL_KEYS = ['auth', 'as', 'date', 'time', 'nearby'];
+/**
+ * Global prototype URL params:
+ *   ?auth=maya|new  &as=viewer  &clock=before|during|after|real|YYYY-MM-DD (+ &time=HH:MM)  &nearby=1
+ * For older links, `date=before|during|after|real` also sets the clock. A real date in
+ * `date=` (e.g. "Add event" links into Page 7) is left alone for the page to read.
+ */
+const GLOBAL_KEYS = ['auth', 'as', 'clock', 'time', 'nearby'];
+const CLOCK_WORDS = ['before', 'during', 'after', 'real'];
+
+/** True when the URL carries any prototype param (including a clock word in `date`). */
+function hasGlobalParams(query: URLSearchParams): boolean {
+  return GLOBAL_KEYS.some((k) => query.has(k)) || CLOCK_WORDS.includes(query.get('date') ?? '');
+}
 let newDemoAccounts = 0;
 /** The last URL whose params were applied (React may run effects twice in development). */
 let lastApplied = '';
 
 function applyGlobalParams(route: MatchedRoute, query: URLSearchParams, path: string, full: string): boolean {
-  if (!GLOBAL_KEYS.some((k) => query.has(k))) {
+  if (!hasGlobalParams(query)) {
     lastApplied = '';
     return false;
   }
@@ -86,7 +97,8 @@ function applyGlobalParams(route: MatchedRoute, query: URLSearchParams, path: st
   const as = query.get('as');
   if (as) setDemo({ viewAs: as === 'owner' || as === 'me' ? null : (as as Role) });
 
-  const date = query.get('date');
+  const dateParam = query.get('date');
+  const date = query.get('clock') ?? (CLOCK_WORDS.includes(dateParam ?? '') ? dateParam : null);
   if (date) {
     const s = getState();
     const trip = getTrip(s, route.params.tripId) ?? mySampleTrip(s);
@@ -104,6 +116,7 @@ function applyGlobalParams(route: MatchedRoute, query: URLSearchParams, path: st
   // Strip the global params so the address bar stays clean.
   const rest = new URLSearchParams(query);
   GLOBAL_KEYS.forEach((k) => rest.delete(k));
+  if (CLOCK_WORDS.includes(dateParam ?? '')) rest.delete('date');
   const qs = rest.toString();
   navigate(qs ? `${path}?${qs}` : path, { replace: true });
   return true;
@@ -153,14 +166,15 @@ export function App() {
     navigate(withQuery(paths.dashboard(live.id), { auto: 1 }), { replace: true });
   }, [live?.id, route.name, state.ui.autoOpenedFor]);
 
-  // Page 16: "scan" for nearby matches a few seconds after the dashboard opens.
+  // Page 16: "scan" for nearby matches ~8 seconds after the dashboard opens, so the
+  // traveler sees the dashboard first (the Prototype drawer / ?nearby=1 trigger it now).
   useEffect(() => {
     if (route.name !== 'dashboard' || !live || route.params.tripId !== live.id) return;
     if (autoNearbyDone.has(live.id + today(state))) return;
     const t = window.setTimeout(() => {
       autoNearbyDone.add(live.id + today(getState()));
       void triggerNearby(live.id);
-    }, 2800);
+    }, 8000);
     return () => window.clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route.name, route.params.tripId, live?.id]);
@@ -200,7 +214,7 @@ export function App() {
  */
 function resolveCurrent(route: MatchedRoute, query: URLSearchParams): string | null {
   if (!['calendar', 'budget-current', 'people-current'].includes(route.name)) return null;
-  if (GLOBAL_KEYS.some((k) => query.has(k))) return null; // wait until prototype params are applied
+  if (hasGlobalParams(query)) return null; // wait until prototype params are applied
   const s = getState();
   const trip = currentTrip(s);
   if (!trip) return null;

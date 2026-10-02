@@ -14,7 +14,7 @@
  *    match in `state.ui.nearby`; App renders this component while it's set.
  *  - 500 ft and "5-minute walk" are different measurements, so the card shows
  *    both: the straight-line distance and the walking time along streets
- *    ("450 ft away · about 4 min walk").
+ *    ("450 ft away · about 3 min walk").
  *  - It's a notification, not a modal: it doesn't block the page or grab
  *    focus. Screen readers hear a polite announcement. Escape = No.
  *  - Go → the map (Page 17) with a walking route to the place.

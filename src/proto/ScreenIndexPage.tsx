@@ -29,7 +29,7 @@ export function screenHref(entry: ScreenEntry): string {
   const q = new URLSearchParams(qs);
   if (entry.auth && entry.auth !== 'none') q.set('auth', entry.auth);
   q.set('as', entry.as ?? 'owner');
-  q.set('date', entry.date ?? 'real');
+  q.set('clock', entry.date ?? 'real');
   if (entry.nearby) q.set('nearby', '1');
   return `${path}?${q.toString()}`;
 }

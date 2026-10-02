@@ -113,7 +113,7 @@ A crisp daylight UI where travel photography carries the color.
   - Lisbon is Days 1–4; Day 3 is a Sintra day trip that Sam edits. Porto is Days 5–7.
   - **Day 6 is intentionally empty.**
 - **People:** the signed-in user is Owner. Jordan Reyes is Editor (celiac, strict gluten-free; modern art; splurges). Sam Okafor is Day editor for Day 3 (severe tree-nut allergy; nature; budget-minded). Priya Nair is Viewer (vegetarian; quiet; prefers walk-in places). Linda Park is Viewer (folding wheelchair for longer distances; short walks ≤10 min; step-free; low-sodium; mild shellfish allergy). Diego Alvarez is invited but pending.
-- **Demo clock "during":** Day 2 at 2:20 PM. The traveler just left Time Out Market; the next stop is Santa Justa Lift at 3:30 PM. The nearby match is Padaria Celeste, a fictional gluten-free and nut-free bakery about 450 ft away (~4 min walk).
+- **Demo clock "during":** Day 2 at 2:20 PM. The traveler just left Time Out Market; the next stop is Santa Justa Lift at 3:30 PM. The nearby match is Padaria Celeste, a fictional gluten-free and nut-free bakery about 450 ft away (~3 min walk along the walkways).
 - **Maya's other trips:**
   - Upcoming: Kauai (Viewer, Kevin hosts); Zion Weekend (Owner, brand new: no events, no budget amount).
   - Past: NYC (Editor) and Banff (Owner).
@@ -123,13 +123,13 @@ A crisp daylight UI where travel photography carries the color.
 
 ## Forced states for the screen index
 
-Each page reads `query.get('s')` (and sometimes `tab`, `step`, `section`, `to`) to open a specific state directly. These keys are defined in `src/proto/screens/pNN.ts`. Implement every one listed for your page, keep the registry in sync if you rename a state, and make sure each state is also reachable through normal interaction. Global params (`auth`, `as`, `date`, `time`, `nearby`) are handled by `App.tsx`; don't handle them in pages.
+Each page reads `query.get('s')` (and sometimes `tab`, `step`, `section`, `to`) to open a specific state directly. These keys are defined in `src/proto/screens/pNN.ts`. Implement every one listed for your page, keep the registry in sync if you rename a state, and make sure each state is also reachable through normal interaction. Global params (`auth`, `as`, `clock`, `time`, `nearby`) are handled by `App.tsx`; don't handle them in pages.
 
 ## Checking your work
 
 - Type check: `npx tsc -p . 2>&1 | grep "src/pages/pNN"`. Other agents are editing other folders at the same time, so ignore errors outside yours.
 - Screenshots (fresh browser profile each run; saves PNGs you can open with the Read tool):
-  `python3 qa/shot.py "/trip/trip-sample-p-maya?auth=maya&date=during" --name p08-main`
+  `python3 qa/shot.py "/trip/trip-sample-p-maya?auth=maya&clock=during" --name p08-main`
   Options: `--widths 390,1440`, `--full` for a full-page shot, `--click "Button name"`, `--dark`.
   - It prints console errors and horizontal overflow. Fix both.
   - Prefix `--name` with your page id.

@@ -7,12 +7,13 @@
  * apply both (plan §6 G9):
  *   1. Trigger radius: within ~500 ft (152 m) in a straight line.
  *   2. Walk filter: the walking route must be ≤ ~5 minutes.
- * The pop-up shows both numbers, e.g. "450 ft away · 4 min walk".
+ * The pop-up shows both numbers, e.g. "450 ft away · about 3 min walk".
  *
  * The sample trip uses a bundled match (a fictional gluten-free bakery near
  * Time Out Market). Trips the tester creates query OpenStreetMap (Overpass).
  */
 
+import { BUNDLED_ROUTES } from '../data/bundledRoutes';
 import { getPlace } from '../data/places';
 import type { AppState, NearbyMatch, Place, SurveyResponse, Trip } from '../data/types';
 import { distanceMeters, estimateWalkMinutes, NEARBY_MAX_WALK_MIN, NEARBY_RADIUS_M } from '../lib/geo';
@@ -72,14 +73,13 @@ export async function triggerNearby(tripId: string, options: { force?: boolean }
   const bakery = getPlace('padaria-celeste');
   if (trip.isSample && distanceMeters(here, bakery) <= NEARBY_RADIUS_M * 1.5) {
     if (!options.force && getState().ui.nearbySeen.includes(bakery.id)) return 'none';
-    // The pop-up shows right away with a bundled walking time (the streets around the
-    // market wind, so ~450 ft straight-line is about a 4-minute walk). The map page
-    // fetches the real route when the traveler taps Go.
+    // The pop-up shows right away using the bundled walking route (~450 ft straight
+    // line, ~650 ft along the walkways, about 3 minutes). Page 17 draws the same route.
     showNearby({
       tripId,
       place: bakery,
       distanceM: Math.round(distanceMeters(here, bakery)),
-      walkMin: 4,
+      walkMin: BUNDLED_ROUTES['padaria-celeste'].minutes,
       reasons: matchReasons(bakery, surveys, names),
       from: { lat: here.lat, lng: here.lng, label: here.label },
     });

@@ -52,8 +52,12 @@ export interface BusyEstimate {
 /** Estimate for a specific date + time, with a plain-language label and a tip. */
 export function estimateBusy(profile: BusyProfile, iso: ISODate, time: Time): BusyEstimate {
   const curve = busyCurve(profile, iso);
-  const hour = Math.floor(timeToMin(time) / 60);
-  const level = curve[hour] ?? 0;
+  const minutes = timeToMin(time);
+  const hour = Math.floor(minutes / 60);
+  // Blend between this hour and the next, so 9:30 sits halfway between 9 and 10 AM
+  // (a museum opening at 9:30 isn't "closed").
+  const frac = (minutes % 60) / 60;
+  const level = Math.round((curve[hour] ?? 0) * (1 - frac) + (curve[Math.min(23, hour + 1)] ?? 0) * frac);
   const label: BusyEstimate['label'] =
     level < 8 ? 'Closed or very quiet' : level < 35 ? 'Not too busy' : level < 60 ? 'A little busy' : level < 85 ? 'Usually busy' : 'As busy as it gets';
 

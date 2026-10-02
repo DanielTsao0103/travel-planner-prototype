@@ -16,7 +16,7 @@ export const screens: ScreenEntry[] = [
     date: 'during',
     nearby: true,
     overlay: true,
-    notes: 'Padaria Celeste: 450 ft away · about 4 min walk. Go opens the map with the route (17B).',
+    notes: 'Padaria Celeste: 450 ft away · about 3 min walk. Go opens the map with the route (17B).',
   },
   {
     id: '16B',

@@ -1,0 +1,963 @@
+/* Page 6 — Create / edit a trip. Every class is prefixed .p06-; colors come from tokens only. */
+
+.p06-banner {
+  margin-bottom: var(--s-5);
+}
+
+/* ---------------------------------------------------------------- layout */
+.p06-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-7);
+  align-items: start;
+}
+
+@media (min-width: 768px) {
+  .p06-layout {
+    grid-template-columns: minmax(0, 1fr) 280px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .p06-layout {
+    grid-template-columns: minmax(0, 640px) minmax(0, 400px);
+    justify-content: space-between;
+    gap: var(--s-9);
+  }
+}
+
+.p06-form {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.p06-fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+/* Each numbered part of the form. */
+.p06-sec {
+  border: 0;
+  margin: 0;
+  min-width: 0;
+  padding: var(--s-6) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.p06-fieldset > .p06-sec:first-child {
+  padding-top: 0;
+}
+
+.p06-fieldset > .p06-sec:last-child {
+  border-bottom: 0;
+}
+
+/* Section-level labels are larger than the default field label. */
+.p06-sec > .field > .field-label-row .field-label,
+.p06-legend {
+  display: flex;
+  align-items: center;
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* <legend> renders specially; floating it makes it behave like a normal heading. */
+.p06-legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin: 0 0 var(--s-3);
+  gap: 0;
+  font-family: var(--font-ui);
+  letter-spacing: 0;
+}
+
+.p06-legend + * {
+  clear: both;
+}
+
+.p06-step {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin-right: var(--s-2);
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary-ink);
+  font-size: var(--text-xs);
+  font-weight: 800;
+}
+
+.p06-optional {
+  margin-left: auto;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.p06-title-input {
+  min-height: 54px;
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+.p06-title-input::placeholder {
+  font-weight: 500;
+  color: var(--faint);
+}
+
+/* ------------------------------------------------------ city combobox */
+.p06-cities {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.p06-combo {
+  position: relative;
+}
+
+.p06-combo-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.p06-combo-input {
+  padding-left: 42px;
+  padding-right: 42px;
+}
+
+.p06-combo-spinner {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  margin-top: -9px;
+  color: var(--muted);
+}
+
+.p06-combo-pop {
+  position: absolute;
+  z-index: 60;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  max-height: 340px;
+  overflow-y: auto;
+  padding: 6px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-2);
+  animation: rise-in 140ms var(--ease);
+}
+
+.p06-combo-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.p06-combo-option {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 48px;
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.p06-combo-option.is-active {
+  background: var(--primary-soft);
+}
+
+.p06-combo-option[aria-disabled='true'] {
+  color: var(--muted);
+  cursor: default;
+}
+
+.p06-combo-option.is-custom {
+  color: var(--primary-ink);
+}
+
+.p06-combo-option-icon {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: var(--muted);
+}
+
+.p06-combo-option.is-custom .p06-combo-option-icon {
+  color: var(--primary-ink);
+}
+
+.p06-combo-option-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.p06-combo-option-name {
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.p06-combo-option-sub {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.p06-combo-added {
+  flex: none;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--success);
+}
+
+.p06-combo-status {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 10px;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.p06-combo-status svg {
+  width: 16px;
+  height: 16px;
+}
+
+.p06-combo-offline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 8px 10px 4px;
+  border-top: 1px solid var(--line);
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+.p06-combo-offline svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+
+/* Chosen destinations, numbered in route order. */
+.p06-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.p06-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  max-width: 100%;
+  min-height: 44px;
+  padding: 4px 4px 4px 6px;
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  animation: rise-in 160ms var(--ease);
+}
+
+.p06-chip-num {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: var(--text-xs);
+  font-weight: 800;
+}
+
+.p06-chip-text {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+
+.p06-chip-name {
+  font-weight: 650;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.p06-chip-sub {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.p06-chip-warn {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex: none;
+  font-size: var(--text-xs);
+  font-weight: 650;
+  color: var(--warning);
+}
+
+.p06-chip-warn svg {
+  width: 13px;
+  height: 13px;
+}
+
+.p06-chip-remove {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+}
+
+.p06-chip-remove:hover:not(:disabled) {
+  background: var(--surface-3);
+  color: var(--ink);
+}
+
+.p06-chip-remove svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ----------------------------------------------------------------- dates */
+.p06-date-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-3);
+}
+
+.p06-date {
+  min-width: 0;
+}
+
+.p06-length {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: var(--s-3);
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  max-width: 100%;
+}
+
+.p06-length svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  color: var(--primary);
+}
+
+.p06-length strong {
+  color: var(--ink);
+}
+
+.p06-dates .field-hint {
+  margin-top: var(--s-2);
+}
+
+.p06-move {
+  margin-top: var(--s-3);
+  padding: 2px var(--s-3);
+  border-radius: var(--r-sm);
+  background: var(--primary-soft);
+  border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent);
+}
+
+.p06-outside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  align-items: flex-start;
+  margin-top: var(--s-3);
+  padding: var(--s-3);
+  border-radius: var(--r-sm);
+  background: var(--danger-soft);
+  border: 1px solid color-mix(in srgb, var(--danger) 25%, transparent);
+}
+
+.p06-outside-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  margin: 0;
+  padding: 0 0 0 22px;
+  list-style: none;
+  font-size: var(--text-sm);
+}
+
+.p06-outside-list li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2px var(--s-3);
+}
+
+.p06-outside-name {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.p06-outside-day {
+  color: var(--ink-2);
+}
+
+/* ---------------------------------------------------------------- people */
+.p06-invite {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.p06-invite-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-3);
+}
+
+@media (min-width: 768px) {
+  .p06-invite-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) auto;
+    align-items: start;
+  }
+  /* Line the button up with the inputs (below the labels). */
+  .p06-invite-add {
+    margin-top: 26px;
+  }
+}
+
+.p06-people {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.p06-person {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto 44px;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 60px;
+  padding: var(--s-2) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.p06-edit-people .p06-person {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.p06-person-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.p06-person-name {
+  font-weight: 650;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.p06-person-sub {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.p06-invite-notes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.p06-note {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 6px var(--s-2);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.p06-note > span:last-child {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.p06-note > svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  margin-top: 2px;
+  color: var(--primary);
+}
+
+.p06-edit-people {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-4);
+}
+
+.p06-edit-people .p06-people {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------- actions */
+/* (Phones only; the desktop buttons sit in .p06-aside-actions.) */
+.p06-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+/* Error summary links */
+.p06-summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.p06-summary-link {
+  min-height: 32px;
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font-weight: 600;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --------------------------------------------------------------- preview */
+.p06-aside {
+  position: sticky;
+  top: calc(var(--header-h) + var(--s-6));
+  min-width: 0;
+}
+
+.p06-preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.p06-preview-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
+}
+
+.p06-preview-media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--surface-2);
+}
+
+.p06-preview-photo,
+.p06-preview-skel {
+  width: 100%;
+  height: 100%;
+}
+
+/* Before any destination: a quiet placeholder where the cover photo will go. */
+.p06-preview-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  width: 100%;
+  height: 100%;
+  padding: var(--s-4);
+  color: var(--muted);
+  font-size: var(--text-sm);
+  text-align: center;
+  background: var(--surface-2);
+}
+
+.p06-preview-empty svg {
+  width: 28px;
+  height: 28px;
+  color: var(--faint);
+}
+
+/* Desktop/tablet: Save + Cancel live under the sticky preview, always in view. */
+.p06-aside-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.p06-preview-badges {
+  position: absolute;
+  left: var(--s-3);
+  top: var(--s-3);
+}
+
+.p06-preview-badges .badge {
+  box-shadow: var(--shadow-1);
+}
+
+.p06-preview-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--s-4);
+  min-width: 0;
+}
+
+.p06-preview-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+
+.p06-preview-title.is-placeholder,
+.p06-preview-compact-title.is-placeholder {
+  color: var(--faint);
+}
+
+.p06-preview-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+.p06-preview-line svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+
+.p06-preview-foot {
+  margin-top: var(--s-2);
+  flex-wrap: wrap;
+}
+
+.p06-preview-people {
+  gap: var(--s-2);
+}
+
+.p06-next {
+  padding: var(--s-4);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r-md);
+}
+
+.p06-next-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: var(--s-2) 0 0;
+  padding-left: 20px;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+}
+
+.p06-next-list li::marker {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* Phones: a single summary row above the Save bar. */
+.p06-mobile-preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.p06-preview-compact {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-2);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  min-width: 0;
+}
+
+.p06-preview-compact-media {
+  flex: none;
+  width: 76px;
+  height: 76px;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  background: var(--surface-2);
+}
+
+.p06-preview-compact-media .p06-preview-empty svg {
+  width: 22px;
+  height: 22px;
+}
+
+.p06-preview-compact-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.p06-preview-compact-title {
+  font-family: var(--font-display);
+  font-weight: 650;
+  font-size: var(--text-md);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------- locked 6F */
+.p06-locked-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-7);
+  align-items: start;
+}
+
+@media (min-width: 1100px) {
+  .p06-locked-layout {
+    grid-template-columns: minmax(0, 760px) minmax(0, 340px);
+    justify-content: space-between;
+  }
+}
+
+.p06-locked {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  min-width: 0;
+}
+
+.p06-cando {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.p06-cando-title {
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.p06-cando-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.p06-cando-link {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  min-height: 56px;
+  padding: var(--s-3) var(--s-1);
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.p06-cando-link:hover strong {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.p06-cando-link > svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  color: var(--primary);
+}
+
+.p06-cando-link > span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.p06-cando-link > span > span {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.p06-summary-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+
+.p06-summary-media {
+  aspect-ratio: 3 / 1;
+  background: var(--surface-2);
+}
+
+.p06-summary-photo {
+  width: 100%;
+  height: 100%;
+}
+
+.p06-facts {
+  margin: 0;
+}
+
+.p06-facts > div {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  gap: var(--s-3);
+  align-items: center;
+  padding: var(--s-3) var(--s-5);
+  border-top: 1px solid var(--line);
+}
+
+.p06-facts dt {
+  font-size: var(--text-sm);
+  font-weight: 650;
+  color: var(--muted);
+}
+
+.p06-facts dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.p06-locked-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+/* ------------------------------------------------------------------ phone */
+@media (max-width: 767px) {
+  /* No tab bar on this page, so the sticky Save bar can sit at the very bottom. */
+  .p06.page {
+    padding-bottom: 0;
+  }
+
+  .p06-sec {
+    padding: var(--s-5) 0;
+  }
+
+  /* 44px tap target for removing a destination on phones. */
+  .p06-chip {
+    padding: 0 0 0 6px;
+  }
+
+  .p06-chip-remove {
+    width: 44px;
+    height: 44px;
+  }
+
+  .p06-actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 20;
+    flex-direction: row-reverse;
+    margin: var(--s-2) calc(var(--gutter) * -1) 0;
+    padding: var(--s-3) var(--gutter) calc(var(--s-3) + env(safe-area-inset-bottom, 0px));
+    background: color-mix(in srgb, var(--surface) 94%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid var(--line);
+  }
+
+  .p06-actions .p06-save {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .p06-summary-media {
+    aspect-ratio: 2 / 1;
+  }
+
+  .p06-facts > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+    padding: var(--s-3) var(--s-4);
+  }
+
+  .p06-locked-actions {
+    flex-direction: column;
+  }
+
+  .p06-locked-actions .btn {
+    width: 100%;
+  }
+
+  .p06-summary-link {
+    min-height: 40px;
+  }
+}

@@ -108,7 +108,7 @@ export function useEventHighlight(targetId: string | null, validIds: string[]): 
     window.setTimeout(() => {
       if (runRef.current !== run) return;
       setShown(null);
-      clearHighlights();
+      clearHighlights('event');
     }, 4000);
     return () => window.clearTimeout(scrollTimer);
   }, [targetId, isValid]);

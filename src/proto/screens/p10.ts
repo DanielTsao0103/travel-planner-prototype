@@ -2,7 +2,7 @@ import type { ScreenEntry } from './types';
 
 /**
  * Screens for P10 — the active-trip dashboard (src/pages/p10/).
- * No `s=` states: the trip phase comes from the demo clock (`date=`), and
+ * No `s=` states: the trip phase comes from the demo clock (`clock=`), and
  * `auto=1` is the flag App adds when it opens the dashboard by itself.
  */
 export const screens: ScreenEntry[] = [

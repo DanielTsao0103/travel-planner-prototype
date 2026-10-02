@@ -1,0 +1,396 @@
+/* Page 5 — My trips. Every class is prefixed .p05-; colors come from tokens only. */
+
+.p05-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-8);
+}
+
+/* ------------------------------------------------------------- sections */
+.p05-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  min-width: 0;
+  /* Leave room for the sticky app header when scrolled into view (5E). */
+  scroll-margin-top: calc(var(--header-h) + var(--s-4));
+}
+
+.p05-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-2) var(--s-4);
+  flex-wrap: wrap;
+}
+
+.p05-section-title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: var(--text-xl);
+}
+
+.p05-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.p05-count.is-info {
+  background: var(--info-soft);
+  color: var(--info);
+}
+
+.p05-section-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+.p05-section-note svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+
+/* 5E: the Past section gets a soft frame when you arrive on it. */
+.p05-section.is-emphasized {
+  padding: var(--s-4);
+  margin-inline: calc(var(--s-4) * -1);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+  box-shadow: 0 0 0 1px var(--line);
+  animation: p05-emphasis 1.8s var(--ease) 1;
+}
+
+@keyframes p05-emphasis {
+  0% { box-shadow: 0 0 0 6px var(--accent-soft), 0 0 0 2px var(--accent); }
+  60% { box-shadow: 0 0 0 3px var(--accent-soft), 0 0 0 2px var(--accent); }
+  100% { box-shadow: 0 0 0 0 transparent, 0 0 0 1px var(--line); }
+}
+
+@media (max-width: 767px) {
+  .p05-section.is-emphasized {
+    margin-inline: calc(var(--s-2) * -1);
+    padding: var(--s-3) var(--s-2);
+  }
+}
+
+/* ----------------------------------------------------------------- grid */
+.p05-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .p05-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-5);
+  }
+}
+
+@media (min-width: 1100px) {
+  .p05-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--s-6);
+  }
+}
+
+.p05-grid-item {
+  display: flex;
+  min-width: 0;
+}
+
+.p05-grid-item > .trip-card {
+  flex: 1 1 auto;
+}
+
+/* Phones: a shorter cover photo keeps more of the list on screen. */
+@media (max-width: 767px) {
+  .p05-grid .trip-card-media {
+    aspect-ratio: 2 / 1;
+  }
+}
+
+/* The just-created trip (5D) pulses once so the eye finds it. */
+.p05-grid .trip-card.is-highlight {
+  animation: highlight-pulse 1.4s var(--ease) 2;
+}
+
+/* ---------------------------------------------------------- invitations */
+.p05-invites {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.p05-invite {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  background: var(--surface);
+  border: 1px solid color-mix(in srgb, var(--info) 28%, var(--line));
+  border-radius: var(--r-md);
+  overflow: hidden;
+  min-width: 0;
+}
+
+.p05-invite-media {
+  position: relative;
+  aspect-ratio: 5 / 2;
+}
+
+.p05-invite-photo {
+  width: 100%;
+  height: 100%;
+}
+
+.p05-invite-flag {
+  position: absolute;
+  left: var(--s-3);
+  top: var(--s-3);
+  box-shadow: var(--shadow-1);
+}
+
+.p05-invite-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--s-4) var(--s-4) 0;
+  min-width: 0;
+}
+
+.p05-invite-from {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  margin-bottom: 2px;
+}
+
+.p05-invite-from strong {
+  color: var(--ink);
+}
+
+.p05-invite-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+
+.p05-invite-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  min-width: 0;
+}
+
+.p05-invite-line svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+
+.p05-invite-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: var(--s-1);
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+.p05-invite-actions {
+  display: flex;
+  gap: var(--s-2);
+  padding: var(--s-4);
+}
+
+.p05-invite-actions > .btn {
+  flex: 1 1 0;
+}
+
+.p05-decline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  width: 100%;
+  padding: var(--s-3);
+  border-radius: var(--r-sm);
+  background: var(--danger-soft);
+}
+
+.p05-decline-text {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.p05-decline-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.p05-decline-buttons > .btn {
+  flex: 1 1 auto;
+}
+
+/* Desktop/tablet: a horizontal invitation (photo | details | actions). */
+@media (min-width: 768px) {
+  .p05-invite {
+    grid-template-columns: 260px minmax(0, 1fr) auto;
+    align-items: stretch;
+  }
+  .p05-invite-media {
+    aspect-ratio: auto;
+    min-height: 180px;
+  }
+  .p05-invite-body {
+    justify-content: center;
+    padding: var(--s-5) var(--s-5);
+  }
+  .p05-invite-actions {
+    flex-direction: column;
+    justify-content: center;
+    width: 220px;
+    padding: var(--s-5) var(--s-5) var(--s-5) 0;
+  }
+  .p05-invite-actions > .btn {
+    flex: none;
+  }
+  .p05-decline-buttons {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 1100px) {
+  .p05-invite {
+    grid-template-columns: 320px minmax(0, 1fr) auto;
+  }
+  .p05-invite-actions {
+    width: 260px;
+  }
+}
+
+/* ------------------------------------------------------ created banner */
+.p05-created {
+  position: relative;
+  animation: rise-in 240ms var(--ease);
+}
+
+.p05-created .banner {
+  padding: var(--s-4) var(--s-5);
+  padding-right: 56px;
+}
+
+.p05-created-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.p05-created-text {
+  margin-top: 2px;
+  font-size: var(--text-md);
+  color: var(--ink-2);
+}
+
+.p05-created-text strong {
+  color: var(--ink);
+}
+
+.p05-next {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: var(--s-3);
+}
+
+@media (max-width: 767px) {
+  .p05-created .banner {
+    padding: var(--s-4);
+    padding-right: 48px;
+  }
+  /* Full-width, stacked next steps with 44px targets on phones. */
+  /* Span the banner's full inner width (under the icon and the close button). */
+  .p05-next {
+    flex-direction: column;
+    margin-left: -32px;
+    margin-right: -32px;
+  }
+  .p05-next .btn {
+    --btn-h: 44px;
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+/* --------------------------------------------------------------- empty */
+.p05-empty-note {
+  margin-top: var(--s-2);
+  font-size: var(--text-sm);
+}
+
+@media (max-width: 767px) {
+  .p05-empty .empty-actions {
+    flex-direction: column;
+    align-self: stretch;
+  }
+}
+
+/* ------------------------------------------------------------- loading */
+.p05-skel-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  overflow: hidden;
+  min-width: 0;
+}
+
+.p05-skel-media {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .p05-skel-media {
+    aspect-ratio: 2 / 1;
+  }
+}
+
+.p05-skel-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-4);
+}
+
+/* Mobile: trip-card buttons stay full width with 44px targets. */
+@media (max-width: 767px) {
+  .p05-grid .trip-card-actions .btn {
+    min-height: 44px;
+  }
+}

@@ -245,10 +245,18 @@ export function updateTrip(tripId: string, patch: Partial<Pick<Trip, 'title' | '
   });
 }
 
-/** Shift every event when the whole trip moves to new dates (keeps day numbers). */
+/**
+ * Shift everything dated when the whole trip moves to new dates (keeps day numbers):
+ * events, to-dos, suggestions, and Day-editor assignments (so Sam keeps "Day 3").
+ * Call this before updateTrip() with the new dates.
+ */
 export function shiftTripEvents(tripId: string, deltaDays: number): void {
   if (!deltaDays) return;
   update((d) => {
+    const trip = d.trips.find((t) => t.id === tripId);
+    trip?.members.forEach((m) => {
+      if (m.days) m.days = m.days.map((day) => addDays(day, deltaDays));
+    });
     for (const e of d.events) if (e.tripId === tripId) e.date = addDays(e.date, deltaDays);
     for (const t of d.todos) if (t.tripId === tripId && t.date) t.date = addDays(t.date, deltaDays);
     for (const s of d.suggestions) if (s.tripId === tripId) s.date = addDays(s.date, deltaDays);
@@ -362,12 +370,18 @@ export function restoreEvent(event: TripEvent): void {
   });
 }
 
-export function clearHighlights(): void {
+/**
+ * Clear the "just added" highlights. Pages clear only their own:
+ * Page 8 clears 'event', Page 5 clears 'trip'.
+ */
+export function clearHighlights(which: 'event' | 'trip' | 'all' = 'all'): void {
   const s = getState();
-  if (!s.ui.justAddedEventId && !s.ui.justCreatedTripId) return;
+  const clearEvent = which !== 'trip' && !!s.ui.justAddedEventId;
+  const clearTrip = which !== 'event' && !!s.ui.justCreatedTripId;
+  if (!clearEvent && !clearTrip) return;
   update((d) => {
-    d.ui.justAddedEventId = null;
-    d.ui.justCreatedTripId = null;
+    if (clearEvent) d.ui.justAddedEventId = null;
+    if (clearTrip) d.ui.justCreatedTripId = null;
   });
 }
 
