@@ -143,7 +143,7 @@ export function PrototypeDrawer({ open, onClose, contextTripId }: { open: boolea
           <div className="proto-custom">
             <Field label="Date">{(p) => <TextInput {...p} type="date" value={customDate} onChange={(e) => setCustomDate(e.target.value)} />}</Field>
             <Field label="Time">{(p) => <TextInput {...p} type="time" value={customTime} onChange={(e) => setCustomTime(e.target.value)} />}</Field>
-            <Button size="sm" variant="secondary" onClick={() => customDate && customTime && setClock({ date: customDate, time: customTime })}>
+            <Button variant="secondary" onClick={() => customDate && customTime && setClock({ date: customDate, time: customTime })}>
               Set
             </Button>
           </div>

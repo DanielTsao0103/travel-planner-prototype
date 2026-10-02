@@ -6,7 +6,7 @@
  *    separated from the app itself
  */
 
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import {
   CalendarDays,
   ChevronDown,
@@ -156,6 +156,11 @@ export function AppShell({ route, children }: { route: MatchedRoute; children: R
 function MainMenu({ open, onClose, onOpenPrototype }: { open: boolean; onClose: () => void; onOpenPrototype: () => void }) {
   const state = useAppState();
   const trip = currentTrip(state);
+  const navRef = useRef<HTMLElement>(null);
+  // Move focus into the menu once when it opens (keyboard users can Tab through items).
+  useEffect(() => {
+    if (open) navRef.current?.focus();
+  }, [open]);
   if (!open) return null;
   const go = (to: string) => {
     onClose();
@@ -164,8 +169,12 @@ function MainMenu({ open, onClose, onOpenPrototype }: { open: boolean; onClose: 
   return (
     <div className="main-menu-root" onKeyDown={(e) => e.key === 'Escape' && onClose()}>
       <div className="main-menu-backdrop" onClick={onClose} aria-hidden />
-      <nav id="main-menu" className="main-menu" aria-label="Main menu">
-        <button type="button" className="menu-item" onClick={() => go(paths.home())} autoFocus>
+      <nav id="main-menu" className="main-menu" aria-label="Main menu" tabIndex={-1} ref={navRef}>
+        <div className="main-menu-top show-mobile-only">
+          <span className="wordmark-text">{APP_NAME}</span>
+          <IconButton label="Close menu" icon={<X />} onClick={onClose} />
+        </div>
+        <button type="button" className="menu-item" onClick={() => go(paths.home())}>
           <Home aria-hidden /> Home
         </button>
         <div className="menu-sep" />

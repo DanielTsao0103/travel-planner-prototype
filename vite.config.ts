@@ -9,5 +9,5 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   base: '/travel-planner-prototype/',
   plugins: [react()],
-  server: { port: 5173, strictPort: true },
+  server: { port: 5188, strictPort: true },
 });

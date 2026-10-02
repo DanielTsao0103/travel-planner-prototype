@@ -11,7 +11,7 @@ Clickable, high-fidelity prototype of a collaborative travel-planning app. Requi
 
 ## Stack
 - Vite + React 19 + TypeScript (TS 7), plain CSS with design tokens (`src/styles/tokens.css`), Leaflet + OpenStreetMap for maps, lucide-react icons
-- `npm run dev` (port 5173) · `npm run build` · `npm run typecheck`
+- `npm run dev` (port 5188) · `npm run build` · `npm run typecheck`
 - Hash routing (`#/trip/<id>/...`) so GitHub Pages deep links work
 
 ## Architecture (read `docs/ARCHITECTURE.md` before changing pages)

@@ -233,6 +233,19 @@
   }
 }
 
+.main-menu:focus {
+  outline: none;
+}
+
+.main-menu-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 var(--s-2) var(--s-3);
+  margin-bottom: var(--s-1);
+  border-bottom: 1px solid var(--line);
+}
+
 .main-menu-context {
   padding: var(--s-2) var(--s-3) 2px;
   font-size: var(--text-xs);

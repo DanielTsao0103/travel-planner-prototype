@@ -63,9 +63,16 @@ const PAGE_TITLES: Record<number, string> = {
 /** Global prototype URL params: ?auth=maya|new &as=viewer &date=during|before|after|YYYY-MM-DD &time=HH:MM &nearby=1 */
 const GLOBAL_KEYS = ['auth', 'as', 'date', 'time', 'nearby'];
 let newDemoAccounts = 0;
+/** The last URL whose params were applied (React may run effects twice in development). */
+let lastApplied = '';
 
-function applyGlobalParams(route: MatchedRoute, query: URLSearchParams, path: string): boolean {
-  if (!GLOBAL_KEYS.some((k) => query.has(k))) return false;
+function applyGlobalParams(route: MatchedRoute, query: URLSearchParams, path: string, full: string): boolean {
+  if (!GLOBAL_KEYS.some((k) => query.has(k))) {
+    lastApplied = '';
+    return false;
+  }
+  if (full === lastApplied) return false;
+  lastApplied = full;
   const auth = query.get('auth');
   if (auth === 'maya' && getState().sessionAccountId !== MAYA_ACCOUNT_ID) {
     update((d) => {
@@ -113,7 +120,7 @@ export function App() {
 
   // Prototype URL params.
   useEffect(() => {
-    applyGlobalParams(route, location.query, location.path);
+    applyGlobalParams(route, location.query, location.path, location.full);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.full]);
 
