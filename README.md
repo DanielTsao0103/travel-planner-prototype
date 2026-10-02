@@ -9,6 +9,7 @@ A clickable, high-fidelity prototype of a group travel-planning app, with separa
 - Every account includes a fully planned **sample trip** (Lisbon & Porto). You can also create your own trip to any city.
 - **Prototype controls** (header pill on desktop, or the menu on phones) let you jump into a trip's dates, switch roles ("View as"), and trigger simulated events.
 - **Screen index:** `#/proto/index` links to every page and state.
+- **Screen collage:** https://danieltsao0103.github.io/travel-planner-prototype/collage/ shows every state on phone and desktop on one page.
 
 ## What's simulated
 

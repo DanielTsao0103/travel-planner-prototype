@@ -33,6 +33,7 @@ Clickable, high-fidelity prototype of a collaborative travel-planning app. Requi
 - `python3 qa/contact.py` — tile sweep screenshots into contact sheets for visual review
 - `python3 qa/image_audit_tester.py` — creates a Kyoto trip and checks every image slot has a photo (no icons, broken, or stuck loaders)
 - `python3 qa/flows.py` — end-to-end journeys (signup, login, trip, nearby, consistent, roles, budget, survey, invite)
+- `python3 qa/collage.py` — recapture every state (phone + desktop) into `public/collage/` (deployed at `/collage/`); `--only 9A,9B` recaptures some, `--html-only` rebuilds the page from `qa/collage_template.html`
 - Page-specific e2e: `qa/p06-e2e.py`, `qa/p06-edit-e2e.py`, `qa/p07-e2e.py`, `qa/p15-survey-e2e.py`
 
 ## Corrections & Lessons Learned

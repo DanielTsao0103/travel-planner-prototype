@@ -4,7 +4,7 @@
  */
 
 import { useMemo, useState } from 'react';
-import { ExternalLink, FileCheck2, Images, Smartphone } from 'lucide-react';
+import { ExternalLink, FileCheck2, Images, LayoutGrid, Smartphone } from 'lucide-react';
 import { APP_NAME, APP_NAME_NOTE } from '../config';
 import { addDays } from '../lib/dates';
 import { MAYA_PERSON_ID, sampleTripId } from '../data/seed';
@@ -52,6 +52,9 @@ export function ScreenIndexPage() {
         subtitle={`Every page of ${APP_NAME} (${APP_NAME_NOTE.toLowerCase()}) and its important states. Each link reproduces the state: it signs in a demo account, sets the role, and sets the demo clock.`}
         actions={
           <>
+            <Button href={`${import.meta.env.BASE_URL}collage/`} variant="primary" icon={<LayoutGrid />}>
+              Screen collage
+            </Button>
             <Button to={paths.protoChecklist()} variant="secondary" icon={<FileCheck2 />}>
               Requirement checklist
             </Button>

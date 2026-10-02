@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Wayfare Screen Collage</title>
+<meta name="description" content="Every screen of the Wayfare travel-planner prototype, phone and desktop, in order." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400..800&display=swap" />
+<style>
+  /* Layout: a light board; a horizontal journey strip, then one section per page with phone + desktop shots. */
+  :root {
+    --bg: #eef1f0;
+    --surface: #ffffff;
+    --surface-2: #e6ebe9;
+    --ink: #14202b;
+    --muted: #5c6873;
+    --line: #d6dddb;
+    --primary: #0d6670;
+    --primary-soft: #dcefee;
+    --accent: #f0a92e;
+    --shadow: 0 1px 2px rgba(20, 32, 43, 0.06), 0 6px 18px rgba(20, 32, 43, 0.07);
+    --display: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+    --ui: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1418;
+      --surface: #161f25;
+      --surface-2: #1d2830;
+      --ink: #e7edef;
+      --muted: #96a4ac;
+      --line: #29353d;
+      --primary: #4fb3bc;
+      --primary-soft: #143a3f;
+      --accent: #f2b544;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35);
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: 76px; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--ui); line-height: 1.45; }
+  a { color: var(--primary); }
+  .wrap { max-width: 1680px; margin: 0 auto; padding-inline: clamp(16px, 3vw, 40px); }
+
+  header.hero { padding-block: 40px 20px; display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: flex-end; justify-content: space-between; }
+  .brand { display: inline-flex; align-items: center; gap: 8px; font-family: var(--display); font-weight: 750; font-size: 18px; color: var(--ink); text-decoration: none; margin-bottom: 10px; }
+  .brand i { width: 26px; height: 26px; border-radius: 8px; background: var(--primary); display: inline-block; }
+  h1 { font-family: var(--display); font-size: clamp(34px, 5vw, 60px); line-height: 1; letter-spacing: -0.03em; margin: 0; text-wrap: balance; }
+  .sub { color: var(--muted); max-width: 70ch; margin: 12px 0 0; }
+  .links { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 10px; font-weight: 650; text-decoration: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+  .btn.primary { background: var(--primary); color: #fff; border-color: transparent; }
+
+  /* Sticky toolbar: page jumps + view switch */
+  .bar { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .bar .wrap { display: flex; gap: 12px; align-items: center; min-height: 60px; }
+  .jumps { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; flex: 1 1 auto; padding-block: 10px; }
+  .jumps a { flex: none; min-width: 38px; height: 34px; padding: 0 10px; display: grid; place-items: center; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); text-decoration: none; font-weight: 700; font-size: 13px; }
+  .jumps a.journey { background: var(--accent); border-color: transparent; color: #1a1204; }
+  .seg { display: inline-flex; padding: 3px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line); flex: none; }
+  .seg button { border: 0; background: none; padding: 0 12px; min-height: 32px; border-radius: 7px; font: inherit; font-weight: 650; font-size: 13px; color: var(--muted); cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
+
+  section { padding-block: 36px 8px; }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 18px; flex-wrap: wrap; }
+  .num { font-family: var(--display); font-weight: 800; font-size: 44px; line-height: 1; color: var(--primary); font-variant-numeric: tabular-nums; }
+  h2 { font-family: var(--display); font-size: 28px; letter-spacing: -0.015em; margin: 0; }
+  .count { color: var(--muted); font-size: 14px; }
+
+  /* Journey strip */
+  .strip { display: flex; gap: 14px; overflow-x: auto; padding: 4px 2px 18px; scroll-snap-type: x proximity; }
+  .step { flex: none; width: 210px; scroll-snap-align: start; display: flex; flex-direction: column; gap: 8px; }
+  .step .shot { aspect-ratio: auto; height: 420px; }
+  .step .shot .tag { display: none; }
+  .step-label { display: flex; gap: 8px; align-items: baseline; font-weight: 700; font-size: 14px; }
+  .step-label b { color: var(--primary); font-variant-numeric: tabular-nums; }
+  .step-label span { color: var(--muted); font-weight: 600; font-size: 12px; margin-left: auto; }
+
+  /* State cards */
+  .grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 600px), 1fr)); }
+  body[data-view="phone"] .grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+  body[data-view="desktop"] .grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr)); }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--shadow); min-width: 0; }
+  .card-head { display: flex; gap: 8px; align-items: baseline; min-width: 0; }
+  .card-head .id { font-weight: 800; color: var(--primary); font-variant-numeric: tabular-nums; flex: none; }
+  .card-head .t { font-weight: 650; font-size: 14px; min-width: 0; }
+  .pair { display: grid; grid-template-columns: 1fr 2.9fr; gap: 10px; align-items: start; }
+  body[data-view="phone"] .pair, body[data-view="desktop"] .pair { grid-template-columns: 1fr; }
+  body[data-view="phone"] .is-desktop, body[data-view="desktop"] .is-phone { display: none; }
+
+  .shot { position: relative; display: block; width: 100%; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface-2); cursor: zoom-in; padding: 0; }
+  .shot img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left top; }
+  /* Previews keep each device's shape (first screen, top-left); click for the full page. */
+  .is-phone.shot { aspect-ratio: 39 / 80; }
+  .is-desktop.shot { aspect-ratio: 16 / 11; }
+  .shot .tag { position: absolute; left: 8px; bottom: 8px; z-index: 1; padding: 2px 8px; border-radius: 999px; background: rgba(10, 14, 18, 0.62); color: #fff; font-size: 11px; font-weight: 700; }
+  .shot.tall::after { content: ""; position: absolute; inset: auto 0 0 0; height: 56px; background: linear-gradient(transparent, rgba(10, 14, 18, 0.28)); pointer-events: none; }
+  .shot:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+  .note14 { padding: 20px; border: 1px dashed var(--line); border-radius: 14px; color: var(--muted); background: var(--surface); }
+
+  /* Lightbox */
+  .lb { position: fixed; inset: 0; z-index: 100; background: rgba(6, 10, 13, 0.96); display: none; flex-direction: column; }
+  .lb.open { display: flex; }
+  .lb-bar { display: flex; align-items: center; gap: 10px; padding: 10px 16px; color: #fff; }
+  .lb-title { font-weight: 700; flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lb-title small { opacity: 0.7; font-weight: 600; margin-left: 8px; }
+  .lb button { min-height: 38px; min-width: 38px; padding: 0 12px; border-radius: 9px; border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.08); color: #fff; font: inherit; font-weight: 650; cursor: pointer; }
+  .lb-body { flex: 1 1 auto; overflow: auto; display: flex; justify-content: center; padding: 8px 16px 24px; }
+  .lb-body img { display: block; height: auto; max-width: 100%; border-radius: 10px; background: #fff; }
+  .lb-body img.phone { width: 390px; }
+  .lb-body img.desktop { width: 1440px; }
+  footer { padding-block: 40px; color: var(--muted); font-size: 13px; }
+  @media (max-width: 640px) {
+    .pair { grid-template-columns: 1fr 1.9fr; }
+    .step { width: 170px; }
+    .step .shot { height: 340px; }
+    .bar .wrap { flex-wrap: wrap; gap: 0 8px; }
+    .jumps { order: 2; flex-basis: 100%; padding-top: 0; }
+    .seg { margin-top: 10px; }
+    .num { font-size: 34px; }
+    h2 { font-size: 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+</head>
+<body data-view="both">
+  <div class="wrap">
+    <header class="hero">
+      <div>
+        <a class="brand" href="../"><i></i>Wayfare</a>
+        <h1>Every screen, in order</h1>
+        <p class="sub" id="summary">Phone (390 px) and desktop (1440 px) screenshots of every page and state of the prototype. The main journey comes first, then each page from 1 to 17. Click any shot to see the full page; use ← → to step through.</p>
+      </div>
+      <div class="links">
+        <a class="btn primary" href="../">Open the prototype</a>
+        <a class="btn" href="../#/proto/index">Screen index</a>
+      </div>
+    </header>
+  </div>
+
+  <nav class="bar" aria-label="Jump to a page">
+    <div class="wrap">
+      <div class="jumps" id="jumps"><a class="journey" href="#journey">Journey</a></div>
+      <div class="seg" role="group" aria-label="Show">
+        <button type="button" data-view="both" aria-pressed="true">Both</button>
+        <button type="button" data-view="phone" aria-pressed="false">Phone</button>
+        <button type="button" data-view="desktop" aria-pressed="false">Desktop</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap" id="main">
+    <section id="journey" aria-labelledby="journey-h">
+      <div class="sec-head">
+        <h2 id="journey-h">The main journey</h2>
+        <span class="count">Sign up → connect accounts → create a trip → plan → during the trip → budget → nearby → map</span>
+      </div>
+      <div class="strip" id="strip"></div>
+    </section>
+  </main>
+
+  <div class="wrap"><footer>Wayfare (working name) · clickable prototype · all people, places, and data shown are fictional or simulated. Screens captured from the live site.</footer></div>
+
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title">
+    <div class="lb-bar">
+      <button type="button" id="lb-prev" aria-label="Previous">←</button>
+      <button type="button" id="lb-next" aria-label="Next">→</button>
+      <div class="lb-title" id="lb-title"></div>
+      <button type="button" id="lb-swap">Desktop</button>
+      <button type="button" id="lb-close" aria-label="Close">Close</button>
+    </div>
+    <div class="lb-body" id="lb-body"><img id="lb-img" alt="" /></div>
+  </div>
+
+<script>
+const DATA = {"pages": [{"n": 1, "name": "Log in & create an account", "states": [{"id": "1A", "title": "Log in (default)", "sizes": {"phone": [780, 1968], "desktop": [1440, 900]}}, {"id": "1B", "title": "Create account", "sizes": {"desktop": [1440, 961], "phone": [780, 2238]}}, {"id": "1C", "title": "Error: email not on file", "sizes": {"desktop": [1440, 900], "phone": [780, 2106]}}, {"id": "1D", "title": "Error: password doesn’t match", "sizes": {"desktop": [1440, 900], "phone": [780, 2058]}}, {"id": "1E", "title": "Simulated Google/Apple account chooser", "sizes": {"phone": [780, 1968], "desktop": [1440, 900]}}, {"id": "1F", "title": "Google/Apple account not found → create one", "sizes": {"desktop": [1440, 900], "phone": [780, 1968]}}, {"id": "1G", "title": "Sign-up validation errors", "sizes": {"phone": [780, 2428], "desktop": [1440, 1048]}}, {"id": "1H", "title": "Submitting (loading)", "sizes": {"phone": [780, 1688], "desktop": [1440, 900]}}, {"id": "1I", "title": "Sign up with Google: account exists → log in instead", "sizes": {"desktop": [1440, 961], "phone": [780, 2238]}}]}, {"n": 2, "name": "Connect accounts", "states": [{"id": "2A", "title": "Checklist, nothing connected", "sizes": {"desktop": [1440, 962], "phone": [780, 2354]}}, {"id": "2B", "title": "Partly connected, one permission still needed", "sizes": {"phone": [780, 2372], "desktop": [1440, 1434]}}, {"id": "2C", "title": "All connected → Continue", "sizes": {"desktop": [1440, 1056], "phone": [780, 2566]}}, {"id": "2D", "title": "Skip warning (features you’d lose)", "sizes": {"desktop": [1440, 962], "phone": [780, 2354]}}, {"id": "2E", "title": "Connected accounts (returning user, “Done”)", "sizes": {"desktop": [1440, 1246], "phone": [780, 2420]}}]}, {"n": 3, "name": "Connection flow", "states": [{"id": "3A", "title": "Simulated authorization (Instagram)", "sizes": {"phone": [780, 2354], "desktop": [1440, 962]}}, {"id": "3B", "title": "Connecting…", "sizes": {"desktop": [1440, 900], "phone": [780, 1688]}}, {"id": "3C", "title": "Connected successfully", "sizes": {"phone": [780, 2372], "desktop": [1440, 1211]}}, {"id": "3D", "title": "Canceled → back to checklist with a note", "sizes": {"phone": [780, 2666], "desktop": [1440, 1053]}}, {"id": "3E", "title": "Connection failed → retry", "sizes": {"desktop": [1440, 990], "phone": [780, 2448]}}, {"id": "3F", "title": "Add a missing permission (already connected)", "sizes": {"phone": [780, 2420], "desktop": [1440, 1246]}}]}, {"n": 4, "name": "Home", "states": [{"id": "4A", "title": "Home (returning user)", "sizes": {"desktop": [1440, 1214], "phone": [780, 4290]}}, {"id": "4B", "title": "Home (brand-new user)", "sizes": {"phone": [780, 4290], "desktop": [1440, 1214]}}, {"id": "4C", "title": "3-line menu open", "sizes": {"desktop": [1440, 1214], "phone": [780, 4290]}}, {"id": "4D", "title": "Pre-planned trips “Coming soon”", "sizes": {"phone": [780, 4290], "desktop": [1440, 1214]}}, {"id": "4E", "title": "Suggestions loading", "sizes": {"phone": [780, 3384], "desktop": [1440, 1016]}}, {"id": "4F", "title": "“You’re on your trip” banner", "sizes": {"desktop": [1440, 1304], "phone": [780, 4616]}}]}, {"n": 5, "name": "Existing trips", "states": [{"id": "5A", "title": "My trips: sample, upcoming, past, pending invitation", "sizes": {"phone": [780, 5976], "desktop": [1440, 1501]}}, {"id": "5B", "title": "Empty (no trips)", "sizes": {"desktop": [1440, 900], "phone": [780, 1688]}}, {"id": "5C", "title": "Loading", "sizes": {"desktop": [1440, 900], "phone": [780, 2296]}}, {"id": "5D", "title": "Just-created trip highlighted + next steps", "sizes": {"phone": [780, 6400], "desktop": [1440, 1668]}}, {"id": "5E", "title": "Past trip (view only)", "sizes": {"desktop": [1440, 1533], "phone": [780, 6024]}}]}, {"n": 6, "name": "Create & edit a trip", "states": [{"id": "6A", "title": "Create trip (blank, gray placeholder)", "sizes": {"phone": [780, 2866], "desktop": [1440, 1048]}}, {"id": "6B", "title": "Validation errors", "sizes": {"desktop": [1440, 1281], "phone": [780, 3318]}}, {"id": "6C", "title": "Multiple destinations + invitees (all Viewer)", "sizes": {"phone": [780, 3420], "desktop": [1440, 1272]}}, {"id": "6D", "title": "Saving", "sizes": {"phone": [780, 1688], "desktop": [1440, 900]}}, {"id": "6E", "title": "Edit trip (Owner)", "sizes": {"desktop": [1440, 1367], "phone": [780, 3298]}}, {"id": "6F", "title": "No permission to edit (Viewer)", "sizes": {"phone": [780, 2632], "desktop": [1440, 990]}}, {"id": "6G", "title": "Prefilled from a Home suggestion", "sizes": {"desktop": [1440, 1236], "phone": [780, 3278]}}]}, {"n": 7, "name": "Add an event", "states": [{"id": "7A", "title": "Add event — manual entry", "sizes": {"desktop": [1440, 1289], "phone": [780, 3100]}}, {"id": "7B", "title": "Crowd estimate for the chosen place and time", "sizes": {"phone": [780, 3924], "desktop": [1440, 1437]}}, {"id": "7C", "title": "Time conflict warning", "sizes": {"phone": [780, 4102], "desktop": [1440, 1516]}}, {"id": "7D", "title": "Upload a confirmation screenshot", "sizes": {"desktop": [1440, 900], "phone": [780, 1688]}}, {"id": "7E", "title": "Reading the screenshot…", "sizes": {"phone": [780, 1688], "desktop": [1440, 900]}}, {"id": "7F", "title": "Review extracted details, fill the gaps", "sizes": {"desktop": [1440, 1612], "phone": [780, 4544]}}, {"id": "7G", "title": "Unreadable image", "sizes": {"phone": [780, 1770], "desktop": [1440, 900]}}, {"id": "7H", "title": "Edit an event", "sizes": {"phone": [780, 3694], "desktop": [1440, 1468]}}, {"id": "7I", "title": "View-only event (Viewer)", "sizes": {"desktop": [1440, 1105], "phone": [780, 3178]}}, {"id": "7J", "title": "Day editor: only assigned days", "sizes": {"phone": [780, 3202], "desktop": [1440, 1321]}}]}, {"n": 8, "name": "Day-by-day itinerary", "states": [{"id": "8A", "title": "Itinerary: multi-day list with an empty day", "sizes": {"phone": [780, 6400], "desktop": [1440, 2600]}}, {"id": "8B", "title": "New trip, every day empty", "sizes": {"desktop": [1440, 1058], "phone": [780, 3160]}}, {"id": "8C", "title": "Newly added event highlighted", "sizes": {"desktop": [1440, 2600], "phone": [780, 6400]}}, {"id": "8D", "title": "Viewer: read-only", "sizes": {"desktop": [1440, 2600], "phone": [780, 6400]}}, {"id": "8E", "title": "Past trip", "sizes": {"phone": [780, 2748], "desktop": [1440, 1284]}}, {"id": "8F", "title": "Loading", "sizes": {"desktop": [1440, 1402], "phone": [780, 3094]}}, {"id": "8G", "title": "Day editor: only Day 3 is editable (during the trip, with the Now line)", "sizes": {"phone": [780, 6400], "desktop": [1440, 2600]}}]}, {"n": 9, "name": "Suggestions", "states": [{"id": "9A", "title": "Suggestions with “Since you planned…”", "sizes": {"desktop": [1440, 2600], "phone": [780, 6400]}}, {"id": "9B", "title": "Pick a day and time", "sizes": {"desktop": [1440, 2600], "phone": [780, 6400]}}, {"id": "9C", "title": "Conflict shown before adding", "sizes": {"phone": [780, 6400], "desktop": [1440, 2600]}}, {"id": "9D", "title": "Declined (with undo)", "sizes": {"phone": [780, 6400], "desktop": [1440, 2600]}}, {"id": "9E", "title": "Empty / all reviewed", "sizes": {"phone": [780, 1688], "desktop": [1440, 900]}}, {"id": "9F", "title": "Viewer: can decline, Add locked", "sizes": {"desktop": [1440, 2600], "phone": [780, 6400]}}, {"id": "9G", "title": "Before the trip (no live location)", "sizes": {"desktop": [1440, 2600], "phone": [780, 6400]}}, {"id": "9H", "title": "Live ideas: couldn’t load", "sizes": {"desktop": [1440, 900], "phone": [780, 1688]}}, {"id": "9I", "title": "Live ideas from OpenStreetMap (a trip without bundled ideas)", "sizes": {"phone": [780, 2392], "desktop": [1440, 1441]}}, {"id": "9J", "title": "One day picked (from an empty day on the itinerary)", "sizes": {"desktop": [1440, 1429], "phone": [780, 3196]}}]}, {"n": 10, "name": "Active-trip dashboard", "states": [{"id": "10A", "title": "Active day: week calendar, to-do, where to next", "sizes": {"desktop": [1440, 1417], "phone": [780, 3874]}}, {"id": "10B", "title": "Auto-opened banner", "sizes": {"phone": [780, 4224], "desktop": [1440, 1507]}}, {"id": "10C", "title": "Locked before the trip", "sizes": {"desktop": [1440, 900], "phone": [780, 2218]}}, {"id": "10D", "title": "Trip ended", "sizes": {"desktop": [1440, 900], "phone": [780, 1990]}}, {"id": "10E", "title": "Hosts the nearby pop-up (Page 16)", "sizes": {"phone": [780, 3874], "desktop": [1440, 1417]}}, {"id": "10F", "title": "Viewer: to-dos locked except their own", "sizes": {"desktop": [1440, 1417], "phone": [780, 3752]}}]}, {"n": 11, "name": "Day detail", "states": [{"id": "11A", "title": "Day timeline (today)", "sizes": {"phone": [780, 4780], "desktop": [1440, 1788]}}, {"id": "11B", "title": "Empty day", "sizes": {"desktop": [1440, 1039], "phone": [780, 2780]}}, {"id": "11C", "title": "Viewer: read-only", "sizes": {"phone": [780, 4860], "desktop": [1440, 1871]}}, {"id": "11D", "title": "Day editor on their day (Day 3)", "sizes": {"phone": [780, 4826], "desktop": [1440, 1788]}}, {"id": "11E", "title": "Opened from Calendar (trip/day picker)", "sizes": {"phone": [780, 5168], "desktop": [1440, 1928]}}, {"id": "11F", "title": "Day editor on someone else’s day (Day 2)", "sizes": {"phone": [780, 5094], "desktop": [1440, 1871]}}, {"id": "11G", "title": "Event highlighted (opened from the dashboard)", "sizes": {"desktop": [1440, 1788], "phone": [780, 4780]}}]}, {"n": 12, "name": "Budget & reimbursements", "states": [{"id": "12A", "title": "Group budget overview", "sizes": {"desktop": [1440, 1555], "phone": [780, 5830]}}, {"id": "12B", "title": "Individual budgets", "sizes": {"phone": [780, 5916], "desktop": [1440, 1555]}}, {"id": "12C", "title": "Add expense / “I paid for…”", "sizes": {"phone": [780, 5830], "desktop": [1440, 1555]}}, {"id": "12D", "title": "Scan a receipt", "sizes": {"phone": [780, 5830], "desktop": [1440, 1555]}}, {"id": "12E", "title": "Gmail receipt match (demo data)", "sizes": {"desktop": [1440, 1555], "phone": [780, 5830]}}, {"id": "12F", "title": "Bank alert (demo data)", "sizes": {"phone": [780, 5830], "desktop": [1440, 1555]}}, {"id": "12G", "title": "Reimbursement log + mark paid", "sizes": {"desktop": [1440, 1964], "phone": [780, 6400]}}, {"id": "12H", "title": "Budget settings (Owner)", "sizes": {"desktop": [1440, 1555], "phone": [780, 5830]}}, {"id": "12I", "title": "Over budget", "sizes": {"phone": [780, 6206], "desktop": [1440, 1677]}}, {"id": "12J", "title": "Empty budget, amount not set", "sizes": {"desktop": [1440, 900], "phone": [780, 1708]}}, {"id": "12K", "title": "Gmail not connected → connect", "sizes": {"phone": [780, 5852], "desktop": [1440, 1586]}}, {"id": "12L", "title": "Viewer: settings locked, can still log expenses", "sizes": {"desktop": [1440, 1555], "phone": [780, 5830]}}, {"id": "12M", "title": "Jordan marks repayments he’s owed as paid", "sizes": {"desktop": [1440, 1964], "phone": [780, 6400]}}, {"id": "12N", "title": "Spending by category list (phone)", "sizes": {"phone": [780, 4446], "desktop": [1440, 1555]}}, {"id": "12O", "title": "New account: Gmail not connected", "sizes": {"phone": [780, 4520], "desktop": [1440, 1553]}}]}, {"n": 13, "name": "Collaborators, preferences & permissions", "states": [{"id": "13A", "title": "Food & dining tiles", "sizes": {"desktop": [1440, 2600], "phone": [780, 6400]}}, {"id": "13B", "title": "Travel preferences & limitations tiles", "sizes": {"phone": [780, 6400], "desktop": [1440, 2600]}}, {"id": "13C", "title": "Collaborators (Owner can manage)", "sizes": {"desktop": [1440, 2600], "phone": [780, 6400]}}, {"id": "13D", "title": "Change role / assign days", "sizes": {"desktop": [1440, 2600], "phone": [780, 6400]}}, {"id": "13E", "title": "Invite a collaborator", "sizes": {"phone": [780, 6400], "desktop": [1440, 2600]}}, {"id": "13F", "title": "Remove a collaborator", "sizes": {"phone": [780, 6400], "desktop": [1440, 2600]}}, {"id": "13G", "title": "Non-owner: roles read-only", "sizes": {"phone": [780, 6400], "desktop": [1440, 2600]}}, {"id": "13H", "title": "Response count + pending invitee", "sizes": {"desktop": [1440, 2600], "phone": [780, 6400]}}]}, {"n": 15, "name": "Preferences survey", "states": [{"id": "15A", "title": "Survey step 1: food & dietary", "sizes": {"desktop": [1440, 1144], "phone": [780, 2526]}}, {"id": "15B", "title": "Step 2: dining style", "sizes": {"phone": [780, 2228], "desktop": [1440, 1227]}}, {"id": "15C", "title": "Step 3: interests", "sizes": {"desktop": [1440, 1009], "phone": [780, 1746]}}, {"id": "15D", "title": "Step 4: accessibility & limits", "sizes": {"desktop": [1440, 1427], "phone": [780, 2770]}}, {"id": "15E", "title": "Step 5: review", "sizes": {"phone": [780, 4602], "desktop": [1440, 1926]}}, {"id": "15F", "title": "Validation", "sizes": {"desktop": [1440, 1482], "phone": [780, 2880]}}, {"id": "15G", "title": "Saved → group tiles updated", "sizes": {"phone": [780, 6400], "desktop": [1440, 2600]}}, {"id": "15H", "title": "Editing an existing response", "sizes": {"phone": [780, 2516], "desktop": [1440, 1175]}}]}, {"n": 16, "name": "Nearby suggestion pop-up", "states": [{"id": "16A", "title": "Nearby match pop-up (Go / No)", "sizes": {"desktop": [1440, 900], "phone": [780, 1688]}}, {"id": "16B", "title": "Dismissed with “No” (toast)", "sizes": {"phone": [780, 3874], "desktop": [1440, 1417]}}]}, {"n": 17, "name": "Map", "states": [{"id": "17A", "title": "Map: area around you, simulated location, today’s places", "sizes": {"phone": [780, 1688], "desktop": [1440, 900]}}, {"id": "17B", "title": "Route to the nearby match (after “Go”): time, distance, steps", "sizes": {"desktop": [1440, 900], "phone": [780, 1688]}}, {"id": "17C", "title": "Layer filters", "sizes": {"phone": [780, 1688], "desktop": [1440, 900]}}, {"id": "17D", "title": "Not at the destination yet (no location dot)", "sizes": {"desktop": [1440, 900], "phone": [780, 1688]}}, {"id": "17E", "title": "Routing unavailable → straight-line estimate", "sizes": {"desktop": [1440, 900], "phone": [780, 1688]}}, {"id": "17F", "title": "Route to the next stop (event link) with food layer", "sizes": {"phone": [780, 1688], "desktop": [1440, 900]}}, {"id": "17G", "title": "Viewer: “Add to today’s plan” is locked", "sizes": {"phone": [780, 1688], "desktop": [1440, 900]}}, {"id": "17H", "title": "Map from the menu (current trip, no trip tabs)", "sizes": {"desktop": [1440, 900], "phone": [780, 1688]}}, {"id": "17I", "title": "A trip you created: live OpenStreetMap places to eat", "sizes": {"desktop": [1440, 900], "phone": [780, 1688]}}]}], "journey": [{"id": "1B", "label": "Create an account", "title": "Create account"}, {"id": "2A", "label": "Connect accounts", "title": "Checklist, nothing connected"}, {"id": "3A", "label": "Allow access (simulated)", "title": "Simulated authorization (Instagram)"}, {"id": "2B", "label": "Checklist updated", "title": "Partly connected, one permission still needed"}, {"id": "4B", "label": "Home", "title": "Home (brand-new user)"}, {"id": "6C", "label": "Create a trip + invite", "title": "Multiple destinations + invitees (all Viewer)"}, {"id": "5D", "label": "Trip created", "title": "Just-created trip highlighted + next steps"}, {"id": "15A", "label": "Preferences survey", "title": "Survey step 1: food & dietary"}, {"id": "13A", "label": "Group preferences", "title": "Food & dining tiles"}, {"id": "7B", "label": "Add an event", "title": "Crowd estimate for the chosen place and time"}, {"id": "8C", "label": "Itinerary", "title": "Newly added event highlighted"}, {"id": "9A", "label": "Ideas", "title": "Suggestions with “Since you planned…”"}, {"id": "10B", "label": "Trip dashboard opens", "title": "Auto-opened banner"}, {"id": "11A", "label": "Day detail", "title": "Day timeline (today)"}, {"id": "12A", "label": "Budget", "title": "Group budget overview"}, {"id": "12G", "label": "Who owes whom", "title": "Reimbursement log + mark paid"}, {"id": "16A", "label": "Nearby pop-up", "title": "Nearby match pop-up (Go / No)"}, {"id": "17B", "label": "Route on the map", "title": "Route to the nearby match (after “Go”): time, distance, steps"}]};
+const src = (id, kind) => `shots/${id}-${kind}.webp`;
+const el = (tag, attrs = {}, kids = []) => {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === 'class') n.className = v; else if (k === 'text') n.textContent = v; else n.setAttribute(k, v);
+  }
+  for (const k of kids) n.append(k);
+  return n;
+};
+
+// Flat order of every shot, used by the lightbox's ← →.
+const order = [];
+const titleOf = {};
+
+function shotButton(id, kind, label) {
+  const size = (DATA.pages.flatMap((p) => p.states).find((s) => s.id === id) || {}).sizes || {};
+  const dims = size[kind];
+  const btn = el('button', { type: 'button', class: `shot is-${kind}`, 'aria-label': `${label} (${kind}), open full size` }, [
+    el('img', { src: src(id, kind), alt: '', loading: 'lazy', decoding: 'async' }),
+    el('span', { class: 'tag', text: kind === 'phone' ? 'Phone' : 'Desktop' }),
+  ]);
+  if (dims && dims[1] / dims[0] > (kind === 'phone' ? 2.6 : 0.75)) btn.classList.add('tall');
+  btn.addEventListener('click', () => openLb(id, kind));
+  return btn;
+}
+
+function render() {
+  const main = document.getElementById('main');
+  const jumps = document.getElementById('jumps');
+  let total = 0;
+
+  // Journey strip (phone shots, in order).
+  const strip = document.getElementById('strip');
+  DATA.journey.forEach((j, i) => {
+    const step = el('div', { class: 'step' }, [
+      el('div', { class: 'step-label' }, [el('b', { text: String(i + 1).padStart(2, '0') }), document.createTextNode(j.label), el('span', { text: j.id })]),
+      shotButton(j.id, 'phone', j.label),
+    ]);
+    strip.append(step);
+  });
+
+  for (const page of DATA.pages) {
+    if (page.n === 15) {
+      // The source document skips Page 14.
+      const s14 = el('section', { id: 'p14' }, [
+        el('div', { class: 'sec-head' }, [el('span', { class: 'num', text: '14' }), el('h2', { text: 'Not in the source document' })]),
+        el('p', { class: 'note14', text: 'The requirements jump from Page 13 to Page 15, so there is no Page 14. The numbering was kept as-is.' }),
+      ]);
+      main.append(s14);
+      jumps.append(el('a', { href: '#p14', text: '14' }));
+    }
+    if (!page.states.length) continue;
+    const grid = el('div', { class: 'grid' });
+    for (const st of page.states) {
+      titleOf[st.id] = `${st.id} · ${st.title}`;
+      const pair = el('div', { class: 'pair' });
+      for (const kind of ['phone', 'desktop']) {
+        if (st.sizes[kind]) {
+          pair.append(shotButton(st.id, kind, st.title));
+          order.push([st.id, kind]);
+          total++;
+        }
+      }
+      grid.append(el('article', { class: 'card' }, [el('div', { class: 'card-head' }, [el('span', { class: 'id', text: st.id }), el('span', { class: 't', text: st.title })]), pair]));
+    }
+    const sec = el('section', { id: `p${page.n}`, 'aria-labelledby': `h${page.n}` }, [
+      el('div', { class: 'sec-head' }, [
+        el('span', { class: 'num', text: String(page.n) }),
+        el('h2', { id: `h${page.n}`, text: page.name }),
+        el('span', { class: 'count', text: `${page.states.length} state${page.states.length === 1 ? '' : 's'}` }),
+      ]),
+      grid,
+    ]);
+    main.append(sec);
+    jumps.append(el('a', { href: `#p${page.n}`, text: String(page.n), title: page.name }));
+  }
+  for (const j of DATA.journey) titleOf[j.id] = titleOf[j.id] || `${j.id} · ${j.label}`;
+  const states = DATA.pages.reduce((n, p) => n + p.states.length, 0);
+  document.getElementById('summary').textContent = `${states} states across 16 pages, ${total} screenshots: phone (390 px) and desktop (1440 px), full page height. The main journey comes first, then each page from 1 to 17. Click any shot to see it full size; use ← → to step through.`;
+}
+
+// View switch: both / phone / desktop.
+for (const b of document.querySelectorAll('.seg button')) {
+  b.addEventListener('click', () => {
+    document.body.dataset.view = b.dataset.view;
+    for (const o of document.querySelectorAll('.seg button')) o.setAttribute('aria-pressed', String(o === b));
+  });
+}
+
+// Lightbox
+const lb = document.getElementById('lb');
+const lbImg = document.getElementById('lb-img');
+let cur = null;
+let lastFocus = null;
+function visibleOrder() {
+  const v = document.body.dataset.view;
+  return v === 'both' ? order : order.filter(([, k]) => k === v);
+}
+function show(id, kind) {
+  cur = [id, kind];
+  lbImg.src = src(id, kind);
+  lbImg.className = kind;
+  lbImg.alt = `${titleOf[id] || id}, ${kind}`;
+  document.getElementById('lb-title').innerHTML = '';
+  document.getElementById('lb-title').append(document.createTextNode(titleOf[id] || id), el('small', { text: kind === 'phone' ? 'Phone · 390 px' : 'Desktop · 1440 px' }));
+  const other = kind === 'phone' ? 'desktop' : 'phone';
+  const hasOther = order.some(([i, k]) => i === id && k === other);
+  const swap = document.getElementById('lb-swap');
+  swap.hidden = !hasOther;
+  swap.textContent = other === 'phone' ? 'Phone' : 'Desktop';
+  document.getElementById('lb-body').scrollTo(0, 0);
+}
+function openLb(id, kind) {
+  lastFocus = document.activeElement;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  show(id, kind);
+  document.getElementById('lb-close').focus();
+}
+function closeLb() {
+  lb.classList.remove('open');
+  document.body.style.overflow = '';
+  lastFocus && lastFocus.focus();
+}
+function step(d) {
+  const list = visibleOrder();
+  let i = list.findIndex(([id, k]) => id === cur[0] && k === cur[1]);
+  if (i === -1) i = list.findIndex(([id]) => id === cur[0]);
+  const next = list[(i + d + list.length) % list.length];
+  if (next) show(next[0], next[1]);
+}
+document.getElementById('lb-close').addEventListener('click', closeLb);
+document.getElementById('lb-prev').addEventListener('click', () => step(-1));
+document.getElementById('lb-next').addEventListener('click', () => step(1));
+document.getElementById('lb-swap').addEventListener('click', () => show(cur[0], cur[1] === 'phone' ? 'desktop' : 'phone'));
+lb.addEventListener('click', (e) => { if (e.target === lb || e.target.id === 'lb-body') closeLb(); });
+document.addEventListener('keydown', (e) => {
+  if (!lb.classList.contains('open')) return;
+  if (e.key === 'Escape') closeLb();
+  if (e.key === 'ArrowRight') step(1);
+  if (e.key === 'ArrowLeft') step(-1);
+});
+
+render();
+</script>
+</body>
+</html>
